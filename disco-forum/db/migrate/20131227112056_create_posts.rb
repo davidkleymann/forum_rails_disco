@@ -1,0 +1,25 @@
+class CreatePosts < ActiveRecord::Migration
+  def change
+    create_table :posts do |t|
+
+
+      t.string :title
+
+
+
+      t.text :htext
+
+
+
+      t.date :time
+
+
+
+      t.string :user
+
+
+
+    end
+
+  end
+end
