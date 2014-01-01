@@ -11,13 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131227112056) do
+ActiveRecord::Schema.define(version: 20130910070019) do
 
   create_table "posts", force: true do |t|
     t.string "title"
-    t.text   "htext"
-    t.date   "time"
-    t.string "user"
+    t.text   "text"
   end
+
+  create_table "projections", force: true do |t|
+    t.string  "class_name"
+    t.integer "last_id"
+    t.boolean "solid"
+  end
+
+  add_index "projections", ["class_name"], name: "index_projections_on_class_name"
 
 end

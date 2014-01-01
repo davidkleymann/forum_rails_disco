@@ -1,6 +1,5 @@
 require 'test_helper'
 
-
 class PostsControllerTest < ActionController::TestCase
   setup do
     @post = posts(:one)
@@ -42,4 +41,3 @@ class PostsControllerTest < ActionController::TestCase
   #  #maybe we could test something else here instead
   #end
 end
-

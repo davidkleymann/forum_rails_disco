@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-DiscoForum::Application.config.secret_key_base = 'e9c318f3cd309d83d6a5249ee0d2b74a68b951e58194079ed1bb7735f00822d81eddfc928541946700251d5786f809c07e9ad7c9a1d97285627531ac7d1eaa1d'
+DiscoBlog::Application.config.secret_key_base = 'b2653a40a75d02ab5736bfc6597344170144d13c8985248d8593782ff0a14688ff7f8ecf7b8e33dd8562900f1e380574ec8ecc289741a4802f024a2ddf56809b'

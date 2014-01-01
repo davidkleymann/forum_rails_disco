@@ -1,12 +1,11 @@
-<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %><h1>Listing posts</h1>
+<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %>
+<h1>Listing posts</h1>
 
-<table border=2>
+<table>
   <thead>
     <tr>
-      <th>Titel des Beitrags</th>
+      <th>Title</th>
       <th>Text</th>
-      <th>Gepostet</th>
-      <th>User</th>
       <th></th>
       <th></th>
       <th></th>
@@ -17,12 +16,12 @@
     <% @posts.each do |post| %>
       <tr>
         <td><%= post.title %></td>
-        <td><%= post.htext %></td>
-        <td><%= post.time %></td>
+        <td><%= post.text %></td>
         <td><%= post.user %></td>
-        <td><%= link_to 'Ansehen', post %></td>
-        <td><%= link_to 'Editieren', edit_post_path(post) %></td>
-        <td><%= link_to 'Löschen', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= post.time %></td>
+        <td><%= link_to 'Show', post %></td>
+        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +29,4 @@
 
 <br>
 
-<%= link_to 'Neuer Post', new_post_path %>
+<%= link_to 'New Post', new_post_path %>
