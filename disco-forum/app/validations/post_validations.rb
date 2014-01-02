@@ -15,7 +15,7 @@ module PostValidations
     }
     validates :user, {
         presence: true,
-        length: 3..50,
+        length: 1..50,
     }
     validates :time, {
       presence: true
