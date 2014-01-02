@@ -11,6 +11,11 @@ class CreatePosts < ActiveRecord::Migration
 
 
 
+      t.time :time
+
+
+
+      t.user :user
     end
 
   end
