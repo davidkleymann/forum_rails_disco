@@ -15,7 +15,11 @@ class CreatePosts < ActiveRecord::Migration
 
 
 
-      t.user :user
+      t.string :user
+
+
+
+
     end
 
   end
