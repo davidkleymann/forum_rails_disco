@@ -20,11 +20,11 @@ class PostsController < ApplicationController
     post = PostCreateCommand.new({title: params[:post][:title], text: params[:post][:text],  user: params[:post][:user] ,time: params[:post][:time]})
     valid = post.valid?
     if valid && id = Domain.run_command(post)
-      flash[:notice] = 'Post was successfully created.'
+      flash[:notice] = 'Post wurde erstellt.'
       session[:tmp_event_id] = id
-      redirect_to posts_path
+      redirect_to action: :index
     else
-      flash[:error] = 'Post couldn\'t be created.'
+      flash[:error] = 'Post konntenicht erstellt werden.'
       redirect_to action: :new
     end
   end
@@ -33,11 +33,11 @@ class PostsController < ApplicationController
     post = PostUpdateCommand.new({id: params[:id], title: params[:post][:title], text: params[:post][:text], user: params[:post][:user], time: params[:post][:time]})
     valid = post.valid?
     if valid && id = Domain.run_command(post)
-      flash[:notice] = 'Post was successfully updated.'
+      flash[:notice] = 'Post wurde geupdated.'
       session[:tmp_event_id] = id
       redirect_to action: :show, id: params[:id]
     else
-      flash[:error] = 'Post couldn\'t be updated.'
+      flash[:error] = 'Post konnte nicht geupdated werden.'
       redirect_to action: :edit, id: params[:id]
     end
   end
@@ -46,9 +46,9 @@ class PostsController < ApplicationController
     post = PostDeleteCommand.new({id: params[:id]})
     if id = Domain.run_command(post)
       session[:tmp_event_id] = id
-      flash[:notice] = 'Post was successfully deleted.'
+      flash[:notice] = 'Post wurde geloescht.'
     else
-      flash[:error] = 'Post couldn\'t be deleted.'
+      flash[:error] = 'Post konnte nicht geloescht werden.'
     end
     redirect_to action: :index
   end
