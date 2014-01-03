@@ -14,10 +14,10 @@
 ActiveRecord::Schema.define(version: 20130910070019) do
 
   create_table "posts", force: true do |t|
-    t.string "title"
-    t.text   "text"
-    t.time   "time"
-    t.string "user"
+    t.string  "title"
+    t.text    "text"
+    t.time    "time"
+    t.integer "user_id"
   end
 
   create_table "projections", force: true do |t|

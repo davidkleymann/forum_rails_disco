@@ -17,7 +17,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = PostCreateCommand.new({title: params[:post][:title], text: params[:post][:text],  user: params[:post][:user] ,time: params[:post][:time]})
+    post = PostCreateCommand.new({title: params[:post][:title], text: params[:post][:text],  user_id: params[:post][:user_id] ,time: params[:post][:time]})
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde erstellt.'
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    post = PostUpdateCommand.new({id: params[:id], title: params[:post][:title], text: params[:post][:text], user: params[:post][:user], time: params[:post][:time]})
+    post = PostUpdateCommand.new({id: params[:id], title: params[:post][:title], text: params[:post][:text], user_id: params[:post][:user_id], time: params[:post][:time]})
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde geupdated.'
