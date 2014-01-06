@@ -7,7 +7,7 @@ class EventSourceController < ApplicationController
     response.headers['Content-Type'] = 'text/event-stream'
     sse = ActiveEvent::SSE.new(response.stream)
     subscribe_to event_queue do |delivery_info, properties, body|
-      sse.write({:id => body}, :event => 'refresh')
+      sse.write({:id => properties.headers['store_id']}, :event => 'refresh')
     end
   rescue IOError
   ensure
