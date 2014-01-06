@@ -17,6 +17,5 @@ module PostValidations
         presence: true,
         length: 1..50,
     }
-
   end
 end
