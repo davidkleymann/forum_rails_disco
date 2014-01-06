@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130910070019) do
+ActiveRecord::Schema.define(version: 20140102210830) do
 
   create_table "posts", force: true do |t|
     t.string  "title"
@@ -27,5 +27,13 @@ ActiveRecord::Schema.define(version: 20130910070019) do
   end
 
   add_index "projections", ["class_name"], name: "index_projections_on_class_name"
+
+  create_table "users", force: true do |t|
+    t.string "Vorname"
+    t.string "Name"
+    t.string "EMail"
+    t.string "Benutzername"
+    t.string "Passwort"
+  end
 
 end

@@ -46,4 +46,4 @@ end
 
 gem 'rails-disco'
 
-gem 'puma'
+gem 'puma' , '2.6.0'
