@@ -15,4 +15,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-/db/*.sqlite3
+
+# Windows-Linux
+/Gemfile.lock
