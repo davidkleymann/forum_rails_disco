@@ -11,3 +11,13 @@
  *= require_self
  *= require_tree .
  */
+#error_explanation {
+	margin-bottom: 20px;
+}
+
+#error_explanation div {
+	border: 1px solid black;
+}
+.error {
+	border-color: red;
+}

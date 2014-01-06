@@ -17,14 +17,14 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = PostCreateCommand.new({title: params[:post][:title], text: params[:post][:text],  user_id: params[:post][:user_id] ,time: params[:post][:time]})
+    post = PostCreateCommand.new({title: params[:post][:title], text: params[:post][:text], time: params[:post][:time]})
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde erstellt.'
       session[:tmp_event_id] = id
       redirect_to action: :index
     else
-      flash[:error] = 'Post konntenicht erstellt werden.'
+      flash[:error] = 'Post konnte nicht erstellt werden.'
       redirect_to action: :new
     end
   end

@@ -13,10 +13,6 @@ module PostValidations
     validates :text, {
         presence: true
     }
-    validates :user, {
-        presence: true,
-        length: 1..50,
-    }
 
   end
 end

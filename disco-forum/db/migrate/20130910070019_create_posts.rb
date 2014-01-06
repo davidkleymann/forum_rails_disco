@@ -15,9 +15,12 @@ class CreatePosts < ActiveRecord::Migration
 
 
 
-      t.references :user
+      t.references :user_id
 
+      
 
+      t.references :topic
+    
 
 
     end

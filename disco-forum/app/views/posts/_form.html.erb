@@ -1,13 +1,10 @@
 <%= form_for(@post) do |f| %>
-  <% if @post.errors.any? %>
+  <% if flash.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
-      <ul>
-      <% @post.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+         <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: name %>
+    <% end -%>
+    
     </div>
   <% end %>
 
@@ -24,8 +21,8 @@
     <%= f.datetime_field :time %>
   </div>
   <div class="field_tmp">
-    <%= f.label :user %><br>
-    <%= f.text_field :user %>
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
   </div>
   <div class="actions">
     <%= f.submit %>
