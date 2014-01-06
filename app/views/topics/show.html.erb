@@ -1,0 +1,25 @@
+<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %>
+<h1>Listing posts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Thema</th>
+      <th>Gestartet von</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @topics.each do |topic| %>
+      <tr>
+        <td><%= topic.thema %></td>
+        <td><%= topic.startedby %></td>
+        <td><%= link_to 'Show', post, method: :show %></td>
+        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

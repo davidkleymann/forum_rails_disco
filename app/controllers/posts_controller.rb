@@ -17,7 +17,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = PostCreateCommand.new({title: params[:post][:title], text: params[:post][:text], time: params[:post][:time]})
+    post = PostCreateCommand.new(post_params)
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde erstellt.'
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    post = PostUpdateCommand.new({id: params[:id], title: params[:post][:title], text: params[:post][:text], user_id: params[:post][:user_id], time: params[:post][:time]})
+    post = PostUpdateCommand.new(post_params.merge(id: params[:id]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde geupdated.'
@@ -61,5 +61,9 @@ class PostsController < ApplicationController
   def set_event_id
     @event_id = session[:tmp_event_id]
     session[:tmp_event_id] = nil
+  end
+
+  def post_params
+    params.require(:post).permit(:title, :text, :user_id, :time)
   end
 end

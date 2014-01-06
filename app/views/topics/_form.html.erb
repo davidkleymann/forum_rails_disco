@@ -1,0 +1,23 @@
+<%= form_for(@topic) do |f| %>
+  <% if flash.any? %>
+    <div id="error_explanation">
+         <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: name %>
+    <% end -%>
+    
+    </div>
+  <% end %>
+
+
+  <div class="field">
+    <%= f.label :topic %><br>
+    <%= f.text_field :topic %>
+  </div>
+  <div class="field">
+    <%= f.label :startedby %><br>
+    <%= f.text_field :startedby %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
