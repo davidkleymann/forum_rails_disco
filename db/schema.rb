@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140102210830) do
+ActiveRecord::Schema.define(version: 20140106170415) do
 
   create_table "posts", force: true do |t|
     t.string  "title"
     t.text    "text"
     t.time    "time"
-    t.integer "user_id"
+    t.integer "user_id_id"
+    t.integer "topic_id"
   end
 
   create_table "projections", force: true do |t|
@@ -27,6 +28,13 @@ ActiveRecord::Schema.define(version: 20140102210830) do
   end
 
   add_index "projections", ["class_name"], name: "index_projections_on_class_name"
+
+  create_table "topics", force: true do |t|
+    t.string   "thema"
+    t.integer  "startedby"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string "Vorname"

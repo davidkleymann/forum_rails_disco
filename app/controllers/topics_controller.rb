@@ -1,5 +1,5 @@
 class TopicsController < ApplicationController
-	  before_action :set_topic, only: [:show]
+
   def destroy
   	topic = TopicDeleteCommand.new({id: params[:id]})
     if id = Domain.run_command(topic)
@@ -9,6 +9,8 @@ class TopicsController < ApplicationController
       flash[:error] = 'Topic konnte nicht geloescht werden.'
     end
   end
+
+
 
   def show
   	@topics = Topic.all
@@ -27,9 +29,10 @@ class TopicsController < ApplicationController
     end
 
 private
+
 def params
 params.require(:topic).permit(:thema, :startedby)
   end
-  
+end  
 
 end
