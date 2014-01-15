@@ -1,12 +1,12 @@
 <h1>Registrieren</h1>
 <p>Für unsere im Testbetrieb stehenden Dienste müssen Sie sich registrieren</p>
-<%= form_for(@newuser) do |f| %>
+<%= form_for(@user) do |f| %>
   <%= f.label :Name %><br>
   <%= f.text_field :Name %><br>
   <%= f.label :Vorname %><br>
   <%= f.text_field :Vorname %><br>
-  <%= f.label :EMail %><br>
-  <%= f.text_field :EMail %><br>
+  <%= f.label :Email %><br>
+  <%= f.text_field :Email %><br>
   <%= f.label :Benutzerame %><br>
   <%= f.text_field :Benutzername %><br>
   <%= f.label :Passwort %><br>
