@@ -15,7 +15,7 @@ class CreatePosts < ActiveRecord::Migration
 
 
 
-      t.references :user_id
+      t.references :user
 
       
 

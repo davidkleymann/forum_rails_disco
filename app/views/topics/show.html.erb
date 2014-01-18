@@ -1,26 +1,47 @@
 <%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %>
+
+<p>
+  <strong>Title:</strong>
+  <%= @topic.title %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @topic.user_id %>
+</p>
+
 <h1>Listing posts</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Thema</th>
-      <th>Gestartet von</th>
-      <th></th>
+      <th>Title</th>
+      <th>Text</th>
+      <th>User</th>
+      <th>Time</th>
       <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @topics.each do |topic| %>
+    <% @topic.posts.each do |post| %>
       <tr>
-        <td><%= topic.thema %></td>
-        <td><%= topic.startedby %></td>
-        <td><%= link_to 'Show', topic, method: :show %></td>
-        <td><%= link_to 'Destroy', topic, method: :destroy, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= post.title %></td>
+        <td><%= post.text %></td>
+        <td><%= post.user_id %></td>
+        <td><%= post.time %></td>
+        <td><%= link_to 'Show', post %></td>
+        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
+
+<%= link_to 'New Post', new_topic_post_path(@topic.id) %>
+
+
+<%= link_to 'Edit', edit_topic_path(@topic) %> |
+<%= link_to 'Back', topics_path %>

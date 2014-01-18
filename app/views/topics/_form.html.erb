@@ -1,21 +1,23 @@
 <%= form_for(@topic) do |f| %>
-  <% if flash.any? %>
+  <% if @topic.errors.any? %>
     <div id="error_explanation">
-         <% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: name %>
-    <% end -%>
-    
+      <h2><%= pluralize(@topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+
+      <ul>
+      <% @topic.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
     </div>
   <% end %>
 
-
   <div class="field">
-    <%= f.label :topic %><br>
-    <%= f.text_field :topic %>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :startedby %><br>
-    <%= f.text_field :startedby %>
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -13,7 +13,7 @@ module PostValidations
     validates :text, {
         presence: true
     }
-    validates :user, {
+    validates :user_id, {
         presence: true
     }
   end
