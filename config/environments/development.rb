@@ -30,3 +30,6 @@ DiscoBlog::Application.configure do
   config.preload_frameworks = true
   config.allow_concurrency = true
 end
+
+BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
+

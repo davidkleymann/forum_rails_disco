@@ -3,6 +3,11 @@ class LogInCommand
   include ActiveEvent::Command
   attributes :id, :Benutzername, :Passwort
   def valid?
-    user = User.where(Benutzername: :Benutzername, Passwort: :Passwort)
+  	puts 'Passwort uberprueft'
+    puts 'Passwort uberprueft2'
+    user = Domain::User.first
+    puts "userpw: #{user.Passwort}"
+    puts "pw: #{:Passwort}"
+    user.Passwort == :Passwort
   end
 end
