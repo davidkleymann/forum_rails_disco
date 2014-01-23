@@ -2,6 +2,7 @@
 class TopicsController < ApplicationController
   before_action :set_topic, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
+  before_action :authenticate, except: [:index,:show]
 
   def index
     @topics = Topic.all
@@ -62,6 +63,13 @@ class TopicsController < ApplicationController
   def set_event_id
     @event_id = session[:tmp_event_id]
     session[:tmp_event_id] = nil
+  end
+
+  def authenticate
+    unless session.has_key[:user]
+      redirect_to controller: :users, action: :index
+      flash[:error] = 'Fehler:bitte einloggen'
+    end  
   end
 end
 

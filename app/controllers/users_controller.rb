@@ -5,13 +5,17 @@ class UsersController < ApplicationController
   def index
   end
 
+  def show
+    redirect_to action: :index
+  end
+
   def login
   	inlog = LogInCommand.new({Benutzername: params[:Benutzername], Passwort: params[:Passwort]})
     puts "id: #{Domain.run_command(inlog)}" #Falsche id
   	if inlog.valid?
       Domain.run_command(inlog)
       @id = User.select("id").where("Benutzername = ?", params[:Benutzername])
-  		session[:User] = @id
+  		session[:user] = @id
   		redirect_to action: :userpage
   	else
   		flash[:error] = 'Fehler: Falscher Benutzername und/oder falsches Passwort!'
@@ -44,10 +48,12 @@ class UsersController < ApplicationController
   private
 
   def authenticate
-    unless session[:User]
-      redirect_to action: :index
+    temp = session[:user]
+    if temp.nil?
+      redirect_to controller: :users, action: :index
+      flash[:error] = 'Fehler:bitte einloggen'
     end
-  end
+  end 
 
   def user_params
     params.require(:user).permit(:Vorname, :Name, :Email, :Benutzername, :Passwort)

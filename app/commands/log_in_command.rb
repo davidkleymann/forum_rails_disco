@@ -1,4 +1,3 @@
-
 class LogInCommand
   include ActiveEvent::Command
   attributes :id, :Benutzername, :Passwort
