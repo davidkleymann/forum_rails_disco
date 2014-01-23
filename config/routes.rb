@@ -2,7 +2,11 @@ DiscoBlog::Application.routes.draw do
 
   post '/login' =>'users#login'
 
+
   resources :users
+
+  get '/userpage' => 'users#userpage'
+
 
   resources :topics do
 
