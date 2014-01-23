@@ -8,11 +8,11 @@ DiscoBlog::Application.routes.draw do
   get '/userpage' => 'users#userpage'
 
 
-  resources :topics do
+  resources :topics 
 
   resources :posts
 
-  end
+  
 
   get 'event_stream' => 'event_source#stream'
 
