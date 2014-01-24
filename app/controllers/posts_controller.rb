@@ -10,14 +10,14 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
+    @post = Post.new(topic_id: params[:topic_id])
   end
 
   def edit
   end
 
   def create
-    post = PostCreateCommand.new(post_params)
+    post = PostCreateCommand.new(post_params.merge(topic_id: params[:topic_id]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde erstellt.'
