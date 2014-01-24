@@ -11,8 +11,6 @@ module Domain
 
     process LogInCommand do |command|
       id = command.is_valid_do { event LogInEvent.new command.to_hash }
-      puts 'Command verarbeitet'
-      id
     end
   end
 end

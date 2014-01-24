@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140114132930) do
+ActiveRecord::Schema.define(version: 20140124064111) do
 
   create_table "lastposts", force: true do |t|
     t.string  "title"
@@ -20,9 +20,6 @@ ActiveRecord::Schema.define(version: 20140114132930) do
     t.integer "user_id_id"
     t.integer "topic_id"
   end
-
-  add_index "lastposts", ["topic_id"], name: "index_lastposts_on_topic_id"
-  add_index "lastposts", ["user_id_id"], name: "index_lastposts_on_user_id_id"
 
   create_table "posts", force: true do |t|
     t.string  "title"
