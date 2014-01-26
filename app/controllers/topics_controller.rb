@@ -19,7 +19,7 @@ class TopicsController < ApplicationController
   end
 
   def create
-    topic = CreateTopicCommand.new({title: params[:topic][:title], user_id: params[:topic][:user_id]})
+    topic = CreateTopicCommand.new({title: params[:topic][:thema], user_id: session[:user]})
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
       flash[:notice] = 'Topic was successfully created.'
@@ -32,7 +32,7 @@ class TopicsController < ApplicationController
   end
 
   def update
-    topic = UpdateTopicCommand.new({id: params[:id], title: params[:topic][:title], user_id: params[:topic][:user_id]})
+    topic = UpdateTopicCommand.new({id: params[:id], title: params[:topic][:title], user_id: session[:user]})
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
       flash[:notice] = 'Topic was successfully updated.'
@@ -66,10 +66,11 @@ class TopicsController < ApplicationController
   end
 
   def authenticate
-    unless session.has_key[:user]
+    temp = session[:user]
+    if temp.nil?
       redirect_to controller: :users, action: :index
       flash[:error] = 'Fehler:bitte einloggen'
-    end  
-  end
+    end
+  end 
 end
 
