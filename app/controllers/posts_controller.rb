@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
-  before_action :post_params, only [:show, :update, :create]
+  before_action :post_params, only: [:show, :update, :create]
   before_action :authenticate, only: [:create, :update, :delete]
 
 
@@ -84,6 +84,6 @@ class PostsController < ApplicationController
 
   def schutz
     temppost = Post.find(params[:id])
-    temppost.user_id_id == session[:user]   
+    temppost.user_id == session[:user]   
   end 
 end

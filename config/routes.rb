@@ -13,6 +13,7 @@ DiscoBlog::Application.routes.draw do
   resources :posts
 
   get '/' =>'home#index'
+    get '/admins' =>'home#admins'
 
   get 'event_stream' => 'event_source#stream'
 

@@ -17,9 +17,9 @@ class TopicsController < ApplicationController
 
   def edit
   end
-
+  
   def create
-    topic = CreateTopicCommand.new({title: params[:topic][:thema], user_id: session[:user]})
+    topic = CreateTopicCommand.new({title: params[:topic][:title], user_id: session[:user]})
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
       flash[:notice] = 'Topic was successfully created.'
