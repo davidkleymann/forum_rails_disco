@@ -2,6 +2,7 @@
 class TopicsController < ApplicationController
   before_action :set_topic, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
+  before_action :authenticate, except: [:index,:show]
 
   def index
     @topics = Topic.all
@@ -18,7 +19,7 @@ class TopicsController < ApplicationController
   end
 
   def create
-    topic = CreateTopicCommand.new({title: params[:topic][:title], user_id: params[:topic][:user_id]})
+    topic = CreateTopicCommand.new({title: params[:topic][:thema], user_id: session[:user]})
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
       flash[:notice] = 'Topic was successfully created.'
@@ -31,7 +32,8 @@ class TopicsController < ApplicationController
   end
 
   def update
-    topic = UpdateTopicCommand.new({id: params[:topic][:id], title: params[:topic][:title], user_id: params[:topic][:user_id]})
+
+    topic = UpdateTopicCommand.new({id: params[:topic][:id], title: params[:topic][:title], user_id: session[:user]})
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
       flash[:notice] = 'Topic was successfully updated.'
@@ -63,5 +65,13 @@ class TopicsController < ApplicationController
     @event_id = session[:tmp_event_id]
     session[:tmp_event_id] = nil
   end
+
+  def authenticate
+    temp = session[:user]
+    if temp.nil?
+      redirect_to controller: :users, action: :index
+      flash[:error] = 'Fehler:bitte einloggen'
+    end
+  end 
 end
 
