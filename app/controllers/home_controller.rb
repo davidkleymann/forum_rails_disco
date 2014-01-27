@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
 
 
- def var
-    @Latesttopics = Latesttopics.limit(3).order(time: :desc)
+ def index
+    @Latestposts = Post.all.order(time: :desc).limit(3)
   end
 
 

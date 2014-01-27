@@ -3,6 +3,7 @@ class TopicProjection
   include ActiveProjection::ProjectionType
 
 puts "TopicsProjections-started"
+
     def deleted_topic_event(event)
       Topic.find(event.id).destroy!
     end
@@ -11,7 +12,7 @@ puts "TopicsProjections-started"
       Topic.find(event.id).update! event.values
     end
 
-    def created_topic_event(event)
+    def topic_create_event(event)
       Topic.create! event.values.merge(id: event.id)
     end
 

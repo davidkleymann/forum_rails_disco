@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
+  before_action :post_params, only [:show, :update, :create]
 
   def index
     @posts = Post.all

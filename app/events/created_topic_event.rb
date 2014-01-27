@@ -5,5 +5,7 @@ class CreatedTopicEvent
 
   def values
     attributes_except :id
+
+    pust "CreatedTopicEvent"
   end
 end
