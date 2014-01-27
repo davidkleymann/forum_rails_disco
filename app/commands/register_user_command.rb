@@ -1,5 +1,5 @@
 
 class RegisterUserCommand
   include ActiveEvent::Command
-  attributes :id, :Name, :Vorname, :Email, :Benutzername, :Passwort
+  attributes :id, :name, :vorname, :email, :benutzername, :passwort
 end

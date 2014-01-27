@@ -1,7 +1,7 @@
 
 class RegisterUserEvent
   include ActiveEvent::EventType
-  attributes :id, :Name, :Vorname, :Email, :Benutzername, :Passwort
+  attributes :id, :name, :vorname, :email, :benutzername, :passwort
 
   def values
     attributes_except :id

@@ -3,25 +3,15 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
 
 
-      t.string :Vorname
+      t.string :vorname
+
+      t.string :name
 
 
-
-      t.string :Name
-
+      t.string :email
 
 
-      t.string :EMail
-
-
-
-      t.string :Benutzername
-
-
-
-      t.string :Passwort
-
-
+      t.string :benutzername
 
     end
 

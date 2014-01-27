@@ -5,21 +5,22 @@ module UserValidations
   validation_target :'RegisterUserCommand'
 
   included do
-  	validates :Name, {
+  	validates :name, {
         presence: true
   	}
-  	validates :Vorname, {
+  	validates :vorname, {
         presence:true
   	}
-  	validates :Email, {
+  	validates :email, {
   		presence:true
   	}
-  	validates :Benutzername, {
+  	validates :benutzername, {
   		presence: true
   	}
-  	validates :Passwort, {
-  		presence:true,
-  		length: 8..50
-  	}
+
+    validates :passwort, {
+      presence: :true,
+      length: 8..50
+    }
   end
 end

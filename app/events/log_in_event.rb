@@ -1,7 +1,7 @@
 
 class LogInEvent
   include ActiveEvent::EventType
-  attributes :id, :Benutzername, :Passwort
+  attributes :id, :benutzername, :passwort
 
   def values
     attributes_except :id

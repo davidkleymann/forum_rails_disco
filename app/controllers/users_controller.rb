@@ -10,11 +10,9 @@ class UsersController < ApplicationController
   end
 
   def login
-  	inlog = LogInCommand.new({Benutzername: params[:Benutzername], Passwort: params[:Passwort]})
-    puts "id: #{Domain.run_command(inlog)}" #Falsche id
-  	if inlog.valid?
-      Domain.run_command(inlog)
-      @id = User.select("id").where("Benutzername = ?", params[:Benutzername])
+  	inlog = LogInCommand.new({benutzername: params[:benutzername], passwort: params[:passwort]})
+  	if inlog.valid? && Domain.run_command(inlog)
+      @id = User.select("id").where("benutzername = ?", params[:benutzername])
   		session[:user] = @id
   		redirect_to action: :userpage
   	else
@@ -42,7 +40,7 @@ class UsersController < ApplicationController
   end
 
   def userpage
-    @lastposts = Lastpost.where("user_id_id=?", @id).order(time: :desc)
+    @lastposts = Lastpost.where("user_id=?", @id).order(time: :desc)
   end
 
   private
@@ -56,6 +54,6 @@ class UsersController < ApplicationController
   end 
 
   def user_params
-    params.require(:user).permit(:Vorname, :Name, :Email, :Benutzername, :Passwort)
+    params.require(:user).permit(:vorname, :name, :email, :benutzername, :passwort)
   end
 end
