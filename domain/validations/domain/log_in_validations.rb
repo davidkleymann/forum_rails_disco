@@ -1,0 +1,22 @@
+module Domain
+  module LogInValidations
+    extend ActiveSupport::Concern
+    include ActiveEvent::Validations
+
+    validation_target :'LogInCommand'
+
+    included do
+      validates :passwort, {
+          pw_correct: true
+      }
+    end
+
+    class PwCorrectValidator < ActiveModel::EachValidator
+    	def validate_each(record, attr_name, value)
+    		puts 'wird Validiert.............'
+    		user = User.find_by(benutzername: record.benutzername)
+    		record.errors.add(attr_name, :taken) unless user && user.passwort == value
+      end
+    end
+  end
+end
