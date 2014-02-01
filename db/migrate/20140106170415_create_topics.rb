@@ -3,7 +3,6 @@ class CreateTopics < ActiveRecord::Migration
     create_table :topics do |t|
       t.string :title
       t.references :user
-
       t.timestamps
     end
   end
