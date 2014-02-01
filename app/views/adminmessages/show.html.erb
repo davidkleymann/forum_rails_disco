@@ -1,0 +1,14 @@
+<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %><p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Message:</strong>
+  <%= @adminmessage.message %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @adminmessage.user %>
+</p>
+
+<%= link_to 'Edit', edit_adminmessage_path(@adminmessage) %> |
+<%= link_to 'Back', adminmessages_path %>

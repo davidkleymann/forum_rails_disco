@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140124064111) do
+ActiveRecord::Schema.define(version: 20140201114728) do
+
+  create_table "adminmessages", force: true do |t|
+    t.text    "message"
+    t.integer "user_id"
+  end
 
   create_table "lastposts", force: true do |t|
     t.string  "title"

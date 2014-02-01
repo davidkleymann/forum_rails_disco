@@ -1,5 +1,7 @@
 DiscoBlog::Application.routes.draw do
 
+  resources :adminmessages
+
   post '/login' =>'users#login'
 
 
