@@ -28,7 +28,6 @@ class UsersController < ApplicationController
   def create
     user = RegisterUserCommand.new user_params
     if user.valid?
-      puts 'Gueltig'
       Domain.run_command(user)
       flash[:notice] = 'Sie haben sich erfolgreich registriert.'
       puts 'fertig'
