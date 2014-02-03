@@ -1,0 +1,29 @@
+<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %><h1>Listing adminmessages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Message</th>
+      <th>User</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @adminmessages.each do |adminmessage| %>
+      <tr>
+        <td><%= adminmessage.message %></td>
+        <td><%= adminmessage.user %></td>
+        <td><%= link_to 'Show', adminmessage %></td>
+        <td><%= link_to 'Edit', edit_adminmessage_path(adminmessage) %></td>
+        <td><%= link_to 'Destroy', adminmessage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Adminmessage', new_adminmessage_path %>
