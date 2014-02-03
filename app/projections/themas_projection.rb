@@ -1,5 +1,5 @@
 
-class ThemaProjection
+class ThemasProjection
   include ActiveProjection::ProjectionType
 
     def deleted_thema_event(event)

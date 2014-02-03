@@ -5,7 +5,5 @@ class CreatedTopicEvent
 
   def values
     attributes_except :id
-
-    puts "CreatedTopicEvent"
   end
 end

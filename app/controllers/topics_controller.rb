@@ -33,7 +33,7 @@ class TopicsController < ApplicationController
 
   def update
 
-    topic = UpdateTopicCommand.new({id: params[:topic][:id], title: params[:topic][:title], user_id: session[:user]})
+    topic = UpdateTopicCommand.new({id: params[:topic][:id], title: params[:topic][:title], editor_id: session[:user]})
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
       flash[:notice] = 'Topic was successfully updated.'

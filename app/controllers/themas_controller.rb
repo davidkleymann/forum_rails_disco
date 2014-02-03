@@ -4,24 +4,24 @@ class ThemasController < ApplicationController
   before_action :set_event_id, only: [:index, :show]
 
   def index
-    @themas = Thema.where("belong = '0'").order(:lastact)
+    @themas = Thema.where(belong: nil).order(:lastact)
   end
 
   def show
-    @themas Thema.where("belong = ?", @thema.id)
+    @themas = Thema.where("belong = ?", @thema.id)
   end
 
   def new
     @thema = Thema.new
     @themas = Thema.all
-    @belong = params[:belong]
   end
 
   def edit
+    @themas = Thema.all
   end
 
   def create
-    thema = CreateThemaCommand.new(thema_params.merge(lastact: 0))
+    thema = CreateThemaCommand.new thema_params.merge(lastact: 0)
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
       flash[:notice] = 'Thema was successfully created.'
@@ -34,7 +34,7 @@ class ThemasController < ApplicationController
   end
 
   def update
-    thema = UpdateThemaCommand.new(thema_params.merge(lastact: params[:lastact])
+    thema = UpdateThemaCommand.new thema_params.merge(lastact: params[:lastact])
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
       flash[:notice] = 'Thema was successfully updated.'
@@ -47,7 +47,7 @@ class ThemasController < ApplicationController
   end
 
   def destroy
-    thema = DeleteThemaCommand.new({id: params[:id]})
+    thema = DeleteThemaCommand.new(id: params[:id])
     if id = Domain.run_command(thema)
       session[:tmp_event_id] = id
       flash[:notice] = 'Thema was successfully deleted.'
@@ -68,7 +68,7 @@ class ThemasController < ApplicationController
   end
 
   def thema_params
-    params.require(:post).permit(:title,:description,:belong)
+    params.require(:thema).permit(:title,:description,:belong)
   end
 end
 

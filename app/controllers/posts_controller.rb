@@ -33,19 +33,15 @@ class PostsController < ApplicationController
   end
 
   def update
-    if schutz
-      post = PostUpdateCommand.new(post_params.merge(id: params[:id]))
-      valid = post.valid?
-      if valid && id = Domain.run_command(post)
-        flash[:notice] = 'Post wurde geupdated.'
-        session[:tmp_event_id] = id
-        redirect_to action: :show, id: params[:id]
-      else
-        flash[:error] = 'Post konnte nicht geupdated werden.'
-        redirect_to action: :edit, id: params[:id]
-      end
+    post = PostUpdateCommand.new(post_params.merge(id: params[:id], editor_id: session[:user]))
+    valid = post.valid?
+    if valid && id = Domain.run_command(post)
+      flash[:notice] = 'Post wurde geupdated.'
+      session[:tmp_event_id] = id
+      redirect_to action: :show, id: params[:id]
     else
-      redirect_to action: :index
+      flash[:error] = 'Post konnte nicht geupdated werden.'
+      redirect_to action: :edit, id: params[:id]
     end
   end
 
@@ -81,9 +77,4 @@ class PostsController < ApplicationController
       flash[:error] = 'Fehler: bitte einloggen oder registrieren'
     end
   end
-
-  def schutz
-    temppost = Post.find(params[:id])
-    temppost.user_id == session[:user]   
-  end 
 end

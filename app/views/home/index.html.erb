@@ -2,9 +2,13 @@
 <div id="header">
 <img src="/assets/webbanner_home.png" >
 </div>
-<td><%= link_to 'Topics', topics_path %></td>
-<td><%= link_to 'Admins', "/adminmessages" %></td>
-<td><p>Newest Topics:</p></td>
+<%= link_to 'Themas', themas_path %>
+<%= link_to 'Admins', adminmessages_path %>
+<%= link_to 'New User', new_user_path %>
+<%= link_to 'Login', users_path %>
+
+
+<p>Newest Topics:</p>
 <table>
   <thead>
     <tr>
