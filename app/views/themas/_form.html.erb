@@ -1,0 +1,29 @@
+<%= form_for(@thema) do |f| %>
+  <% if @thema.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@thema.errors.count, "error") %> prohibited this thema from being saved:</h2>
+
+      <ul>
+      <% @thema.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+    <%= f.hidden_field :lastact %>
+  <div>
+    <%= f.select(:belong, options_from_collection_for_select(@themas.all, :id, :title), {include_blank: 'Wurzel', default: @thema.belong }) %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

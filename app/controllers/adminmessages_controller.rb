@@ -18,7 +18,7 @@ class AdminmessagesController < ApplicationController
   end
 
   def create
-    adminmessage = CreateAdminmessageCommand.new({message: params[:adminmessage][:message], user: params[:adminmessage][:user]})
+    adminmessage = CreateAdminmessageCommand.new({message: params[:adminmessage][:message], user_id: session[:user]})
     valid = adminmessage.valid?
     if valid and id = Domain.run_command(adminmessage)
       flash[:notice] = 'Adminmessage was successfully created.'
@@ -31,7 +31,7 @@ class AdminmessagesController < ApplicationController
   end
 
   def update
-    adminmessage = UpdateAdminmessageCommand.new({id: params[:id], message: params[:adminmessage][:message], user_id: params[:adminmessage][:user_id]})
+    adminmessage = UpdateAdminmessageCommand.new({id: params[:id], message: params[:adminmessage][:message], editor_id: session[:user]})
     valid = adminmessage.valid?
     if valid and id = Domain.run_command(adminmessage)
       flash[:notice] = 'Adminmessage was successfully updated.'
@@ -64,4 +64,5 @@ class AdminmessagesController < ApplicationController
     session[:tmp_event_id] = nil
   end
 end
+
 

@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def login
   	inlog = LogInCommand.new({benutzername: params[:benutzername], passwort: params[:passwort]})
   	if inlog.valid? && Domain.run_command(inlog)
-      @id = User.select("id").where("benutzername = ?", params[:benutzername])
+      @id = User.where(benutzername: params[:benutzername]).first.id
   		session[:user] = @id
   		redirect_to action: :userpage
   	else
@@ -28,7 +28,6 @@ class UsersController < ApplicationController
   def create
     user = RegisterUserCommand.new user_params
     if user.valid?
-      puts 'Gueltig'
       Domain.run_command(user)
       flash[:notice] = 'Sie haben sich erfolgreich registriert.'
       puts 'fertig'

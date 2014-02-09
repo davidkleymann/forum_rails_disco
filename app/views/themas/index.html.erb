@@ -1,0 +1,29 @@
+<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %><h1>Listing themas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @themas.each do |thema| %>
+      <tr>
+        <td><%= thema.title %></td>
+        <td><%= thema.description %></td>
+        <td><%= link_to 'Show', thema %></td>
+        <td><%= link_to 'Edit', edit_thema_path(thema) %></td>
+        <td><%= link_to 'Destroy', thema, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Thema', new_thema_path(belong_id: 0) %>
