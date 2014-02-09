@@ -31,7 +31,7 @@ class AdminmessagesController < ApplicationController
   end
 
   def update
-    adminmessage = UpdateAdminmessageCommand.new({id: params[:id], message: params[:adminmessage][:message], user: params[:adminmessage][:user]})
+    adminmessage = UpdateAdminmessageCommand.new({id: params[:id], message: params[:adminmessage][:message], user_id: params[:adminmessage][:user_id]})
     valid = adminmessage.valid?
     if valid and id = Domain.run_command(adminmessage)
       flash[:notice] = 'Adminmessage was successfully updated.'
