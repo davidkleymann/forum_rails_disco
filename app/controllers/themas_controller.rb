@@ -73,8 +73,9 @@ class ThemasController < ApplicationController
   end
 
   def authenticate
-    unless Domain::Admin.where("user_id=?", session[:user]).exists?
-      flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufueren!'
+    auth = AuthenticateCommand.new(id: session[:user])
+    unless Domain.run_command(auth)
+      flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
       redirect_to action: :index
     end
   end
