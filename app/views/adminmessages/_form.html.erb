@@ -8,18 +8,23 @@
         <li><%= msg %></li>
       <% end %>
       </ul>
+
     </div>
   <% end %>
+  <% if flash.any? %>
+    <div id="error_explanation">
+         <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: name %>
+    <% end -%>
+    </div>
+  <% end -%>
 
   <div class="field">
     <%= f.label :message %><br>
     <%= f.text_area :message %>
   </div>
 
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id %>
-  </div>
+
 
   <div class="actions">
     <%= f.submit %>
