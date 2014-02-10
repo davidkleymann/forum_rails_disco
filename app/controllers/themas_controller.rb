@@ -2,7 +2,7 @@
 class ThemasController < ApplicationController
   before_action :set_thema, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
-  before_action :authenticate, except: [:index, :show]
+  #before_action :authenticate, except: [:index, :show]
 
   def index
     @themas = Thema.where(belong: nil).order(:lastact)
@@ -35,7 +35,7 @@ class ThemasController < ApplicationController
   end
 
   def update
-    thema = UpdateThemaCommand.new thema_params.merge(lastact: params[:lastact])
+    thema = UpdateThemaCommand.new thema_params.merge(lastact: params[:lastact],id: params[:id])
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
       flash[:notice] = 'Thema was successfully updated.'
