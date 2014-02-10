@@ -1,3 +1,4 @@
+
 DiscoBlog::Application.routes.draw do
 
   resources :themas
@@ -22,3 +23,4 @@ DiscoBlog::Application.routes.draw do
   get 'event_stream' => 'event_source#stream'
 
 end
+
