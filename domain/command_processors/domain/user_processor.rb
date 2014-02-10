@@ -10,5 +10,13 @@ module Domain
     process LogInCommand do |command|
       id = command.is_valid_do { event LogInEvent.new command.to_hash }
     end
+
+    process UpdateUserCommand do |command|
+      id = command.is_valid_do {event UpdatedUserEvent.new command.to_hash}
+    end
+
+    process DeleteUserCommand do |command|
+      id = command.is_valid_do { event DeletedUserEvent.new command.to_hash}
+    end
   end
 end

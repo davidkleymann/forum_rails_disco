@@ -20,6 +20,26 @@
 	</tbody>
 </table>
 
+<%= link_to 'Nutzerdetails bearbeiten', edit_user_path(@user) %>
 
+<% if @admin %>
+  <h2>Aktuelle Nutzeranfragen</h2><br>
+  <table>
+    <thead>
+      <tr>
+        <th>Message</th>
+        <th>Nutzer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @adminmessages.each do |amessage| %>
+        <tr>
+          <td><%= amessage.message %></td>
+          <td><%= amessage.user %></td>
+        </td>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
 <p>Dies ist noch in Arbeit, also bilden sie sich bloß nitchts ein darauf, dass sie auf unsere Nutzerseite gelangt sind</p>

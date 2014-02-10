@@ -7,7 +7,7 @@ class CreateAdmins < ActiveRecord::Migration
 
 
 
-      t.integer :id
+      t.integer :user_id
 
 
 
