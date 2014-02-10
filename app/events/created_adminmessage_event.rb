@@ -1,7 +1,7 @@
 
 class CreatedAdminmessageEvent
   include ActiveEvent::EventType
-  attributes :id, :message, :user
+  attributes :id, :message, :user_id
 
   def values
     attributes_except :id

@@ -18,7 +18,7 @@
     <% @adminmessages.each do |adminmessage| %>
       <tr>
         <td><%= adminmessage.message %></td>
-        <td><%= @users.find(adminmessage.user_id) %></td>
+        <td><%= adminmessage.user %></td>
         <td><%= link_to 'Show', adminmessage %></td>
         <td><%= link_to 'Edit', edit_adminmessage_path(adminmessage) %></td>
         <td><%= link_to 'Destroy', adminmessage, method: :delete, data: { confirm: 'Are you sure?' } %></td>

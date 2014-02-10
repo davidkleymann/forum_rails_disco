@@ -5,6 +5,7 @@ class AdminmessagesController < ApplicationController
 
   def index
     @adminmessages = Adminmessage.all
+  
   end
 
   def show
@@ -20,6 +21,7 @@ class AdminmessagesController < ApplicationController
   def create
     adminmessage = CreateAdminmessageCommand.new({message: params[:adminmessage][:message], user_id: session[:user]})
     valid = adminmessage.valid?
+    puts(valid)
     if valid and id = Domain.run_command(adminmessage)
       flash[:notice] = 'Adminmessage was successfully created.'
       session[:tmp_event_id] = id
