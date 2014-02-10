@@ -1,12 +1,13 @@
 class UsersController < ApplicationController
 
   before_action :authenticate, only: [:userpage]
+  before_action :authenticate_admin, only: [:show, :delete]
 
   def index
   end
 
   def show
-    redirect_to action: :index
+    @users = User.all
   end
 
   def login
@@ -50,7 +51,18 @@ class UsersController < ApplicationController
       redirect_to controller: :users, action: :index
       flash[:error] = 'Fehler:bitte einloggen'
     end
-  end 
+  end
+
+  def authenticate_admin
+    temp = session[:user]
+    if temp.nil?
+      redirect_to controller: :users, action: :index
+      flash[:error] = 'Fehler:bitte einloggen'
+    else
+      usn = User.find(temp).benutzername
+      redirect_to action: :index unless Domain::admin.where(name: usn).exists?
+    end
+  end
 
   def user_params
     params.require(:user).permit(:vorname, :name, :email, :benutzername, :passwort)

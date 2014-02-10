@@ -1,0 +1,26 @@
+<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %>
+<h1>Bnutzer@uuml;bersicht</h1><br>
+<table>
+	<thead>
+		<tr>
+			<th>id</th>
+			<th>Benutzername</th>
+			<th>Name</th>
+			<th>Vorname</th>
+			<th>Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @users.each do |user| %>
+			<tr>
+				<td><%= user.id %></td>
+				<td><%= user.benutzername %></td>
+				<td><%= user.name %></td>
+				<td><%= user.vorname %></td>
+				<td><%= user.email %></td>
+				<td><%= link_to 'Edit', edit_user_path(user) %></td>
+				<td><%= lnkt_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
