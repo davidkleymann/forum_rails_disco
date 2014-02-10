@@ -1,7 +1,6 @@
-
-class CreatedTopicEvent
+class DeletedUserEvent
   include ActiveEvent::EventType
-  attributes :id, :title, :user_id
+  attributes :id 
 
   def values
     attributes_except :id

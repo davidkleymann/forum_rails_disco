@@ -1,0 +1,16 @@
+<h1>Nutzerdetails bearbeiten</h1>
+<%= form_for(@user) do |f| %>
+	<%= f.hidden_field :use
+  <%= f.label :name %><br>
+  <%= f.text_field :name %><br>
+  <%= f.label :vorname %><br>
+  <%= f.text_field :vorname %><br>
+  <%= f.label :email %><br>
+  <%= f.text_field :email %><br>
+  <%= f.label :benutzerame %><br>
+  <%= f.text_field :benutzername %><br>
+  <%= f.label :passwort %><br>
+  <%= f.password_field :passwort%><br>
+  <%= f.submit%><br>
+<% end %>
+<%= link_to 'Zurück zur Nutzerseite', "/userpage" %>
