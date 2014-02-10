@@ -3,6 +3,15 @@
 
  <%# if   %>
 
+
+  <% if flash.any? %>
+    <div id="error_explanation">
+          <% flash.each do |name, msg| -%>
+            <%= content_tag :div, msg, class: name %>
+          <% end -%>
+    </div>
+  <% end -%>
+
 <table>
   <thead>
     <tr>
@@ -18,7 +27,7 @@
     <% @adminmessages.each do |adminmessage| %>
       <tr>
         <td><%= adminmessage.message %></td>
-        <td><%= adminmessage.user %></td>
+        <td><%= adminmessage.user.benutzername %></td>
         <td><%= link_to 'Show', adminmessage %></td>
         <td><%= link_to 'Edit', edit_adminmessage_path(adminmessage) %></td>
         <td><%= link_to 'Destroy', adminmessage, method: :delete, data: { confirm: 'Are you sure?' } %></td>

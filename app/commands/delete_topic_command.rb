@@ -1,5 +1,5 @@
 
 class DeleteTopicCommand
   include ActiveEvent::Command
-  attributes :id 
+  attributes :id, :thema_id
 end

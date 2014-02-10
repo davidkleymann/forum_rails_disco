@@ -7,7 +7,7 @@
 
 <p>
   <strong>User:</strong>
-  <%= @topic.user_id %>
+  <%= User.find(thema.topic.user_id).benutzername %>
 </p>
 
 <h1>Listing posts</h1>

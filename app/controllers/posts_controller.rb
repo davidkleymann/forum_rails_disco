@@ -23,7 +23,7 @@ class PostsController < ApplicationController
     post = PostCreateCommand.new(post_params.merge(topic_id: params[:topic_id]), user_id: session[:user])
     valid = post.valid?
     if valid && id = Domain.run_command(post)
-      flash[:notice] = 'Post wurde erstellt.'
+      flash[:notice] = 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to action: :index
     else
@@ -36,7 +36,7 @@ class PostsController < ApplicationController
     post = PostUpdateCommand.new(post_params.merge(id: params[:id], editor_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
-      flash[:notice] = 'Post wurde geupdated.'
+      flash[:notice] = 'Post wurde geupdated. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to action: :show, id: params[:id]
     else
@@ -49,7 +49,7 @@ class PostsController < ApplicationController
     post = PostDeleteCommand.new({id: params[:id]})
     if id = Domain.run_command(post)
       session[:tmp_event_id] = id
-      flash[:notice] = 'Post wurde geloescht.'
+      flash[:notice] = 'Post wurde geloescht.  Bitte Seite neu laden um Änderungen zu sehen.'
     else
       flash[:error] = 'Post konnte nicht geloescht werden.'
     end
