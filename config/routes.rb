@@ -1,5 +1,7 @@
 DiscoBlog::Application.routes.draw do
 
+  resources :admins
+
   resources :themas
 
   resources :adminmessages
