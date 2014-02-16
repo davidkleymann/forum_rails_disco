@@ -12,6 +12,7 @@ class TopicsController < ApplicationController
   end
 
   def new
+    @thema = Thema.find(params[:thema_id])
     @topic = Topic.new
   end
 
@@ -19,24 +20,23 @@ class TopicsController < ApplicationController
   end
   
   def create
-    topic = CreateTopicCommand.new({title: params[:topic][:title], user_id: session[:user]})
+    topic = CreateTopicCommand.new(topic_params.merge(thema_id: params[:thema_id], user_id: session[:user]))
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
-      flash[:notice] = 'Topic was successfully created.'
+      flash[:notice] = 'Topic was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to action: :index
+      redirect_to action: :index, thema_id: topic.thema_id
     else
       flash[:error] = 'Topic couldn\'t be created.'
-      redirect_to action: :new
+      redirect_to action: :new, thema_id: topic.thema_id
     end
   end
 
   def update
-
-    topic = UpdateTopicCommand.new({id: params[:topic][:id], title: params[:topic][:title], editor_id: session[:user]})
+    topic = UpdateTopicCommand.new(topic_params.merge(id: params[id], editor_id: session[:user]))
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
-      flash[:notice] = 'Topic was successfully updated.'
+      flash[:notice] = 'Topic was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to action: :show, id: params[:id]
     else
@@ -49,7 +49,7 @@ class TopicsController < ApplicationController
     topic = DeleteTopicCommand.new({id: params[:id]})
     if id = Domain.run_command(topic)
       session[:tmp_event_id] = id
-      flash[:notice] = 'Topic was successfully deleted.'
+      flash[:notice] = 'Topic was successfully deleted. Bitte Seite neu laden um Änderungen zu sehen.'
     else
       flash[:error] = 'Topic couldn\'t be deleted.'
     end
@@ -57,6 +57,10 @@ class TopicsController < ApplicationController
   end
 
   private
+  def topic_params
+    params.require(:topic).permit(:title)
+  end
+  
   def set_topic
     @topic = Topic.find(params[:id])
   end

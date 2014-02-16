@@ -1,7 +1,11 @@
 
 DiscoBlog::Application.routes.draw do
 
-  resources :themas
+  resources :themas do 
+      resources :topics do
+        resources :posts
+      end
+  end
 
   resources :adminmessages
 
@@ -11,12 +15,7 @@ DiscoBlog::Application.routes.draw do
   resources :users
 
   get '/userpage' => 'users#userpage'
-
-
-  resources :topics 
-
-  resources :posts
-
+  
   get '/' =>'home#index'
     get '/admins' =>'home#admins'
 

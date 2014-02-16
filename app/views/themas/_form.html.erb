@@ -21,7 +21,7 @@
   </div>
     <%= f.hidden_field :lastact %>
   <div>
-    <%= f.select(:belong, options_from_collection_for_select(@themas.all, :id, :title), {include_blank: 'Wurzel', default: @thema.belong }) %>
+    <%= f.select(:belong, options_from_collection_for_select(@themas.all, :id, :title, @thema.belong), {include_blank: 'Wurzel'}) %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = UpdateUserCommand.new user_params.merge(id: params[:id]) #Woher kommt params[:id]??????
+    user = UpdateUserCommand.new user_params.merge(id: params[:id], type: 0)
     if user.valid?
       Domain.run_command(user)
       flash[:notice] = 'Daten erfolgreich geaendert'
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = RegisterUserCommand.new user_params
+    user = RegisterUserCommand.new user_params.merge(type: 0)
     if user.valid?
       Domain.run_command(user)
       flash[:notice] = 'Sie haben sich erfolgreich registriert.'
@@ -59,8 +59,7 @@ class UsersController < ApplicationController
   def userpage
     @lastposts = Lastpost.where("user_id=?", @id).order(time: :desc)
     @user = User.find(session[:user])
-    auth = AuthenticateCommand.new(id: session[:user])
-    if Domain.run_command(auth)
+    if @user.type == 1
       @adminmessages = Adminmessage.all
       @admin = true
     end
@@ -93,14 +92,12 @@ class UsersController < ApplicationController
       redirect_to controller: :users, action: :index
       flash[:error] = 'Fehler:bitte einloggen'
     else
-      auth = AuthenticateCommand.new(id: temp)
-      redirect_to action: :index if Domain.run_command(auth)
+      redirect_to action: :index unless User.find(session[:user]).type == 1
     end
   end
 
   def authenticate_user
-    auth = AuthenticateCommand.new(id: session[:user])
-    unless session[:user] == params[:id] || Domain.run_command(auth) == false
+    unless session[:user] == params[:id] || User.find(session[:user]).type == 1
       redirect_to action: :index
       flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
     end

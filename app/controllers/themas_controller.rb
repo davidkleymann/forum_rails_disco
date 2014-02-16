@@ -10,10 +10,11 @@ class ThemasController < ApplicationController
 
   def show
     @themas = Thema.where("belong = ?", @thema.id)
+    @topics = @thema.topics
   end
 
   def new
-    @thema = Thema.new
+    @thema = Thema.new(belong: params[:belong])
     @themas = Thema.all
   end
 
@@ -25,7 +26,7 @@ class ThemasController < ApplicationController
     thema = CreateThemaCommand.new thema_params.merge(lastact: 0)
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
-      flash[:notice] = 'Thema was successfully created.'
+      flash[:notice] = 'Thema was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to action: :index
     else
@@ -35,10 +36,10 @@ class ThemasController < ApplicationController
   end
 
   def update
-    thema = UpdateThemaCommand.new thema_params.merge(lastact: params[:lastact])
+    thema = UpdateThemaCommand.new thema_params.merge(lastact: params[:lastact],id: params[:id])
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
-      flash[:notice] = 'Thema was successfully updated.'
+      flash[:notice] = 'Thema was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to action: :show, id: params[:id]
     else
@@ -51,7 +52,7 @@ class ThemasController < ApplicationController
     thema = DeleteThemaCommand.new(id: params[:id])
     if id = Domain.run_command(thema)
       session[:tmp_event_id] = id
-      flash[:notice] = 'Thema was successfully deleted.'
+      flash[:notice] = 'Thema was successfully deleted. Bitte Seite neu laden um Änderungen zu sehen.'
     else
       flash[:error] = 'Thema couldn\'t be deleted.'
     end
@@ -73,11 +74,17 @@ class ThemasController < ApplicationController
   end
 
   def authenticate
-    auth = AuthenticateCommand.new(id: session[:user])
-    unless Domain.run_command(auth)
-      flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
-      redirect_to action: :index
+    temp = session[:user]
+    if temp.nil?
+      flash[:error] = 'Bitte einloggen!'
+      redirect to action: :index
+    else
+      unless User.find(temp).type == 1
+        flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
+        redirect_to action: :index
+      end
     end
   end
+      
 end
 

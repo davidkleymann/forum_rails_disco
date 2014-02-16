@@ -1,5 +1,14 @@
 <%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %><h1>Listing themas</h1>
 
+
+  <% if flash.any? %>
+    <div id="error_explanation">
+          <% flash.each do |name, msg| -%>
+            <%= content_tag :div, msg, class: name %>
+          <% end -%>
+    </div>
+  <% end -%>
+
 <table>
   <thead>
     <tr>

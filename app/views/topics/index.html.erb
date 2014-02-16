@@ -1,5 +1,14 @@
 <%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %><h1>Listing topics</h1>
 
+
+  <% if flash.any? %>
+    <div id="error_explanation">
+          <% flash.each do |name, msg| -%>
+            <%= content_tag :div, msg, class: name %>
+          <% end -%>
+    </div>
+  <% end -%>
+
 <table>
   <thead>
     <tr>
@@ -15,9 +24,9 @@
     <% @topics.each do |topic| %>
       <tr>
         <td><%= topic.title %></td>
-        <td><%= (topic.user_id) %></td>
-        <td><%= link_to 'Show', topic %></td>
-        <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
+        <td><%= User.find(topic.user_id).benutzername %></td>
+        <td><%= link_to 'Show', thema_topic_path(topic) %></td>
+        <td><%= link_to 'Edit', edit_thema_topic_path(topic) %></td>
         <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
