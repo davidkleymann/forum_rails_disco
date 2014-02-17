@@ -79,7 +79,7 @@ class ThemasController < ApplicationController
       flash[:error] = 'Bitte einloggen!'
       redirect to action: :index
     else
-      unless User.find(temp).type == 1
+      unless User.find(temp).typ == 1
         flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
         redirect_to action: :index
       end

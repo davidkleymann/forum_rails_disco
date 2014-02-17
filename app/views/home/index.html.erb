@@ -8,32 +8,4 @@
 <%= link_to 'New User', new_user_path %>
 <%= link_to 'Login', users_path %>
 
-
-<p>Newest Topics:</p>
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Text</th>
-      <th>User</th>
-      <th>Time</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @Latesttopics.each do |topic| %>
-      <tr>
-        <td><%= topic.title %></td>
-        <td><%= topic.text %></td>
-        <td><%= topic.user_id %></td>
-        <td><%= topic.time %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
 <td><p>Online Users:</p></td>

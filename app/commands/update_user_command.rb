@@ -1,4 +1,4 @@
 class UpdateUserCommand
   include ActiveEvent::Command
-  attributes :id, :name, :vorname, :email, :benutzername, :passwort, :type
+  attributes :id, :name, :vorname, :email, :benutzername, :passwort, :typ
 end

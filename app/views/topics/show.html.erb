@@ -7,7 +7,7 @@
 
 <p>
   <strong>User:</strong>
-  <%= User.find(thema.topic.user_id).benutzername %>
+  <%= User.find(@topic.user_id).benutzername %>
 </p>
 
 <h1>Listing posts</h1>
@@ -40,8 +40,8 @@
 
 <br>
 
-<%= link_to 'New Post', new_topic_post_path(@topic.id) %>
+<%= link_to 'New Post', new_thema_topic_post_path(topic_id: @topic.id) %>
 
 
-<%= link_to 'Edit', edit_topic_path(@topic) %> |
-<%= link_to 'Back', topics_path %>
+<%= link_to 'Edit', edit_thema_topic_path(@topic, id: @topic.id) %> |
+<%= link_to 'Back', thema_topics_path %>

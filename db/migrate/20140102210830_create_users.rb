@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name
       t.string :email
       t.string :benutzername
-      t.integer :type #0=normal, 1=admin, ergaenzungen erwuenscht
+      t.integer :typ #0=normal, 1=admin, ergaenzungen erwuenscht
     end
   end
 end

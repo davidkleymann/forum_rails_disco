@@ -25,7 +25,7 @@ class TopicsController < ApplicationController
     if valid and id = Domain.run_command(topic)
       flash[:notice] = 'Topic was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to action: :index, thema_id: topic.thema_id
+      redirect_to controller: :themas, action: :show, id: params[:thema_id]
     else
       flash[:error] = 'Topic couldn\'t be created.'
       redirect_to action: :new, thema_id: topic.thema_id
