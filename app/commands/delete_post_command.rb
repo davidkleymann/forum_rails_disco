@@ -1,4 +1,5 @@
-class PostDeleteCommand
+
+class DeletePostCommand
   include ActiveEvent::Command
   attributes :id 
 end

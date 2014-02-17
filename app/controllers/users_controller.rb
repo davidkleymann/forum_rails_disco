@@ -16,10 +16,14 @@ class UsersController < ApplicationController
   	if inlog.valid? && Domain.run_command(inlog)
       @id = User.where(benutzername: params[:benutzername]).first.id
   		session[:user] = @id
-  		redirect_to action: :userpage
+      if params[:merk].nil?
+        redirect_to action: :userpage
+      else
+        redirect_to params[:merk]
+      end
   	else
   		flash[:error] = 'Fehler: Falscher Benutzername und/oder falsches Passwort!'
-  		redirect_to action: :index
+      redirect_to users_path(merk: params[:merk])
   	end
   end
 
@@ -45,7 +49,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    puts "#{user_params}"
     user = RegisterUserCommand.new user_params.merge(typ: 0)
     if user.valid?
       Domain.run_command(user)
@@ -83,7 +86,7 @@ class UsersController < ApplicationController
   def authenticate
     temp = session[:user]
     if temp.nil?
-      redirect_to controller: :users, action: :index
+      redirect_to users_path(merk: request.original_url)
       flash[:error] = 'Fehler:bitte einloggen'
     end
   end
@@ -91,7 +94,7 @@ class UsersController < ApplicationController
   def authenticate_admin
     temp = session[:user]
     if temp.nil?
-      redirect_to controller: :users, action: :index
+      redirect_to users_path(merk: request.original_url)
       flash[:error] = 'Fehler:bitte einloggen'
     else
       redirect_to action: :index unless User.find(session[:user]).typ == 1

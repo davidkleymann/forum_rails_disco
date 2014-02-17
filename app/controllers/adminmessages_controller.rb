@@ -27,7 +27,7 @@ class AdminmessagesController < ApplicationController
       session[:tmp_event_id] = id
       redirect_to action: :index
     else
-      flash[:error] = 'Adminmessage couldn\'t be created.'
+      flash[:error] = 'Adminmessage couldn\'t be created. Please LOG IN and try again.'
       redirect_to action: :new
     end
   end

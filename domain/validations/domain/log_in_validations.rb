@@ -11,7 +11,7 @@ module Domain
 
     def login_correct
       user = User.find_by(benutzername: benutzername)
-      errors.add(:base, 'Login nicht korrekt') unless user && user.passwort == passwort
+      errors.add(:base, 'Login nicht korrekt') unless user && user.authenticate(passwort)
     end
   end
 end

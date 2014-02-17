@@ -1,11 +1,17 @@
-<h1>TUDisco-Forum</h1>
-<div id="header">
-<img src="/assets/webbanner_home.png" >
-</div>
+
 
 <%= link_to 'Themas', themas_path %>
 <%= link_to 'Admins', adminmessages_path %>
 <%= link_to 'New User', new_user_path %>
 <%= link_to 'Login', users_path %>
 
-<td><p>Online Users:</p></td>
+<td><p>Latest Topics:</p></td>
+<% @Latesttopics.each do |topic| %>
+      <tr>
+        <td><%= topic.title %></td>
+        <td><%= User.find(topic.user_id).benutzername %></td>
+        <td><%= link_to 'Show', thema_topic_path(topic) %></td>
+        <td><%= link_to 'Edit', edit_thema_topic_path(topic) %></td>
+        <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
