@@ -2,7 +2,7 @@ class HomeController < ApplicationController
 
 
  def index
-    @Latesttopics = Latesttopic.all
+    @Latestopics = Latestopics.all
   end
 
 
