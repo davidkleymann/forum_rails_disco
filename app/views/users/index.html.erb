@@ -9,6 +9,7 @@
   <%= label_tag :passwort %><br>
   <%= password_field_tag :passwort%><br>
   <br>
+<%= hidden_field_tag( :merk, params[:merk]) %>
   <%= submit_tag "Log in!" %>
 <% end %><br>
 <%= link_to 'Registrieren' , new_user_path %>

@@ -1,4 +1,5 @@
-class PostCreateEvent
+
+class CreatedPostEvent
   include ActiveEvent::EventType
   attributes :id, :title, :text, :user_id, :time, :topic_id
 

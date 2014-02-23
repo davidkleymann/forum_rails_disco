@@ -7,8 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<h1>TUDisco-Forum</h1>
+<div id="header">
+  <img src="/assets/webbanner_home.png" >
+  <%= render "layouts/login" =%> 
+</div>
 <%= yield %>
-
+  
 </body>
 </html>

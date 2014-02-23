@@ -73,7 +73,7 @@ class TopicsController < ApplicationController
   def authenticate
     temp = session[:user]
     if temp.nil?
-      redirect_to controller: :users, action: :index
+      redirect_to users_path(merk: request.original_url)
       flash[:error] = 'Fehler:bitte einloggen'
     end
   end 

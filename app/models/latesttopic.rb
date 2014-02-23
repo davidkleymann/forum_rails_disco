@@ -1,5 +1,5 @@
 
-class Latesttopics < ActiveRecord::Base
+class Latesttopic < ActiveRecord::Base
   self.table_name = 'latesttopics'
   has_many :posts
   

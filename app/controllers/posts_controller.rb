@@ -20,8 +20,9 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = PostCreateCommand.new(post_params.merge(topic_id: params[:topic_id]), user_id: session[:user])
+    post = CreatePostCommand.new(post_params.merge(topic_id: params[:topic_id],time: Time.now, user_id: session[:user]))
     valid = post.valid?
+    puts "Post is valid: #{valid}"
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
@@ -33,7 +34,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    post = PostUpdateCommand.new(post_params.merge(id: params[:id], editor_id: session[:user]))
+    post = UpdatePostCommand.new(post_params.merge(id: params[:id], editor_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde geupdated. Bitte Seite neu laden um Änderungen zu sehen.'
@@ -46,7 +47,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post = PostDeleteCommand.new({id: params[:id]})
+    post = DeletePostCommand.new({id: params[:id]})
     if id = Domain.run_command(post)
       session[:tmp_event_id] = id
       flash[:notice] = 'Post wurde geloescht.  Bitte Seite neu laden um Änderungen zu sehen.'
@@ -73,7 +74,7 @@ class PostsController < ApplicationController
   def authenticate
     temp = session[:user]
     if temp.nil?
-      redirect_to controller: :users, action: :index
+      redirect_to users_path(merk: request.original_url)
       flash[:error] = 'Fehler: bitte einloggen oder registrieren'
     end
   end

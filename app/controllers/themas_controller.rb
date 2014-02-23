@@ -77,7 +77,7 @@ class ThemasController < ApplicationController
     temp = session[:user]
     if temp.nil?
       flash[:error] = 'Bitte einloggen!'
-      redirect to action: :index
+      redirect_to users_path(merk: request.original_url)
     else
       unless User.find(temp).typ == 1
         flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'

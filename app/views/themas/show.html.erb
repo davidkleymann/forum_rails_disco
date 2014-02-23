@@ -53,9 +53,9 @@
         <tr>
           <td><%= topic.title %></td>
           <td><%= (topic.user.benutzername) %></td>
-          <td><%= link_to 'Show', thema_topic_path(thema_id: @thema.id) %></td>
-          <td><%= link_to 'Edit', edit_thema_topic_path(id: topic.id, thema_id: @thema.id, topic: topic) %></td>
-          <td><%= link_to 'Destroy', thema_topic_path(topic,@thema), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Show', thema_topic_path(thema_id: @thema.id, id: topic.id) %></td>
+          <td><%= link_to 'Edit', edit_thema_topic_path(id: topic.id, thema_id: @thema.id) %></td>
+          <td><%= link_to 'Destroy', thema_topic_path(id: topic.id,thema_id: @thema), method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>

@@ -2,7 +2,7 @@ module PostAuthorValidations
   extend ActiveSupport::Concern
   include ActiveEvent::Validations
 
-  validation_target :'PostUpdateCommand'
+  validation_target :'UpdatePostCommand'
   
   included do
     validate :author

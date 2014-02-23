@@ -1,4 +1,5 @@
-class PostDeleteEvent
+
+class DeletedPostEvent
   include ActiveEvent::EventType
   attributes :id 
 

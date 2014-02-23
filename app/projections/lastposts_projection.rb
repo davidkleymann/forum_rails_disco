@@ -1,7 +1,7 @@
 class LastpostProjection
   include ActiveProjection::ProjectionType
 
-  def post_create_event(event)
+  def created_post_event(event)
     find
     Lastpost.create! event.values.merge(event.id)
   end

@@ -21,3 +21,9 @@
 .error {
 	border-color: red;
 }
+
+.login {
+  position: absolute;
+  right: 100px;
+  top: 20px;
+}
