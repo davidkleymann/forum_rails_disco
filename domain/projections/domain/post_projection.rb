@@ -7,11 +7,11 @@ module Domain
     end
 
     def updated_post_event(event)
-      Post.find(event.id).update! event.values
+      Post.find(event.id).update! title: event.title
     end
 
     def created_post_event(event)
-      Post.create! event.values.merge(id: event.id)
+      Post.create! id: event.id, title: event.title
     end
   end
 end

@@ -30,9 +30,9 @@
         <td><%= post.text %></td>
         <td><%= post.user_id %></td>
         <td><%= post.time %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_thema_topic_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', thema_topic_post_path(id: post.id, topic_id: @topic.id) %></td>
+        <td><%= link_to 'Edit', edit_thema_topic_post_path(id: post.id, topic_id: @topic.id) %></td>
+        <td><%= link_to 'Destroy', thema_topic_post_path(id: post.id, topic_id: @topic.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -43,5 +43,5 @@
 <%= link_to 'New Post', new_thema_topic_post_path(topic_id: @topic.id) %>
 
 
-<%= link_to 'Edit', edit_thema_topic_path(@topic, id: @topic.id) %> |
+<%= link_to 'Edit', edit_thema_topic_path(id: @topic.id, thema_id: @topic.thema_id) %> |
 <%= link_to 'Back', thema_topics_path %>
