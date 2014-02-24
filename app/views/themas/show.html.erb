@@ -1,12 +1,10 @@
 <%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %><p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Title:</strong>
-  <%= @thema.title %>
+  <h1><%= @thema.title %></h1>
 </p>
 
 <p>
-  <strong>Description:</strong>
   <%= @thema.description %>
 </p>
 
@@ -19,30 +17,29 @@
       <th>Description</th>
       <th></th>
       <th></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <% @themas.each do |thema| %>
       <tr>
-        <td><%= thema.title %></td>
+        <td><%= link_to thema.title, thema %></td>
         <td><%= thema.description %></td>
-        <td><%= link_to 'Show', thema %></td>
-        <td><%= link_to 'Edit', edit_thema_path(thema) %></td>
+        <td><%= link_to 'Bearbeiten', edit_thema_path(thema) %></td>
         <td><%= link_to 'Destroy', thema, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
   </table>
+  <%= link_to 'Neues Thema', new_thema_path(belong: @thema.id) %>
 </p>
+
 <p>
   <h2>Zugehörige Topics</h2>
   <table>
     <thead>
       <tr>
         <th>Title</th>
-        <th>User</th>
-        <th></th>
+        <th>Erstellt von</th>
         <th></th>
         <th></th>
       </tr>
@@ -51,18 +48,20 @@
     <tbody>
       <% @topics.each do |topic| %>
         <tr>
-          <td><%= topic.title %></td>
+          <td><%= link_to topic.title, topic_path(topic) %></td>
           <td><%= User.find(topic.user_id).benutzername %></td>
-          <td><%= link_to 'Show', thema_topic_path(thema_id: @thema.id, id: topic.id) %></td>
-          <td><%= link_to 'Edit', edit_thema_topic_path(id: topic.id, thema_id: @thema.id) %></td>
-          <td><%= link_to 'Destroy', thema_topic_path(id: topic.id,thema_id: @thema), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Edit', edit_topic_path(id: topic.id, thema_id: topic.thema_id) %></td>
+          <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
+  <%= link_to 'Neues Topic', new_thema_topic_path(@thema, thema_id: @thema.id) %> 
 </p>
-
-<%= link_to 'Neues Topic', new_thema_topic_path(@thema) %> 
-<%= link_to 'Neues Thema', new_thema_path(belong: @thema.id) %>
+<hr>
 <%= link_to 'Edit', edit_thema_path(@thema) %>
-<%= link_to 'Back', themas_path %>
+<% if @thema.belong.nil? %>
+  <%=link_to 'zurück zur Übersicht', themas_path %>
+<% else %>
+  <%= link_to 'Zurück', thema_path(id: @thema.belong) %>
+<% end %>

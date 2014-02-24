@@ -33,7 +33,7 @@ class TopicsController < ApplicationController
   end
 
   def update
-    topic = UpdateTopicCommand.new(topic_params.merge(id: params[id], editor_id: session[:user]))
+    topic = UpdateTopicCommand.new(topic_params.merge(id: params[:id], user_id: session[:user]))
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
       flash[:notice] = 'Topic was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
@@ -53,7 +53,7 @@ class TopicsController < ApplicationController
     else
       flash[:error] = 'Topic couldn\'t be deleted.'
     end
-    redirect_to action: :index
+    redirect_to themas_path
   end
 
   private

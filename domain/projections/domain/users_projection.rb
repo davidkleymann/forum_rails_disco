@@ -3,6 +3,7 @@ module Domain
 	include ActiveDomain::Projection
 	
 	  def register_user_event(event)
+      
       User.create! id: event.id, benutzername: event.benutzername, password: event.passwort	
     end
 

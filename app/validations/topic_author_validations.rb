@@ -10,6 +10,6 @@ module TopicAuthorValidations
   
   def author
     topic = Topic.find(id)
-    errors.add(:base, 'Falscher Nutzer') unless topic.user_id == editor_id
+    errors.add(:base, 'Falscher Nutzer') unless topic.user_id == user_id
   end
 end

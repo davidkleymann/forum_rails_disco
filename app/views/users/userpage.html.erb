@@ -21,9 +21,13 @@
 </table>
 
 <%= link_to 'Nutzerdetails bearbeiten', edit_user_path(@user) %>
+<%= link_to 'Log out', logout_path %>
 
 <% if @admin %>
-  <h2>Aktuelle Nutzeranfragen</h2><br>
+  <h2>Adminbereich</h2>
+  <%= link_to 'Userübersicht', user_path(id: 1) %>
+  <%= link_to 'Topicübersicht', thema_topics_path(thema_id: 1) %>
+  <h3>Aktuelle Nutzeranfragen</h3><br>
   <table>
     <thead>
       <tr>

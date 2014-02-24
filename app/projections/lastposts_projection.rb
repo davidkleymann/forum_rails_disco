@@ -6,6 +6,10 @@ class LastpostProjection
     Lastpost.create! event.values.merge(id: event.id)
   end
 
+  def deleted_post_event(event)
+    Lastpost.find(event.id).destroy!
+  end
+
   private
 
   def find(event)

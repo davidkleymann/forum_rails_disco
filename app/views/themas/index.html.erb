@@ -16,17 +16,15 @@
       <th>Description</th>
       <th></th>
       <th></th>
-      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @themas.each do |thema| %>
       <tr>
-        <td><%= thema.title %></td>
+        <td><%= link_to thema.title, thema %></td>
         <td><%= thema.description %></td>
-        <td><%= link_to 'Show', thema %></td>
-        <td><%= link_to 'Edit', edit_thema_path(thema) %></td>
+        <td><%= link_to 'Bearbeiten', edit_thema_path(thema) %></td>
         <td><%= link_to 'Destroy', thema, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -36,3 +34,4 @@
 <br>
 
 <%= link_to 'New Thema', new_thema_path(belong_id: 0) %>
+<%= link_to 'Zurück zur Startseite', '/' %>
