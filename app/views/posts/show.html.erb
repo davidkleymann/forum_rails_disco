@@ -17,9 +17,9 @@
 
 <p>
   <strong>(User:)</strong>
-  <%= User.find(post.user_id).benutzername %>
+  <%= User.find(@post.user_id).benutzername %>
 </p>
 
 
-<%= link_to 'Edit', edit_thema_topic_post_path(@ids, @post) %> |
+<%= link_to 'Edit', edit_thema_topic_post_path(@post, @ids) %> |
 <%= link_to 'Back', thema_topic_posts_path(@ids) %>

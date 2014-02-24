@@ -1,7 +1,7 @@
 class LatesttopicsProjection
   include ActiveProjection::ProjectionType
 
-  def topic_create_event(event)
+  def created_topic_event(event)
     find
     Latesttopic.create! event.values.merge(event.id)
   end

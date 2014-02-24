@@ -5,7 +5,7 @@
 <%= link_to 'Login', users_path %>
 
 <td><p>Latest Topics:</p></td>
-<% @Lastposts.each do |topic| %>
+<% @Latesttopics.each do |topic| %>
       <tr>
         <td><%= topic.title %></td>
         <td><%= User.find(topic.user_id).benutzername %></td>

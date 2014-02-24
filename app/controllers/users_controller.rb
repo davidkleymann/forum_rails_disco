@@ -82,6 +82,12 @@ class UsersController < ApplicationController
     end
     redirect_to action: :index
   end
+  
+  def logout
+    reset_session
+    flash[:notice] = 'Sie haben sich erfolgreich ausgelogt!'
+    redirect_to users_path
+  end
 
   private
 

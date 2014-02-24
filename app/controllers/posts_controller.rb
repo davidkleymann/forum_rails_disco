@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
-  before_action :post_params, only: [:show, :update, :create]
+  before_action :post_params, only: [:update, :create]
   before_action :authenticate, only: [:create, :update, :delete]
   before_action :set_ids, except: [:index]
 
@@ -39,7 +39,7 @@ class PostsController < ApplicationController
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde geupdated. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to action: :show, id: params[:id]
+      redirect_to thema_topic_post_path(thema_id: params[:thema_id],topic_id: post.topic_id, id: post.id)
     else
       flash[:error] = 'Post konnte nicht geupdated werden.'
       redirect_to action: :edit, id: params[:id]

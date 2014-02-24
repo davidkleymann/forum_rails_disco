@@ -19,6 +19,31 @@ development:
     port: 5672
   event_exchange: events
 
+nitrous:
+  domain_database:
+    adapter: postgresql
+    encoding: unicode
+    database: domain_dev
+    pool: 5
+    username: disco
+    password: disco
+  projection_database:
+    adapter: postgresql
+    encoding: unicode
+    database: projection_dev
+    pool: 5
+    username: disco
+    password: disco
+  drb_server:
+    scheme: druby
+    host: 127.0.0.1
+    port: 8787
+  event_connection:
+    scheme: amqp
+    host: 127.0.0.1
+    port: 5672
+  event_exchange: events
+
 test:
   domain_database:
     adapter: sqlite3

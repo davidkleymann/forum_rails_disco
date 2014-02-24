@@ -2,8 +2,8 @@
 DiscoBlog::Application.routes.draw do
 
   resources :themas do 
-      resources :topics do
-        resources :posts
+    resources :topics, shallow:true do
+      resources :posts, shallow:true
       end
   end
 
@@ -13,7 +13,8 @@ DiscoBlog::Application.routes.draw do
 
 
   resources :users
-
+  
+  get '/logout' => 'users#logout'
   get '/userpage' => 'users#userpage'
   
   get '/' =>'home#index'
