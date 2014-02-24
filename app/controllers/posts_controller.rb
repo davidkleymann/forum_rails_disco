@@ -26,7 +26,7 @@ class PostsController < ApplicationController
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to action: :index
+      redirect_to thema_topic_posts_path
     else
       flash[:error] = 'Post konnte nicht erstellt werden.'
       redirect_to action: :new

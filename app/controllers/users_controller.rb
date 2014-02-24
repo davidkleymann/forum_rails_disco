@@ -67,6 +67,8 @@ class UsersController < ApplicationController
     if @user.typ == 1
       @adminmessages = Adminmessage.all
       @admin = true
+    else
+      @adminmessages = @User.Adminmessages
     end
   end
 

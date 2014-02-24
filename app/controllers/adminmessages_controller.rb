@@ -2,6 +2,7 @@
 class AdminmessagesController < ApplicationController
   before_action :set_adminmessage, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
+  before_action :authenticate, except: [:index, :show]
 
   def index
     @adminmessages = Adminmessage.all
@@ -64,6 +65,11 @@ class AdminmessagesController < ApplicationController
   def set_event_id
     @event_id = session[:tmp_event_id]
     session[:tmp_event_id] = nil
+  end
+
+  def authenticate
+    temp = session[:user]
+    redirect_to users_path(merk: request.original_url) if temp.nil?
   end
 end
 

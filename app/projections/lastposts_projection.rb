@@ -2,14 +2,14 @@ class LastpostProjection
   include ActiveProjection::ProjectionType
 
   def created_post_event(event)
-    find
-    Lastpost.create! event.values.merge(event.id)
+    find(event)
+    Lastpost.create! event.values.merge(id: event.id)
   end
 
   private
 
-  def find
-    @lastpost = Lastpost.where("user=?", event.values[:user_id]).order(time: :desc)
+  def find(event)
+    @lastpost = Lastpost.where("user_id=?", event.values[:user_id]).order(time: :desc)
     if @lastpost.length == 10
       id = @lastpost[10].id
       Lastpost.find(id).destroy!
