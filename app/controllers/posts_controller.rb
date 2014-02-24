@@ -3,6 +3,7 @@ class PostsController < ApplicationController
   before_action :set_event_id, only: [:index, :show]
   before_action :post_params, only: [:show, :update, :create]
   before_action :authenticate, only: [:create, :update, :delete]
+  before_action :set_ids, except: [:index]
 
 
   def index
@@ -22,7 +23,6 @@ class PostsController < ApplicationController
   def create
     post = CreatePostCommand.new(post_params.merge(topic_id: params[:topic_id],time: Time.now, user_id: session[:user]))
     valid = post.valid?
-    puts "Post is valid: #{valid}"
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
@@ -77,5 +77,9 @@ class PostsController < ApplicationController
       redirect_to users_path(merk: request.original_url)
       flash[:error] = 'Fehler: bitte einloggen oder registrieren'
     end
+  end
+
+  def set_ids
+    @ids = {thema_id: params[:thema_id], topic_id: params[:topic_id]}
   end
 end
