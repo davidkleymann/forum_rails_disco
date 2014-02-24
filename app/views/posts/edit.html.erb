@@ -2,5 +2,5 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', thema_topic_posts_path(thema_id: params[:thema_id], topic_id: params[:topic_id], id: @post.id) %> 
+<%= link_to 'Show', thema_topic_post_path(id: @post.id, topic_id: @post.topic_id) %>
 <%= link_to 'Back', thema_topic_posts_path %>

@@ -25,7 +25,7 @@
     <% @topics.each do |topic| %>
       <tr>
         <td><%= topic.title %></td>
-        <td><%= User.find(topic.user_id).benutzername %></td>
+        <td><%= topic.user.benutzername %></td>
         <td><%= link_to 'Show', thema_topic_path(id: topic.id) %></td>
         <td><%= link_to 'Edit', edit_thema_topic_path(id: topic.id) %></td>
         <td><%= link_to 'Destroy', thema_topic_path(id: topic.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -21,12 +21,12 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = CreatePostCommand.new(post_params.merge(topic_id: params[:topic_id],time: Time.now, user_id: session[:user]))
+    post = CreatePostCommand.new(post_params.merge(time: Time.now, user_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to thema_topic_posts_path
+      redirect_to thema_topic_path(thema_id: params[:thema_id], id: post_params[:topic_id])
     else
       flash[:error] = 'Post konnte nicht erstellt werden.'
       redirect_to action: :new
@@ -68,7 +68,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :text, :time)
+    params.require(:post).permit(:title, :text, :topic_id)
   end
 
   def authenticate
