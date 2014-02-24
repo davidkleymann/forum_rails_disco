@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.0.0'
+gem 'rails', '~>4.0.0'
 gem 'rails-disco'
 
 # Webserver
@@ -31,7 +31,7 @@ group :doc do
 end
 
 # Use ActiveModel has_secure_password
-gem 'bcrypt-ruby',  '~> 3.1.2'
+gem 'bcrypt-ruby',  '3.1.2'
 
 # deployment
 gem 'capistrano'
