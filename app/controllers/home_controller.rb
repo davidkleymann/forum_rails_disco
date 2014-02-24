@@ -1,11 +1,8 @@
 class HomeController < ApplicationController
 
-
  def index
-    @Latestopics = Latesttopic.all
-  end
-
-
+   @Lastposts = Lastpost.all
+ end
 
 end
 

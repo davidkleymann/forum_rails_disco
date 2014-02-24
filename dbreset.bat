@@ -1,5 +1,5 @@
 cd db
-echo leosche
+echo loesche
 del *.sqlite3
 echo geloescht
 echo aufsetzen
