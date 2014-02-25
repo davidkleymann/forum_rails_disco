@@ -50,13 +50,13 @@
         <tr>
           <td><%= link_to topic.title, topic_path(topic) %></td>
           <td><%= User.find(topic.user_id).benutzername %></td>
-          <td><%= link_to 'Edit', edit_topic_path(id: topic.id, thema_id: topic.thema_id) %></td>
+          <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
           <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= link_to 'Neues Topic', new_thema_topic_path(@thema, thema_id: @thema.id) %> 
+  <%= link_to 'Neues Topic', new_thema_topic_path(thema_id: @thema.id) %>
 </p>
 <hr>
 <%= link_to 'Edit', edit_thema_path(@thema) %>

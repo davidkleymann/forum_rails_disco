@@ -26,11 +26,11 @@
   <tbody>
     <% @topic.posts.each do |post| %>
       <tr>
-        <td><%= link_to post.title, post_path(id: post.id) %></td>
+        <td><%= link_to post.title, post_path(post) %></td>
         <td><%= post.text %></td>
-        <td><%= post.user_id %></td>
+        <td><%= User.find(post.user_id).benutzername %></td>
         <td><%= post.time %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Edit', edit_post_path(post, topic_id: post.topic_id) %></td>
         <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -42,5 +42,5 @@
 <%= link_to 'New Post', new_topic_post_path(topic_id: @topic.id) %>
 
 
-<%= link_to 'Topic bearbeiten', edit_topic_path(id: @topic.id, thema_id: @topic.thema_id) %> |
+<%= link_to 'Topic bearbeiten', edit_topic_path(@topic) %> |
 <%= link_to 'Zurück zum Thema', thema_path(id: @topic.thema_id) %>

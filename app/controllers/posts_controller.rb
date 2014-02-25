@@ -4,6 +4,7 @@ class PostsController < ApplicationController
   before_action :authenticate, only: [:create, :update, :delete]
 
   def new
+    @topic = Topic.find(params[:topic_id])
     @post = Post.new(topic_id: params[:topic_id])
   end
 
@@ -24,12 +25,12 @@ class PostsController < ApplicationController
   end
 
   def update
-    post = UpdatePostCommand.new(post_params.merge(id: params[:id], editor_id: session[:user]))
+    post = UpdatePostCommand.new(post_params.merge(id: params[:id], user_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       flash[:notice] = 'Post wurde geupdated. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to topic_path(topic_id: post.topic_id, id: post.id)
+      redirect_to topic_path(id: post.topic_id)
     else
       flash[:error] = 'Post konnte nicht geupdated werden.'
       redirect_to action: :edit, id: params[:id]
