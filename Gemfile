@@ -2,14 +2,13 @@ source 'https://rubygems.org'
 
 
 gem 'rails', '~>4.0.0'
-gem 'rails-disco'
+gem 'rails-disco', github: 'hicknhack-software/rails-disco'
 
 # Webserver
 gem 'puma' #, '2.6.0'
 
 # Database
 gem 'sqlite3'
-gem 'pg'
 
 # Asset Processors
 gem 'sass-rails', '~> 4.0.0'
