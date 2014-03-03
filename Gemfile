@@ -5,7 +5,7 @@ gem 'rails', '~>4.0.0'
 gem 'rails-disco'
 
 # Webserver
-gem 'puma' , '2.6.0'
+gem 'puma' #, '2.6.0'
 
 # Database
 gem 'sqlite3'
