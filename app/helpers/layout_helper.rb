@@ -13,8 +13,13 @@ module LayoutHelper
       if user.present?
         "<p>Angemeldet als #{user.benutzername}</p>".html_safe
       end  
-  
     end
-  end  
+  end
+
+  def userpage
+    if session[:user].present?
+      link_to 'Userpage', userpage_path
+    end
+  end 
   
 end

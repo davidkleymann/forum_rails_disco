@@ -1,4 +1,4 @@
-<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %>
+<%= javascript_tag render partial: 'eventstream/eventstream', formats: [:js], locals: {event_id: @event_id} %>
 <h1>Listing topics</h1>
 
 
@@ -14,8 +14,7 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>User</th>
-      <th></th>
+      <th>Erstellt von</th>
       <th></th>
       <th></th>
     </tr>
@@ -24,16 +23,11 @@
   <tbody>
     <% @topics.each do |topic| %>
       <tr>
-        <td><%= topic.title %></td>
+        <td><%= link_to topic.title, topic_path(id: topic.id) %></td>
         <td><%= topic.user.benutzername %></td>
-        <td><%= link_to 'Show', thema_topic_path(id: topic.id) %></td>
-        <td><%= link_to 'Edit', edit_thema_topic_path(id: topic.id) %></td>
-        <td><%= link_to 'Destroy', thema_topic_path(id: topic.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_topic_path(id: topic.id) %></td>
+        <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Topic', new_thema_topic_path %>

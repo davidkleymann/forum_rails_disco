@@ -1,8 +1,7 @@
-<%= javascript_tag render partial: 'eventstream', formats: [:js], locals: {event_id: @event_id} %>
+<%= javascript_tag render partial: 'eventstream/eventstream', formats: [:js], locals: {event_id: @event_id} %>
 
 <p>
-  <strong>Title:</strong>
-  <%= @topic.title %>
+  <h1><%= @topic.title %></h1>
 </p>
 
 <p>
@@ -10,7 +9,7 @@
   <%= User.find(@topic.user_id).benutzername %>
 </p>
 
-<h1>Listing posts</h1>
+<h1>Posts</h1>
 
 <table>
   <thead>
@@ -20,19 +19,19 @@
       <th>User</th>
       <th>Time</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @topic.posts.each do |post| %>
       <tr>
-        <td><%= post.title %></td>
+        <td><%= link_to post.title, post_path(post) %></td>
         <td><%= post.text %></td>
-        <td><%= post.user_id %></td>
+        <td><%= User.find(post.user_id).benutzername %></td>
         <td><%= post.time %></td>
-        <td><%= link_to 'Show', thema_topic_post_path(id: post.id, topic_id: @topic.id) %></td>
-        <td><%= link_to 'Edit', edit_thema_topic_post_path(id: post.id, topic_id: @topic.id) %></td>
-        <td><%= link_to 'Destroy', thema_topic_post_path(id: post.id, topic_id: @topic.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_post_path(post, topic_id: post.topic_id) %></td>
+        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -40,8 +39,8 @@
 
 <br>
 
-<%= link_to 'New Post', new_thema_topic_post_path(topic_id: @topic.id) %>
+<%= link_to 'New Post', new_topic_post_path(topic_id: @topic.id) %>
 
 
-<%= link_to 'Edit', edit_thema_topic_path(id: @topic.id, thema_id: @topic.thema_id) %> |
-<%= link_to 'Back', thema_topics_path %>
+<%= link_to 'Topic bearbeiten', edit_topic_path(@topic) %> |
+<%= link_to 'Zurück zum Thema', thema_path(id: @topic.thema_id) %>
