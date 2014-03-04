@@ -9,7 +9,7 @@ gem 'puma' , '2.6.0'
 
 # Database
 gem 'sqlite3'
-#gem 'pg'
+gem 'pg' if ENV['RAILS_ENV']=='nitrous'
 
 # Asset Processors
 gem 'sass-rails', '~> 4.0.0'
@@ -37,7 +37,7 @@ gem 'bcrypt-ruby',  '3.1.2'
 # deployment
 gem 'capistrano'
 
-group :development do
+group :development, :nitrous do
   # improve error screen
   gem 'better_errors'
   gem 'binding_of_caller'
