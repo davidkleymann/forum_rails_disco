@@ -21,7 +21,7 @@
 </table>
 
 <%= link_to 'Nutzerdetails bearbeiten', edit_user_path(@user) %>
-<%= link_to 'Log out', logout_path %>
+
 
 <% if @admin %>
   <h2>Adminbereich</h2>
@@ -39,7 +39,7 @@
       <% @adminmessages.each do |amessage| %>
         <tr>
           <td><%= amessage.message %></td>
-          <td><%= amessage.user %></td>
+          <td><%= amessage.user.benutzername %></td>
         </td>
       <% end %>
     </tbody>

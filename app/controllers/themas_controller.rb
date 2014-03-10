@@ -2,7 +2,7 @@
 class ThemasController < ApplicationController
   before_action :set_thema, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
-  before_action :authenticate, except: [:index, :show]
+  before_action :authenticate_admin, except: [:index, :show]
 
   def index
     @themas = Thema.where(belong: nil).order(:lastact)
@@ -71,20 +71,6 @@ class ThemasController < ApplicationController
 
   def thema_params
     params.require(:thema).permit(:title,:description,:belong)
-  end
-
-  def authenticate
-    temp = session[:user]
-    if temp.nil?
-      flash[:error] = 'Bitte einloggen!'
-      redirect_to users_path(merk: request.original_url)
-    else
-      unless User.find(temp).typ == 1
-        flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
-        redirect_to action: :index
-      end
-    end
-  end
-      
+  end    
 end
 

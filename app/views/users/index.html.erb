@@ -2,7 +2,7 @@
 
 <% if flash[:error] -%> <p class="error"><%= flash[:error] %></p> <% end -%>
 
-<%= form_tag( "/login" , method: "post") do  %>
+<%= form_tag( login_users_path , method: "post") do  %>
   <%= label_tag :benutzername %><br>
   <%= text_field_tag :benutzername %><br>
   <br>

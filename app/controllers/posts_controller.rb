@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:edit]
   before_action :post_params, only: [:update, :create]
-  before_action :authenticate, only: [:create, :update, :delete]
+  before_action :authenticate, only: [:create, :new, :edit, :update, :destroy]
+  #before_action :validate_user, only: [:edit, :update, :destroy]
 
   def new
     @topic = Topic.find(params[:topic_id])
@@ -61,13 +62,5 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:title, :text, :topic_id)
-  end
-
-  def authenticate
-    temp = session[:user]
-    if temp.nil?
-      redirect_to users_path(merk: request.original_url)
-      flash[:error] = 'Fehler: bitte einloggen oder registrieren'
-    end
   end
 end

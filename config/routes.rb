@@ -10,13 +10,16 @@ DiscoBlog::Application.routes.draw do
 
   resources :adminmessages
 
-  post '/login' => 'users#login'
-
-
-  resources :users
-
-  get '/logout' => 'users#logout'
-  get '/userpage' => 'users#userpage'
+  resources :users do
+    member do
+      get 'ban'
+    end
+    collection do
+      get 'userpage'
+      post 'logout'
+      post 'login'
+    end
+  end
 
   get '/' => 'home#index'
   get '/admins' => 'home#admins'
@@ -24,4 +27,5 @@ DiscoBlog::Application.routes.draw do
   get 'event_stream' => 'event_source#stream'
 
 end
+
 

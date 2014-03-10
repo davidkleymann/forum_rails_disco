@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate, only: [:userpage, :edit]
+  before_action :authenticate, only: [:userpage, :edit, :update, :show, :delete]
   before_action :authenticate_admin, only: [:show, :delete]
   before_action :authenticate_user, only: [:edit, :update]
 
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       @id = User.where(benutzername: params[:benutzername]).first.id
   		session[:user] = @id
       if params[:merk].nil?
-        redirect_to action: :userpage
+        redirect_to userpage_user_path(id: @id)
       else
         redirect_to params[:merk]
       end
@@ -62,13 +62,13 @@ class UsersController < ApplicationController
   end
 
   def userpage
-    @lastposts = Lastpost.where("user_id=?", @id).order(time: :desc)
+    @lastposts = Lastpost.where("user_id=?", session[:user]).order(time: :desc)
     @user = User.find(session[:user])
     if @user.typ == 1
       @adminmessages = Adminmessage.all
       @admin = true
     else
-      @adminmessages = @User.Adminmessages
+      @adminmessages = @user.adminmessages
     end
   end
 
@@ -88,35 +88,21 @@ class UsersController < ApplicationController
     flash[:notice] = 'Sie haben sich erfolgreich ausgelogt!'
     redirect_to users_path
   end
+  
+  def ban
+  end
 
   private
-
-  def authenticate
-    temp = session[:user]
-    if temp.nil?
-      redirect_to users_path(merk: request.original_url)
-      flash[:error] = 'Fehler:bitte einloggen'
-    end
-  end
-
-  def authenticate_admin
-    temp = session[:user]
-    if temp.nil?
-      redirect_to users_path(merk: request.original_url)
-      flash[:error] = 'Fehler:bitte einloggen'
-    else
-      redirect_to action: :index unless User.find(session[:user]).typ == 1
-    end
-  end
-
+  
   def authenticate_user
-    unless session[:user] == params[:id] || User.find(session[:user]).typ == 1
-      redirect_to action: :index
-      flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
-    end
+      unless temp == params[:id] || User.find(session[:user]).typ == 1
+        redirect_to action: :index
+        flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
+      end
   end
-
+  
   def user_params
     params.require(:user).permit(:vorname, :name, :email, :benutzername, :passwort)
   end
+  
 end

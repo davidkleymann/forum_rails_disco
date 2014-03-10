@@ -2,15 +2,6 @@
 <%= javascript_tag render partial: 'eventstream/eventstream', formats: [:js], locals: {event_id: @event_id} %>
 <h1>Listing adminmessages</h1>
 
-<% if flash.any? %>
-    <div id="error_explanation">
-         <% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: name %>
-    <% end -%>
-    </div>
-<% end -%>
-
- <%# if   %>
 
 
   <% if flash.any? %>
