@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 gem 'rails', '~>4.0.0'
-gem 'rails-disco', github: 'hicknhack-software/rails-disco'
+gem 'rails-disco', '~>0.5.0.pre'
 
 # Webserver
 gem 'puma' #, '2.6.0'
