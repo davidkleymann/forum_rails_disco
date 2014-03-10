@@ -3,6 +3,7 @@ class AdminmessageProjection
 
   def deleted_adminmessage_event(event)
     Adminmessage.find(event.id).destroy!
+  rescue Exception
   end
 
   def updated_adminmessage_event(event)
