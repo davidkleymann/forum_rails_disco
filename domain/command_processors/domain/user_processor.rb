@@ -18,5 +18,10 @@ module Domain
     process DeleteUserCommand do |command|
       id = command.is_valid_do { event DeletedUserEvent.new command.to_hash}
     end
+
+    process BanUserCommand do |command|
+      id = command.is_valid_do { event BannedUserEvent.new command.to_hash}
+    end
+    
   end
 end

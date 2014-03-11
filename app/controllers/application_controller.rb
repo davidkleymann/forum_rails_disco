@@ -12,9 +12,9 @@ class ApplicationController < ActionController::Base
   end
   
   def authenticate_admin
-      unless User.find(temp).typ == 1
-        flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
-        redirect_to action: :index
-      end
+    unless User.find(temp).typ == 1
+      flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
+      redirect_to action: :index
+    end
   end
 end

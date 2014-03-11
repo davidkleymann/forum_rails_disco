@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140217152620) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20140311194047) do
 
   create_table "adminmessages", force: true do |t|
     t.text    "message"
@@ -51,7 +48,7 @@ ActiveRecord::Schema.define(version: 20140217152620) do
     t.boolean "solid"
   end
 
-  add_index "projections", ["class_name"], name: "index_projections_on_class_name", using: :btree
+  add_index "projections", ["class_name"], name: "index_projections_on_class_name"
 
   create_table "themas", force: true do |t|
     t.string  "title"
@@ -74,6 +71,8 @@ ActiveRecord::Schema.define(version: 20140217152620) do
     t.string  "email"
     t.string  "benutzername"
     t.integer "typ"
+    t.boolean "ban"
+    t.integer "rate"
   end
 
 end

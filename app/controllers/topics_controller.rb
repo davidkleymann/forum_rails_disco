@@ -3,7 +3,7 @@ class TopicsController < ApplicationController
   before_action :set_topic, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
   before_action :authenticate, only: [:new, :create, :edit, :update, :destroy]
-  #before_action :validate_user, only: [:edit, :update, :destroy]
+  before_action :validate_user, only: [:edit, :update, :destroy]
 
   def index
     @topics = Topic.all
@@ -70,5 +70,13 @@ class TopicsController < ApplicationController
     @event_id = session[:tmp_event_id]
     session[:tmp_event_id] = nil
   end
+
+  def validate_user
+    unless Topic.find(params[:id]).user_id == params[:id] || User.find(session[:user]]).typ == 1
+      flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
+      redirect_to themas_path(id: params[:thema_id])
+    end
+  end
+
 end
 

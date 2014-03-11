@@ -16,4 +16,8 @@ class UserProjection
   def deleted_user_event(event)
     User.find(event.id).destroy!
   end
+
+  def banned_user_event(event)
+    User.find(event.id).update! ban: event.ban
+  end
 end
