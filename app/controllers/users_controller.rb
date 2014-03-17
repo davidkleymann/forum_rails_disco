@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   def login
     inlog = LogInCommand.new({benutzername: params[:benutzername], passwort: params[:passwort]})
     if inlog.valid? && Domain.run_command(inlog)
-      @id = User.where(benutzername: params[:benutzername]).first.id
+      @id = User.where(benutzername: params[:benutzername])
       session[:user] = @id
       if params[:merk].nil? || params[:merk] == users_path
         redirect_to userpage_user_path(id: @id)
