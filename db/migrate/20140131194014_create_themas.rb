@@ -10,7 +10,10 @@ class CreateThemas < ActiveRecord::Migration
       t.text :description
 
 
-      t.integer :lastact
+      t.timestamp :lastpost_time
+      
+      t.string :lastpost_user
+      
 
       t.integer :belong
 

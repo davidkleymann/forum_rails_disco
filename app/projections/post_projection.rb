@@ -11,7 +11,8 @@ class PostProjection
     end
 
     def created_post_event(event)
-      Post.create! event.values.merge(id: event.id)
+      benutzername = User.find(event.user_id).benutzername
+      Post.create! event.values.merge(id: event.id, benutzername: benutzername)
     end
 end
 

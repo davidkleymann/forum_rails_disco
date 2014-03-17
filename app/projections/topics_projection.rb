@@ -10,6 +10,7 @@ class TopicsProjection
   end
 
   def created_topic_event(event)
-    Topic.create! event.values.merge(id: event.id)
+    benutzername = User.find(event.user_id).benutzername
+    Topic.create! event.values.merge(id: event.id, benutzername: benutzername)
   end
 end

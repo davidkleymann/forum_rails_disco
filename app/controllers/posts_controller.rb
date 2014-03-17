@@ -16,12 +16,10 @@ class PostsController < ApplicationController
     post = CreatePostCommand.new(post_params.merge(time: Time.now, user_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
-      flash[:notice] = 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to topic_path(id: post_params[:topic_id])
+      redirect_to topic_path(id: post_params[:topic_id]), notice: 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
     else
-      flash[:error] = 'Post konnte nicht erstellt werden.'
-      redirect_to action: :new
+      redirect_to action: :new, alert: 'Post konnte nicht erstellt werden.' 
     end
   end
 
@@ -29,12 +27,10 @@ class PostsController < ApplicationController
     post = UpdatePostCommand.new(post_params.merge(id: params[:id], user_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
-      flash[:notice] = 'Post wurde geupdated. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to topic_path(id: post.topic_id)
+      redirect_to topic_path(id: post.topic_id), notice: 'Post wurde geupdated. Bitte Seite neu laden um Änderungen zu sehen.'
     else
-      flash[:error] = 'Post konnte nicht geupdated werden.'
-      redirect_to action: :edit, id: params[:id]
+      redirect_to action: :edit, id: params[:id], alert: 'Post konnte nicht geupdated werden.'
     end
   end
 
@@ -65,7 +61,7 @@ class PostsController < ApplicationController
   end
 
   def validate_user
-    unless Post.find(params[:id]).user_id == params[:id] || User.find(session[:user]]).typ == 1
+    unless Post.find(params[:id]).user_id == params[:id] || User.find(session[:user]).typ == 1
       flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
       redirect_to topic_path(id: params[:topic_id])
     end

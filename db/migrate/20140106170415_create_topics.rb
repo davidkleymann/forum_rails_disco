@@ -2,6 +2,7 @@ class CreateTopics < ActiveRecord::Migration
   def change
     create_table :topics do |t|
       t.string :title
+      t.string :benutzername
       t.references :user
       t.references :thema
       t.timestamps

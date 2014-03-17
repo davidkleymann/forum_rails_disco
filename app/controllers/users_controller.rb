@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
   before_action :authenticate, only: [:userpage, :edit, :update, :show, :delete]
-  before_action :authenticate_admin, only: [:show, :delete, :ban]
-  before_action :authenticate_user, only: [:edit, :update]
+  before_action :require_admin, only: [:show, :delete, :ban]
+  before_action :validate_user, only: [:edit, :update]
 
 #CRUD- Methoden
 
@@ -44,9 +44,7 @@ class UsersController < ApplicationController
     end
     redirect_to action: :index
   end
-
-#Sonstige Methoden
-
+  
   def create
     user = RegisterUserCommand.new user_params.merge(typ: 0, ban: false)
     if user.valid?
@@ -58,6 +56,8 @@ class UsersController < ApplicationController
       redirect_to action: :new
     end
   end
+  
+#Sonstige Methoden
 
   def login
     inlog = LogInCommand.new({benutzername: params[:benutzername], passwort: params[:passwort]})
@@ -103,13 +103,13 @@ class UsersController < ApplicationController
     redirect_to user_path(id: 1)
   end
 
-  private
+private
   
-  def authenticate_user
-      unless temp == params[:id] || User.find(session[:user]).typ == 1
-        redirect_to action: :index
-        flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
-      end
+  def validate_user
+    if current_user.id != params[:id] && !current_user.admin?
+      redirect_to action: :index
+      flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
+    end
   end
   
   def user_params

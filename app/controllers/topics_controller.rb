@@ -72,7 +72,7 @@ class TopicsController < ApplicationController
   end
 
   def validate_user
-    unless Topic.find(params[:id]).user_id == params[:id] || User.find(session[:user]]).typ == 1
+    unless Topic.find(params[:id]).user_id == params[:id] || current_user.admin?
       flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
       redirect_to themas_path(id: params[:thema_id])
     end

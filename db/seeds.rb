@@ -17,6 +17,7 @@ end
 domain_run(RegisterUserCommand.new(name: "Muster", vorname: "Max", email: "jjj@web.de", benutzername: "Ruby", passwort: "12345678", typ: 1))
 domain_run(RegisterUserCommand.new(name: "Test", vorname: "Alfons", email: "a@b.c", benutzername: "quirk", passwort: "12345678", typ: 1))
 domain_run(RegisterUserCommand.new(name: "UhaHa", vorname: "Ckaaaar", email: "a@b.c", benutzername: "usehr", passwort: "12345678", typ: 0))
+domain_run(RegisterUserCommand.new(name: "Super", vorname: "Admin", email: "admin@boss.chef", benutzername: "Admin", passwort: "strenggeheim", typ: 2))
 
 domain_run(CreateThemaCommand.new(title: "Hello", description: "", belong: nil))
 domain_run(CreateThemaCommand.new(title: "SRZ", description: "Alles zum SRZ", belong: nil))

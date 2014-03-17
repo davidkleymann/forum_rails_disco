@@ -24,7 +24,7 @@
     <% @topics.each do |topic| %>
       <tr>
         <td><%= link_to topic.title, topic_path(id: topic.id) %></td>
-        <td><%= topic.user.benutzername %></td>
+        <td><%= topic.benutzername %></td>
         <td><%= link_to 'Edit', edit_topic_path(id: topic.id) %></td>
         <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

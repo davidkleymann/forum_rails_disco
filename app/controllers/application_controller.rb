@@ -2,19 +2,21 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+
+	def current_user
+    @current_user ||= session[:user] && User.find(session[:user]) || User.guest rescue User.guest
+	end
+  helper_method :current_user
   
   def authenticate
-    temp = session[:user]
-    if temp.nil?
-      redirect_to users_path(merk: request.original_url)
-      flash[:error] = 'Fehler: Bitte einloggen!'
+    unless current_user.authenticated?
+      redirect_to users_path(merk: request.original_url), alert: 'Fehler: Bitte einloggen!'
     end
-  end
+	end
   
   def authenticate_admin
-    unless User.find(temp).typ == 1
-      flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
-      redirect_to action: :index
+    unless current_user.admin?
+      redirect_to action: :index, alert: 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
     end
   end
 end
