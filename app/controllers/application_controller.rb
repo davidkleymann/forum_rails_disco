@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     end
 	end
   
-  def authenticate_admin
+  def require_admin
     unless current_user.admin?
       redirect_to action: :index, alert: 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
     end
