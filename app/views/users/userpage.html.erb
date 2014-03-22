@@ -1,4 +1,4 @@
-<h1>Willkommen <%= params[:benutzername] %></h1>
+<h1>Willkommen <%= @current_user.benutzername %></h1>
 
 <h2>Ihre letzten Posts</h2>
 
@@ -20,7 +20,7 @@
 	</tbody>
 </table>
 
-<%= link_to 'Nutzerdetails bearbeiten', edit_user_path(@user) %>
+<%= link_to 'Nutzerdetails bearbeiten', edit_user_path(current_user) %>
 
 
 <% if @admin %>

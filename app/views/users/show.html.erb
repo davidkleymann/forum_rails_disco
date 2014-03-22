@@ -1,5 +1,5 @@
 <%= javascript_tag render partial: 'eventstream/eventstream', formats: [:js], locals: {event_id: @event_id} %>
-<h1>Bnutzerübersicht</h1><br>
+<h1>Benutzerübersicht</h1><br>
 <table>
 	<thead>
 		<tr>
@@ -23,7 +23,7 @@
 				<td><%= user.email %></td>
 				<td><%= link_to 'Edit', edit_user_path(user) %></td>
 				<td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-				<% if user.ban %>
+				<% if user.banned? %>
 					<td><%= link_to 'Sperrung aufheben', ban_user_path(id: user.id, ban: false) %></td>
 				<% else %>
         	<td><%= link_to 'Sperren', ban_user_path(id: user.id, ban: true) %></td>

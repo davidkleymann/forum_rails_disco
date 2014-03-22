@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   def login
     inlog = LogInCommand.new({benutzername: params[:benutzername], passwort: params[:passwort]})
     if inlog.valid? && Domain.run_command(inlog)
-      @id = User.where(benutzername: params[:benutzername])
+      @id = User.where(benutzername: params[:benutzername]).first.id
       session[:user] = @id
       if params[:merk].nil? || params[:merk] == users_path
         redirect_to userpage_user_path(id: @id)
@@ -77,12 +77,11 @@ class UsersController < ApplicationController
 
   def userpage
     @lastposts = Lastpost.where("user_id=?", session[:user]).order(time: :desc)
-    @user = User.find(session[:user])
-    if @user.typ == 1
+    if current_user.admin?
       @adminmessages = Adminmessage.all
       @admin = true
     else
-      @adminmessages = @user.adminmessages
+      @adminmessages = current_user.adminmessages
     end
   end
   
@@ -106,10 +105,12 @@ class UsersController < ApplicationController
 private
   
   def validate_user
-    if current_user.id != params[:id] && !current_user.admin?
+    puts "Userdata: #{params[:id]}"
+    puts "Cu: #{current_user.id}"
+    unless current_user.id == params[:id] # && !(current_user.admin?)
       redirect_to action: :index
       flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
-    end
+    end 
   end
   
   def user_params

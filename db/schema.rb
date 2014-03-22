@@ -38,12 +38,13 @@ ActiveRecord::Schema.define(version: 20140311194047) do
   end
 
   create_table "posts", force: true do |t|
-    t.string  "title"
-    t.text    "text"
-    t.time    "time"
-    t.string  "benutzername"
-    t.integer "user_id"
-    t.integer "topic_id"
+    t.string   "title"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "benutzername"
+    t.integer  "user_id"
+    t.integer  "topic_id"
   end
 
   create_table "projections", force: true do |t|
@@ -55,10 +56,11 @@ ActiveRecord::Schema.define(version: 20140311194047) do
   add_index "projections", ["class_name"], name: "index_projections_on_class_name", using: :btree
 
   create_table "themas", force: true do |t|
-    t.string  "title"
-    t.text    "description"
-    t.integer "lastact"
-    t.integer "belong"
+    t.string   "title"
+    t.text     "description"
+    t.datetime "lastpost_time"
+    t.string   "lastpost_user"
+    t.integer  "belong"
   end
 
   create_table "topics", force: true do |t|

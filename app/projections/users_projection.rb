@@ -18,6 +18,7 @@ class UserProjection
   end
 
   def banned_user_event(event)
+    puts "ban"
     User.find(event.id).update! ban: event.ban
   end
 end

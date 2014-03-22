@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
     authenticated? && !banned?
 	end
 	def admin?
-    (1..2).include? typ && !banned?
+    typ > 0 && !banned?
 	end
 
 	def self.guest

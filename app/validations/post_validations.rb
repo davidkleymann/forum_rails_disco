@@ -20,6 +20,6 @@ module PostValidations
   end
   
   def antispam
-    errors.add(:base, 'Bitte warte kurz, bis du einen weiteren Post schreibst.') if Post.all.where('created_at > ?', 1.minute.ago).where('user_id=?', user_id) .count > 5
+    errors.add(:base, 'Bitte warte kurz, bis du einen weiteren Post schreibst.') if Post.all.where(user_id: user_id). where(Post.arel_table[:created_at].gt 1.minute.ago).count > 5
   end
 end
