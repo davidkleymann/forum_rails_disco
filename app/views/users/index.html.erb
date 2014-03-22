@@ -1,7 +1,5 @@
 <h1>Login</h1>
 
-<% if flash[:error] -%> <p class="error"><%= flash[:error] %></p> <% end -%>
-
 <%= form_tag( login_users_path , method: "post") do  %>
   <%= label_tag :benutzername %><br>
   <%= text_field_tag :benutzername %><br>
@@ -12,4 +10,4 @@
 <%= hidden_field_tag( :merk, params[:merk]) %>
   <%= submit_tag "Log in!" %>
 <% end %><br>
-<%= link_to 'Registrieren' , new_user_path %>
+<%= link_to 'Registrieren', new_user_path %>

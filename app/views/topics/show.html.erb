@@ -29,7 +29,7 @@
         <td><%= link_to post.title, post_path(post) %></td>
         <td><%= post.text %></td>
         <td><%= post.benutzername %></td>
-        <td><%= post.time %></td>
+        <td><%= post.created_at %></td>
         <td><%= link_to 'Edit', edit_post_path(post, topic_id: post.topic_id) %></td>
         <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

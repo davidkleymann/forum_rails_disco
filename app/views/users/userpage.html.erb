@@ -3,47 +3,46 @@
 <h2>Ihre letzten Posts</h2>
 
 <table>
-	<thead>
-        <tr>
-        	<th>Titel</th>
-        	<th>Text</th>
-        	<th>Zeit</th>
-        </tr>
-	</thead>
-	<tbody>
-        <% @lastposts.each do |post| %>
-            <tr>
-            	<td><%=post.title %></td>
-            	<td><%=post.text %></td>
-            	<td><%=post.time %></td>
-        <% end %>    
-	</tbody>
+  <thead>
+  <tr>
+    <th>Titel</th>
+    <th>Text</th>
+    <th>Zeit</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @lastposts.each do |post| %>
+   <tr>
+     <td><%=post.title %></td>
+     <td><%=post.text %></td>
+     <td><%=post.created_at %></td>
+  <% end %>
+  </tbody>
 </table>
 
 <%= link_to 'Nutzerdetails bearbeiten', edit_user_path(current_user) %>
 
-
 <% if @admin %>
-  <h2>Adminbereich</h2>
-  <%= link_to 'Userübersicht', user_path(id: 1) %>
-  <%= link_to 'Topicübersicht', thema_topics_path(thema_id: 1) %>
-  <h3>Aktuelle Nutzeranfragen</h3><br>
-  <table>
-    <thead>
-      <tr>
-        <th>Message</th>
-        <th>Nutzer</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @adminmessages.each do |amessage| %>
-        <tr>
-          <td><%= amessage.message %></td>
-          <td><%= amessage.user.benutzername %></td>
-        </td>
-      <% end %>
-    </tbody>
-  </table>
+ <h2>Adminbereich</h2>
+ <%= link_to 'Userübersicht', user_path(id: 1) %>
+ <%= link_to 'Topicübersicht', thema_topics_path(thema_id: 1) %>
+ <h3>Aktuelle Nutzeranfragen</h3><br>
+ <table>
+   <thead>
+   <tr>
+     <th>Message</th>
+     <th>Nutzer</th>
+   </tr>
+   </thead>
+   <tbody>
+   <% @adminmessages.each do |amessage| %>
+    <tr>
+      <td><%= amessage.message %></td>
+      <td><%= amessage.user.benutzername %></td>
+    </tr>
+   <% end %>
+   </tbody>
+ </table>
 <% end %>
 
 <p>Dies ist noch in Arbeit, also bilden sie sich bloß nitchts ein darauf, dass sie auf unsere Nutzerseite gelangt sind</p>

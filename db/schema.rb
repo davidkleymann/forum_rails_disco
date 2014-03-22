@@ -13,20 +13,18 @@
 
 ActiveRecord::Schema.define(version: 20140311194047) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "adminmessages", force: true do |t|
     t.text    "message"
     t.integer "user_id"
   end
 
   create_table "lastposts", force: true do |t|
-    t.string  "title"
-    t.text    "text"
-    t.time    "time"
-    t.integer "user_id"
-    t.integer "topic_id"
+    t.string   "title"
+    t.text     "text"
+    t.integer  "user_id"
+    t.integer  "topic_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "latesttopics", force: true do |t|
@@ -53,7 +51,7 @@ ActiveRecord::Schema.define(version: 20140311194047) do
     t.boolean "solid"
   end
 
-  add_index "projections", ["class_name"], name: "index_projections_on_class_name", using: :btree
+  add_index "projections", ["class_name"], name: "index_projections_on_class_name"
 
   create_table "themas", force: true do |t|
     t.string   "title"

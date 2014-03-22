@@ -15,7 +15,7 @@ class ThemasProjection
   end
   
   def created_post_event(event)
-    Thema.find(Topic.find(event.topic_id).thema_id).update!(lastpost_time: event.time,
+    Thema.find(Topic.find(event.topic_id).thema_id).update!(lastpost_time: event.created_at,
       lastpost_user: User.find(event.user_id).benutzername)
   end
   

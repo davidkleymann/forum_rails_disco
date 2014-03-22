@@ -1,14 +1,6 @@
 <%= form_for(shallow_args(@topic, @post)) do |f| %>
 
   <%= f.hidden_field :topic_id %>
-  <% if flash.any? %>
-    <div id="error_explanation">
-         <% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: name %>
-    <% end -%>
-    
-    </div>
-  <% end %>
 
   <div class="field">
     <%= f.label :title %><br>

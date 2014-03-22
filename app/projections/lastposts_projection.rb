@@ -13,7 +13,7 @@ class LastpostProjection
   private
 
   def find(event)
-    @lastpost = Lastpost.where("user_id=?", event.values[:user_id]).order(time: :desc)
+    @lastpost = Lastpost.where(user_id: event.values[:user_id]).order(created_at: :desc)
     if @lastpost.length == 10
       id = @lastpost[10].id
       Lastpost.find(id).destroy!

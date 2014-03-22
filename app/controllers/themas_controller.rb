@@ -5,7 +5,7 @@ class ThemasController < ApplicationController
   before_action :require_admin, except: [:index, :show]
 
   def index
-    @themas = Thema.where(belong: nil).order(:lastact)
+    @themas = Thema.where(belong: nil) # .order(:lastact)
   end
 
   def show

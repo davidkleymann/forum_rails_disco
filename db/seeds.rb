@@ -22,3 +22,8 @@ domain_run(RegisterUserCommand.new(name: "Super", vorname: "Admin", email: "admi
 domain_run(CreateThemaCommand.new(title: "Hello", description: "", belong: nil))
 domain_run(CreateThemaCommand.new(title: "SRZ", description: "Alles zum SRZ", belong: nil))
 domain_run(CreateThemaCommand.new(title: "Kochen", description: "", belong: 2))
+
+domain_run(CreateTopicCommand.new(title: "Basteln", user_id: 1, thema_id: 1))
+domain_run(CreateTopicCommand.new(title: "Zocken", user_id: 1, thema_id: 2))
+
+domain_run(CreatePostCommand.new(title: "Check me!", text: "Origami", created_at: Time.now, user_id: 1, topic_id: 1))

@@ -2,14 +2,6 @@
 <h1>Themenübersicht</h1>
 
 
-  <% if flash.any? %>
-    <div id="error_explanation">
-          <% flash.each do |name, msg| -%>
-            <%= content_tag :div, msg, class: name %>
-          <% end -%>
-    </div>
-  <% end -%>
-
 <table>
   <thead>
     <tr>

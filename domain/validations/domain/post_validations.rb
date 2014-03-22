@@ -10,6 +10,7 @@ module Domain
       validates :title, {
           unique_title: true
       }
+			skip_validate :antispam
     end
 
     class UniqueTitleValidator < ActiveModel::EachValidator

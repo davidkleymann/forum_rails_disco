@@ -13,7 +13,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = CreatePostCommand.new(post_params.merge(time: Time.now, user_id: session[:user]))
+    post = CreatePostCommand.new(post_params.merge(created_at: Time.now, user_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       session[:tmp_event_id] = id
@@ -24,7 +24,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    post = UpdatePostCommand.new(post_params.merge(id: params[:id], user_id: session[:user]))
+    post = UpdatePostCommand.new(post_params.merge(updated_at: Time.now, id: params[:id], user_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       session[:tmp_event_id] = id

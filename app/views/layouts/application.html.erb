@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DiscoBlog</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
+ <title>Disco-Forum</title>
+ <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+ <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+ <%= csrf_meta_tags %>
 </head>
 <body>
-<h1>TUDisco-Forum</h1>
-<div id="header">
-  <img src="/assets/webbanner_home.png" >
-  <%= render "layouts/login" =%> 
-</div>
-<%= yield %>
-  
+ <h1>Disco-Forum</h1>
+ <div id="header">
+   <%= image_tag 'webbanner_home.png' %>
+   <%= render 'layouts/login' %>
+ </div>
+ <%= render 'layouts/flash' %>
+ <%= yield %>
 </body>
 </html>
