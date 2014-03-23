@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate, only: [:userpage, :edit, :update, :show, :delete, :banned]
-  before_action :require_admin, only: [:show, :delete, :ban]
+  before_action :authenticate, only: [:userpage, :edit, :update, :show, :delete, :banned, :ban, :change_typ]
+  before_action :require_admin, only: [:show, :delete]
   before_action :validate_user, only: [:edit, :update]
+  before_action :require_superer, only: [:ban, :change_typ]
 
 #CRUD- Methoden
 
@@ -27,10 +28,10 @@ class UsersController < ApplicationController
     if user.valid?
       Domain.run_command(user)
       flash[:notice] = 'Daten erfolgreich geaendert'
-      redirect_to action: :userpage
+      redirect_to userpage_users_path
     else
       flash[:error] ='Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
-      redirect_to action: :edit
+      redirect_to edit_user_path
     end 
   end
 
@@ -42,7 +43,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = 'User couldn\'t be deleted.'
     end
-    redirect_to action: :index
+    redirect_to userpage_users_path
   end
   
   def create
@@ -50,10 +51,10 @@ class UsersController < ApplicationController
     if user.valid?
       Domain.run_command(user)
       flash[:notice] = 'Sie haben sich erfolgreich registriert.'
-      redirect_to action: :index
+      redirect_to users_path
     else
       flash[:error] ='Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
-      redirect_to action: :new
+      redirect_to new_user_path
     end
   end
   
@@ -69,7 +70,7 @@ class UsersController < ApplicationController
         redirect_to banned_users_path
       else
         if params[:merk].nil? || params[:merk] == users_path
-          redirect_to userpage_user_path(id: @id)
+          redirect_to userpage_users_path
         else
           redirect_to params[:merk]
         end
@@ -112,9 +113,27 @@ class UsersController < ApplicationController
     @adminmessage = Adminmessage.new if @permitted
   end
 
+  def change_typ
+    change = ChangeTypCommand.new(user_id: params[:id], typ: params[:typ])
+    if cahnge.valid?
+      Domain.run_command(change)
+      case typ
+        when 0 then  flash[:notice] = "Der Nutzer mit der id #{params[:id]} ist jetzt ein normaler Nutzer."
+        when 1 then flash[:notice] = "Der Nutzer mit der id #{params[:id]} ist jetzt ein Moderator"
+        when 2 then flash[:notice] = "Der Nutzer mit der id #{params[:id]} ist jetzt ein Forum-Administrator."
+      end
+      redirect_to user_path(id: 1)
+    else
+      flash[:error] = "Ein Fehler trat auf"
+      redirect_to user_path(id: 1)
+    end
+  end
+
 private
   
   def validate_user
+    puts "id: #{params[:id]}"
+    puts "current id: #{current_user.id}"
     unless current_user.id == params[:id] # && !(current_user.admin?)
       redirect_to action: :index
       flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
@@ -123,6 +142,13 @@ private
   
   def user_params
     params.require(:user).permit(:vorname, :name, :email, :benutzername, :passwort)
+  end
+
+  def require_superer
+    if current_user.superer?(User.find(params[:id]).typ)
+      flash[:error] ='Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!'
+      redirect_to userpage_users_path
+    end
   end
   
 end

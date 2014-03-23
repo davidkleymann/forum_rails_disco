@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
     typ > 0 && !banned?
 	end
 
+	def superer?(typ2)
+		typ > typ2 && !banned?
+	end
+
 	def self.guest
 		new
 	end
