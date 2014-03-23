@@ -18,6 +18,7 @@ DiscoBlog::Application.routes.draw do
       get 'userpage'
       post 'logout'
       post 'login'
+      get 'banned'
     end
   end
 
@@ -27,5 +28,3 @@ DiscoBlog::Application.routes.draw do
   get 'event_stream' => 'event_source#stream'
 
 end
-
-

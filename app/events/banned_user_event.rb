@@ -1,7 +1,7 @@
 class BannedUserEvent
 
 	include ActiveEvent::EventType
-  attributes :id, :ban
+  attributes :user_id, :ban
 
   def values
     attributes_except :id

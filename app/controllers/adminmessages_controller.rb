@@ -3,6 +3,7 @@ class AdminmessagesController < ApplicationController
   before_action :set_adminmessage, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
   before_action :authenticate, except: [:index, :show]
+  before_action :require_unbanned_amessage
 
   def index
     @adminmessages = Adminmessage.all
@@ -22,14 +23,14 @@ class AdminmessagesController < ApplicationController
   def create
     adminmessage = CreateAdminmessageCommand.new({message: params[:adminmessage][:message], user_id: session[:user]})
     valid = adminmessage.valid?
-    puts(valid)
     if valid and id = Domain.run_command(adminmessage)
       flash[:notice] = 'Adminmessage was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to action: :index
+      session[:banned_rate] = false if session[:banned_rate]
+      redirect_to adminmessages_path
     else
       flash[:error] = 'Adminmessage couldn\'t be created. Please LOG IN and try again.'
-      redirect_to action: :new
+      redirect_to new_adminmessage_path
     end
   end
 
@@ -39,10 +40,10 @@ class AdminmessagesController < ApplicationController
     if valid and id = Domain.run_command(adminmessage)
       flash[:notice] = 'Adminmessage was successfully updated.  Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
-      redirect_to action: :show, id: params[:id]
+      redirect_to adminmessage_path(id: params[:id])
     else
       flash[:error] = 'Adminmessage couldn\'t be updated.'
-      redirect_to action: :edit, id: params[:id]
+      redirect_to edit_adminmessage_path(id: params[:id])
     end
   end
 
@@ -54,7 +55,7 @@ class AdminmessagesController < ApplicationController
     else
       flash[:error] = 'Adminmessage couldn\'t be deleted.'
     end
-    redirect_to action: :index
+    redirect_to adminmessages_path
   end
 
   private
@@ -67,10 +68,12 @@ class AdminmessagesController < ApplicationController
     session[:tmp_event_id] = nil
   end
 
-  def authenticate
-    temp = session[:user]
-    redirect_to users_path(merk: request.original_url) if temp.nil?
+  def require_unbanned_amessage
+    if current_user.banned?
+      redirect_to banned_users_path unless session[:banned_rate]
+    end
   end
+
 end
 
 

@@ -18,7 +18,13 @@ class UserProjection
   end
 
   def banned_user_event(event)
-    puts "ban"
-    User.find(event.id).update! ban: event.ban
+    rate = event.ban ? 1 : 2
+    User.find(event.user_id).update! ban: event.ban, rate: rate
   end
+
+  def created_adminmessage_event(event)
+    user = User.find(event.user_id)
+    user.update!(rate: 0) if user.ban
+  end
+
 end

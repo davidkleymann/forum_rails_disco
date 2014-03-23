@@ -13,6 +13,10 @@ class ApplicationController < ActionController::Base
       redirect_to users_path(merk: request.original_url), alert: 'Fehler: Bitte einloggen!'
     end
 	end
+
+  def require_unbanned
+    redirect_to banned_users_path if current_user.banned?
+  end
   
   def require_admin
     unless current_user.admin?

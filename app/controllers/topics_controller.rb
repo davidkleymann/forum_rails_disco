@@ -1,8 +1,8 @@
-
 class TopicsController < ApplicationController
   before_action :set_topic, only: [:show, :edit]
   before_action :set_event_id, only: [:index, :show]
   before_action :authenticate, only: [:new, :create, :edit, :update, :destroy]
+  before_action :require_unbanned
   before_action :validate_user, only: [:edit, :update, :destroy]
 
   def index

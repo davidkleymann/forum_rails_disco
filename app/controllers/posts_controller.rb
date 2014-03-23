@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:edit]
   before_action :post_params, only: [:update, :create]
   before_action :authenticate, only: [:create, :new, :edit, :update, :destroy]
+  before_action :require_unbaned
   before_action :validate_user, only: [:edit, :update, :destroy]
 
   def new

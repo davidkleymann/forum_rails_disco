@@ -1,4 +1,4 @@
 class BanUserCommand
 	include ActiveEvent::Command
-	attributes :id, :ban
+	attributes :user_id, :ban
 end

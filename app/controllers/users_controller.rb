@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate, only: [:userpage, :edit, :update, :show, :delete]
+  before_action :authenticate, only: [:userpage, :edit, :update, :show, :delete, :banned]
   before_action :require_admin, only: [:show, :delete, :ban]
   before_action :validate_user, only: [:edit, :update]
 
@@ -62,12 +62,17 @@ class UsersController < ApplicationController
   def login
     inlog = LogInCommand.new({benutzername: params[:benutzername], passwort: params[:passwort]})
     if inlog.valid? && Domain.run_command(inlog)
-      @id = User.where(benutzername: params[:benutzername]).first.id
-      session[:user] = @id
-      if params[:merk].nil? || params[:merk] == users_path
-        redirect_to userpage_user_path(id: @id)
+      user = User.where(benutzername: params[:benutzername]).first 
+      session[:user] = user.id
+      if user.banned?
+        session[:banned_rate] = true if user.rate == 1
+        redirect_to banned_users_path
       else
-        redirect_to params[:merk]
+        if params[:merk].nil? || params[:merk] == users_path
+          redirect_to userpage_user_path(id: @id)
+        else
+          redirect_to params[:merk]
+        end
       end
     else
       flash[:error] = 'Fehler: Falscher Benutzername und/oder falsches Passwort!'
@@ -92,7 +97,7 @@ class UsersController < ApplicationController
   end
   
   def ban
-    ban = BanUserCommand.new(id: params[:id], ban: params[:ban])
+    ban = BanUserCommand.new(user_id: params[:id], ban: params[:ban])
     Domain.run_command(ban)
     if params[:ban]
       flash[:notice] = "Der Nutzer mit der id #{params[:id]} wurde gesperrt!"
@@ -102,11 +107,14 @@ class UsersController < ApplicationController
     redirect_to user_path(id: 1)
   end
 
+  def banned
+    @permitted = User.find(session[:user]).rate == 1 && session[:banned_rate]
+    @adminmessage = Adminmessage.new if @permitted
+  end
+
 private
   
   def validate_user
-    puts "Userdata: #{params[:id]}"
-    puts "Cu: #{current_user.id}"
     unless current_user.id == params[:id] # && !(current_user.admin?)
       redirect_to action: :index
       flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
