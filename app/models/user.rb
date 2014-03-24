@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     typ > 0 && !banned?
 	end
 
-	def superer?(typ2)
+  def superior?(typ2)
 		typ > typ2 && !banned?
 	end
 

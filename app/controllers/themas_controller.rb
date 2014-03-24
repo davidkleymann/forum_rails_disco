@@ -23,7 +23,7 @@ class ThemasController < ApplicationController
   end
 
   def create
-    thema = CreateThemaCommand.new thema_params.merge(lastact: 0)
+    thema = CreateThemaCommand.new thema_params
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
       flash[:notice] = 'Thema was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
@@ -36,7 +36,7 @@ class ThemasController < ApplicationController
   end
 
   def update
-    thema = UpdateThemaCommand.new thema_params.merge(lastact: params[:lastact],id: params[:id])
+    thema = UpdateThemaCommand.new thema_params.merge(id: params[:id])
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
       flash[:notice] = 'Thema was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'

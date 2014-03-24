@@ -22,9 +22,13 @@ module Domain
     process BanUserCommand do |command|
       id = command.is_valid_do { event BannedUserEvent.new command.to_hash}
     end
+      
+    process UnbanUserCommand do |command|
+      id = command.is_valid_do { event UnbannedUserEvent.new command.to_hash }
+    end
 
-    process ChangeTypCommand do |command|
-      id = command.is_valid_do {event ChangedTypEvent.new command.to_hash}
+    process ChangeRoleCommand do |command|
+      id = command.is_valid_do {event ChangedRoleEvent.new command.to_hash}
     end
     
   end

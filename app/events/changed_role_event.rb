@@ -1,4 +1,4 @@
-class ChangedTypEvent
+class ChangedRoleEvent
 	include ActiveEvent::EventType
 	attributes :user_id, :typ
 	

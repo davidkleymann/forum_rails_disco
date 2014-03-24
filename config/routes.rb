@@ -12,7 +12,8 @@ DiscoBlog::Application.routes.draw do
 
   resources :users do
     member do
-      get 'ban'
+      put 'ban'
+      put 'unban'
     end
     collection do
       get 'userpage'

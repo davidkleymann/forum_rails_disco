@@ -27,3 +27,17 @@ domain_run(CreateTopicCommand.new(title: "Basteln", user_id: 1, thema_id: 1))
 domain_run(CreateTopicCommand.new(title: "Zocken", user_id: 1, thema_id: 2))
 
 domain_run(CreatePostCommand.new(title: "Check me!", text: "Origami", created_at: Time.now, user_id: 1, topic_id: 1))
+#
+# With Rails Disco you can invoke domain commands
+#
+# Examples:
+#
+#   city_id = domain_run(CityCreateCommand.new(name: 'Chicago'))
+#   domain_run(MayorCreateCommand(name: 'Emanuel', city_id: city_id)
+@@can_run = true
+def domain_run(command)
+  Domain.run_command(command) if @@can_run
+rescue DRb::DRbConnError
+  puts 'no domain server for seeds'
+  @@can_run = false
+end

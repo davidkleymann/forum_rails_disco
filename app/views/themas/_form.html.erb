@@ -19,7 +19,6 @@
     <%= f.label :description %><br>
     <%= f.text_area :description %>
   </div>
-    <%= f.hidden_field :lastact %>
   <div>
     <%= f.select(:belong, options_from_collection_for_select(@themas.all, :id, :title, @thema.belong), {include_blank: 'Wurzel'}) %>
   </div>

@@ -2,7 +2,6 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:edit]
   before_action :post_params, only: [:update, :create]
   before_action :authenticate, only: [:create, :new, :edit, :update, :destroy]
-  before_action :require_unbaned
   before_action :validate_user, only: [:edit, :update, :destroy]
 
   def new
@@ -14,24 +13,24 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = CreatePostCommand.new(post_params.merge(created_at: Time.now, user_id: session[:user]))
+    post = CreatePostCommand.new(post_params.merge(user_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       session[:tmp_event_id] = id
       redirect_to topic_path(id: post_params[:topic_id]), notice: 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
     else
-      redirect_to action: :new, alert: 'Post konnte nicht erstellt werden.' 
+      redirect_to({action: :new}, alert: 'Post konnte nicht erstellt werden.') 
     end
   end
 
   def update
-    post = UpdatePostCommand.new(post_params.merge(updated_at: Time.now, id: params[:id], user_id: session[:user]))
+    post = UpdatePostCommand.new(post_params.merge(id: params[:id], user_id: session[:user]))
     valid = post.valid?
     if valid && id = Domain.run_command(post)
       session[:tmp_event_id] = id
       redirect_to topic_path(id: post.topic_id), notice: 'Post wurde geupdated. Bitte Seite neu laden um Änderungen zu sehen.'
     else
-      redirect_to action: :edit, id: params[:id], alert: 'Post konnte nicht geupdated werden.'
+      redirect_to({action: :edit, id: params[:id]}, alert: 'Post konnte nicht geupdated werden.')
     end
   end
 

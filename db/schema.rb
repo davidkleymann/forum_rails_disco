@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140311194047) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "adminmessages", force: true do |t|
     t.text    "message"
     t.integer "user_id"
@@ -51,7 +54,7 @@ ActiveRecord::Schema.define(version: 20140311194047) do
     t.boolean "solid"
   end
 
-  add_index "projections", ["class_name"], name: "index_projections_on_class_name"
+  add_index "projections", ["class_name"], name: "index_projections_on_class_name", using: :btree
 
   create_table "themas", force: true do |t|
     t.string   "title"

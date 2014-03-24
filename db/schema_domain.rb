@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140217163904) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "domain_events", force: true do |t|
     t.string   "event"
     t.text     "data"
@@ -29,7 +32,7 @@ ActiveRecord::Schema.define(version: 20140217163904) do
     t.integer "last_id"
   end
 
-  add_index "unique_command_ids", ["command"], name: "index_unique_command_ids_on_command", unique: true
+  add_index "unique_command_ids", ["command"], name: "index_unique_command_ids_on_command", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string "benutzername"
