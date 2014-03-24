@@ -7,7 +7,7 @@ require 'rails-disco/tasks'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
-module DiscoBlog
+module DiscoForum
   class Application < Rails::Application
     config.allow_concurrency = true
     config.preload_frameworks = true
