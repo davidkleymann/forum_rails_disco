@@ -1,4 +1,4 @@
-DiscoBlog::Application.routes.draw do
+DiscoForum::Application.routes.draw do
 
   resources :themas do
     resources :topics, shallow: true do

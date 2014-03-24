@@ -3,5 +3,5 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-DiscoBlog::Application.load_tasks
+DiscoForum::Application.load_tasks
 
