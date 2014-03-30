@@ -50,6 +50,7 @@ class UsersController < ApplicationController
       Domain.run_command(user)
       flash[:notice] = 'Sie haben sich erfolgreich registriert.'
       redirect_to action: :index
+          UserMailer.registermail(User.all.where('benutzername = ?', user.benutzername).first).deliver
     else
       flash[:error] ='Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
       redirect_to action: :new
@@ -105,7 +106,10 @@ class UsersController < ApplicationController
   end
 
 private
-  
+  def regmail
+
+  end
+
   def validate_user
     puts "Userdata: #{params[:id]}"
     puts "Cu: #{current_user.id}"
