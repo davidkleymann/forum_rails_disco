@@ -1,10 +1,9 @@
 class RolesController < ApplicationController
-  
-  before_action :authenticate_admin
+  before_action :authenticate
+  before_action :require_admin
   
   def edit
   	redirect_to userpage_users_path unless @current_user.superior?(1)
-    #change = ChangeTypCommand.new
   end
 
   def update

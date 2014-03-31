@@ -7,7 +7,7 @@ class LastpostProjection
   end
 
   def deleted_post_event(event)
-    Lastpost.find(event.id).destroy!
+    Lastpost.where(id: event.id).each { |post| post.destroy! }
   end
 
   private
@@ -15,7 +15,7 @@ class LastpostProjection
   def find(event)
     @lastpost = Lastpost.where(user_id: event.values[:user_id]).order(created_at: :desc)
     if @lastpost.length == 10
-      id = @lastpost[10].id
+      id = @lastpost[9].id
       Lastpost.find(id).destroy!
     end
   end

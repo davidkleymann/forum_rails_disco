@@ -11,8 +11,10 @@ class PostProjection
     end
 
     def created_post_event(event)
-      benutzername = User.find(event.user_id).benutzername
-      Post.create! event.values.merge(id: event.id, benutzername: benutzername)
+      user = User.find(event.user_id)
+      require 'digest/md5'
+      gravatar = Digest::MD5.hexdigest(user.email.downcase)
+      Post.create! event.values.merge(id: event.id, benutzername: user.benutzername, gravatar_id: gravatar)
     end
 end
 

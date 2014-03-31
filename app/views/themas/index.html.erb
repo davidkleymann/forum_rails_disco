@@ -5,8 +5,8 @@
 <table>
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Description</th>
+      <th>Titel</th>
+      <th>Beschreibung</th>
       <th></th>
     </tr>
   </thead>
@@ -24,5 +24,5 @@
 
 <br>
 
-<%= link_to 'New Thema', new_thema_path(belong_id: 0) %>
+<%= link_to 'Neues Thema', new_thema_path(belong_id: 0) if current_user.admin? %>
 <%= link_to 'Zurück zur Startseite', '/' %>

@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:edit]
   before_action :post_params, only: [:update, :create]
   before_action :authenticate, only: [:create, :new, :edit, :update, :destroy]
-  before_action :validate_user, only: [:edit, :update, :destroy]
+
 
   def new
     @topic = Topic.find(params[:topic_id])
@@ -60,10 +60,5 @@ class PostsController < ApplicationController
     params.require(:post).permit(:title, :text, :topic_id)
   end
 
-  def validate_user
-    unless Post.find(params[:id]).user_id == params[:id] || User.find(session[:user]).typ == 1
-      flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
-      redirect_to topic_path(id: params[:topic_id])
-    end
-  end
+
 end

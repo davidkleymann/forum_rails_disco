@@ -87,7 +87,7 @@ class UsersController < ApplicationController
   
   def logout
     reset_session
-    flash[:notice] = 'Sie haben sich erfolgreich ausgelogt!'
+    flash[:notice] = 'Sie haben sich erfolgreich ausgeloggt!'
     redirect_to users_path
   end
   

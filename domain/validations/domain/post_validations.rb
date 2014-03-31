@@ -11,6 +11,7 @@ module Domain
           unique_title: true
       }
 			skip_validate :antispam
+      skip_validate :author
     end
 
     class UniqueTitleValidator < ActiveModel::EachValidator

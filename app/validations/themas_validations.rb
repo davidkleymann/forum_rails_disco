@@ -1,4 +1,4 @@
-module AdminmessageValidations
+module ThemaValidations
   extend ActiveSupport::Concern
   include ActiveEvent::Validations
 
@@ -6,12 +6,12 @@ module AdminmessageValidations
   validation_target :'UpdateThemaCommand'
   
   included do
-     validates :message, {
+    validates :title, {
         presence: true,
-        length: 3..200
+        length: 3..80
     }
 
-    validates :user_id, {
+    validates :description, {
         presence: true
       
     }

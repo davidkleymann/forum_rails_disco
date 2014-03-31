@@ -29,5 +29,9 @@ class UserProjection
     user = User.find(event.user_id)
     user.update!(rate: 0) if user.ban
   end
-
+  
+  def changed_typ_event(event)
+    user = User.find(event.user_id)
+    user.update! typ: event.typ
+  end
 end

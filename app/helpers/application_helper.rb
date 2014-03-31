@@ -1,5 +1,5 @@
 module ApplicationHelper
 	def shallow_args(parent, child)
-		child.try(:new_record?) ? [parent, child] : child
+    child.try(:persisted?) ? child : [parent, child]
 	end
 end
