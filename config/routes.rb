@@ -23,6 +23,8 @@ DiscoForum::Application.routes.draw do
     end
   end
 
+  resources :roles, only: [:edit, :update]
+
   get '/' => 'home#index'
   get '/admins' => 'home#admins'
 

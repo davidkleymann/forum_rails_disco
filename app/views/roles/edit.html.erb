@@ -1,0 +1,9 @@
+<h2>Nutzerrolle ändern</h2>
+<%= form_tag(role_path(id: params[:id]), method: patch) do %>
+	<%= label_tag(:typ_0, "Normaler Nutzer") %>
+	<%= radio_button_tag(:typ, "0") %>
+	<%= label_tag(:typ_1, "Forum-Moderator") %>
+	<%= radio_button_tag(:typ, "1") %>
+	<%= submit_tag("Änderungen speichern")%>
+<% end %>
+<%=link_to "Zurück zur Nutzerübersicht", user_path(id: 1) %>

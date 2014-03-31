@@ -5,12 +5,14 @@
 		<tr>
 			<th>id</th>
 			<th>Benutzername</th>
-			<th>Name</th>
-			<th>Vorname</th>
+			<th>Name, Vorname</th>
 			<th>Email</th>
       <th></th>
       <th></th>
       <th></th>
+      <% if @current_user.superior?(1) %>
+      	<th></th>
+      <% end %>
 		</tr>
 	</thead>
 	<tbody>
@@ -18,15 +20,17 @@
 			<tr>
 				<td><%= user.id %></td>
 				<td><%= user.benutzername %></td>
-				<td><%= user.name %></td>
-				<td><%= user.vorname %></td>
+				<td><%= user.name %>, <%= user.vorname %></td>
 				<td><%= user.email %></td>
-				<td><%= link_to 'Edit', edit_user_path(user) %></td>
-				<td><%= link_to 'Löschen', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				<td><%= link_to 'Bearbeiten', edit_user_path(user) %></td>
+				<td><%= link_to 'Löschen', user, method: :delete, data: { confirm: 'Sind Sie sicher?' } %></td>
 				<% if user.banned? %>
         <td><%= link_to 'Sperrung aufheben', unban_user_path(id: user.id), method: :put %></td>
 				<% else %>
         <td><%= link_to 'Sperren', ban_user_path(id: user.id), method: :put %></td>
+        <% end %>
+        <% if @current_user.superior?(1) %>
+        	<td><%= link_to "Typ ändern", edit_role_path(id: user.id) %></td>
         <% end %>
 			</tr>
 		<% end %>
