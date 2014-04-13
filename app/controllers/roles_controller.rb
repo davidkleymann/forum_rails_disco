@@ -8,11 +8,11 @@ class RolesController < ApplicationController
 
   def update
   	redirect_to userpage_users_path unless @current_user.superior?(1)
-  	change = ChangeTypCommand.new (user_id: params[:id], typ: params[:typ])
+  	change = ChangeRoleCommand.new ({user_id: params[:id], typ: params[:typ]})
 		if change.valid?
 			Domain.run_command(change)
 			flash[:notice] = "Typ erfolgreich geändert"
-			redirect_to users_path(user_id: 1)
+			redirect_to user_path(user_id: 1)
 		else
 			flash[:error] = "Fehler: bitte überprüfen sie ihre Eingaben"
 			redirect_to userpage_users_path

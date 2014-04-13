@@ -9,7 +9,6 @@ module PostAuthorValidations
   end
   
   def author
-    post = Post.find(id)
-    errors.add(:base, 'Falscher Nutzer') unless post.user_id == user_id || User.find(user_id).typ == 1
+    errors.add(:base, 'Falscher Nutzer') unless Post.find(id).user_id == user_id || User.find(user_id).typ > 0
   end
 end

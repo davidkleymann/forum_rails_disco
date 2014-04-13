@@ -2,8 +2,8 @@ module AdminmessageValidations
   extend ActiveSupport::Concern
   include ActiveEvent::Validations
 
-  validation_target :'CreateThemaCommand'
-  validation_target :'UpdateThemaCommand'
+  validation_target :'CreateAdminmessageCommand'
+  validation_target :'UpdateAdminmessageCommand'
   
   included do
      validates :message, {

@@ -10,6 +10,7 @@
       <th></th>
       <th></th>
       <th></th>
+      <th>Rolle</th>
       <% if @current_user.superior?(1) %>
       	<th></th>
       <% end %>
@@ -29,6 +30,16 @@
 				<% else %>
         <td><%= link_to 'Sperren', ban_user_path(id: user.id), method: :put %></td>
         <% end %>
+        <% case user.typ %>
+        	<% when 0 %>
+        		<td>Nutzer</td>
+        	<% when 1 %>
+        		<td>Forum-Moderator</td>
+        	<% when 2 %>
+        		<td>Forum-Administrator</td>
+        	<% else %>
+        		<td>Typ unbekannt</td>
+        	<% end %>
         <% if @current_user.superior?(1) %>
         	<td><%= link_to "Typ ändern", edit_role_path(id: user.id) %></td>
         <% end %>

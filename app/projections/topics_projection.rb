@@ -13,6 +13,6 @@ class TopicsProjection
      user = User.find(event.user_id)
      require 'digest/md5'
      gravatar = Digest::MD5.hexdigest(user.email.downcase)
-    Topic.create! event.values.merge(id: event.id, benutzername: usser.benutzername, gravatar_id: gravatar)
+    Topic.create! event.values.merge(id: event.id, benutzername: user.benutzername, gravatar_id: gravatar)
   end
 end
