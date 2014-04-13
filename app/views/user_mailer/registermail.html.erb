@@ -6,6 +6,6 @@
 Danke dass sie sich bei unserem Forum registriert haben. Bitte überprüfen sie nochmal ihre Daten:
 Benutzername : <%= @user.benutzername %>
 ....
-
+Hier ist Validierungslink: <%= link_to "Hier klicken", "/users/verify?userunlock="+URI.encode(Digest::MD5.hexdigest(@user.benutzername+Date.today+Time.now.strftime("%I"))) %> 
 </body>
 </html>

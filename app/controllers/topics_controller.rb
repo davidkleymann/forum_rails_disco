@@ -22,9 +22,9 @@ class TopicsController < ApplicationController
     @topic = CreateTopicCommand.new(topic_params.merge(thema_id: params[:thema_id], user_id: session[:user]))
     valid = @topic.valid?
     if valid and id = Domain.run_command(@topic)
-      flash[:notice] = 'Topic was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:notice] = 'Topic was successfully created.'
       session[:tmp_event_id] = id
-      redirect_to controller: :themas, action: :show, id: params[:thema_id]
+      redirect_to controller: :posts, action: :create #, id: params[:thema_id]
     else
       flash[:error] = 'Topic couldn\'t be created.'
       @thema = Thema.find(params[:thema_id])
