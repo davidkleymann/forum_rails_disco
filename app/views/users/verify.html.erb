@@ -3,4 +3,4 @@
  <u>Benutzername</u>
    <%= f.text_field :username %>
   <%= # user_id=User.where(benutzername= :username)%>
- <%=  f.submit "Nutzer aktivieren" if (params[:userunlock] == URI.encode(Digest::MD5.hexdigest(@user.benutzername+Date.today+Time.now.strftime("%I")))) %>
+ <%=  f.submit "Nutzer aktivieren"  %>

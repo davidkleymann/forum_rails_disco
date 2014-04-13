@@ -113,7 +113,7 @@ private
   def validate_user
     puts "Userdata: #{params[:id]}"
     puts "Cu: #{current_user.id}"
-    if current_user.id.to_s != params[:id]  && !current_user.admin?
+    if current_user.id.to_s != params[:id]  && !current_user.admin? # && !(params[:userunlock] == URI.encode(Digest::MD5.hexdigest(@user.benutzername+Date.today.to_s+Time.now.strftime("%I").to_s)))
       redirect_to action: :index
       flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
     end 
