@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+#Test eines Gems für Email-Registrierungs-Verifikation 
+#gem 'devise'
 
 gem 'rails', '~>4.0.0'
 gem 'rails-disco', '~>0.5.0.rc3'

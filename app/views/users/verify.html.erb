@@ -1,0 +1,6 @@
+ <%= form_for @user, url: {action: "unban"} do |f| %>
+ <h2>Bitte warten...</h2>
+ <u>Benutzername</u>
+   <%= f.text_field :username %>
+  <%= # user_id=User.where(benutzername= :username)%>
+ <%=  f.submit "Nutzer aktivieren"  %>

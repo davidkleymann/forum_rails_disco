@@ -16,12 +16,12 @@ end
 
 domain_run(RegisterUserCommand.new(name: "Muster", vorname: "Max", email: "jjj@web.de", benutzername: "Ruby", passwort: "12345678", typ: 1, ban: false))
 domain_run(RegisterUserCommand.new(name: "Test", vorname: "Alfons", email: "a@b.c", benutzername: "quirk", passwort: "12345678", typ: 1, ban: false))
-domain_run(RegisterUserCommand.new(name: "UhaHa", vorname: "Ckaaaar", email: "a@b.c", benutzername: "usehr", passwort: "12345678", typ: 0, ban: false))
+domain_run(RegisterUserCommand.new(name: "UhaHa", vorname: "Ckaaaar", email: "a@b.c", benutzername: "usehr", passwort: "12345678", typ: 0, ban: true))
 domain_run(RegisterUserCommand.new(name: "Super", vorname: "Admin", email: "admin@boss.chef", benutzername: "Admin", passwort: "strenggeheim", typ: 2, ban: false))
 
-domain_run(CreateThemaCommand.new(title: "Hello", description: "", belong: nil))
+domain_run(CreateThemaCommand.new(title: "Hello", description: "y", belong: nil))
 domain_run(CreateThemaCommand.new(title: "SRZ", description: "Alles zum SRZ", belong: nil))
-domain_run(CreateThemaCommand.new(title: "Kochen", description: "", belong: 2))
+domain_run(CreateThemaCommand.new(title: "Kochen", description: "y", belong: 2))
 
 domain_run(CreateTopicCommand.new(title: "Basteln", user_id: 1, thema_id: 1))
 domain_run(CreateTopicCommand.new(title: "Zocken", user_id: 1, thema_id: 2))

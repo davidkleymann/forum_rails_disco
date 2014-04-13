@@ -15,7 +15,7 @@ class LatesttopicsProjection
   def find
     @Latesttopic = Latesttopic.order(:created_at)
     if @Latesttopic.length == 3
-      id = @Latesttopic[3].id
+      id = @Latesttopic[2].id
       Latesttopic.find(id).destroy!
     end
   end
