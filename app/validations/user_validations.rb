@@ -23,4 +23,5 @@ module UserValidations
       length: 8..50
     }
   end
+
 end

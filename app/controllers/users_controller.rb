@@ -4,8 +4,6 @@ class UsersController < ApplicationController
   before_action :require_admin, only: [:show, :delete, :ban]
   before_action :validate_user, only: [:edit, :update]
 
-#CRUD- Methoden
-
   def index
   end
 
@@ -18,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = UpdateUserCommand.new User.find(params[:id]).updatable_attributes
   end
 
   def update
@@ -45,12 +43,13 @@ class UsersController < ApplicationController
   end
   
   def create
-    user = RegisterUserCommand.new user_params.merge(typ: 0, ban: true)
+    user = RegisterUserCommand.new user_params.merge(typ: 0)
     if user.valid? && !user.errors[:benutzername].empty?
       Domain.run_command(user)
       flash[:success] = 'Sie haben sich erfolgreich registriert.'
       redirect_to action: :index
           UserMailer.registermail(User.all.where('benutzername = ?', user.benutzername).first).deliver
+      verificate()
     else
       if !user.errors[:benutzername].empty?
         flash[:error] ='Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
@@ -107,6 +106,13 @@ class UsersController < ApplicationController
     unban = UnbanUserCommand.new(user_id: params[:id])
     Domain.run_command(unban)
     flash[:success] = "Der Nutzer mit der id #{params[:id]} wurde entsperrt!"
+    redirect_to user_path(id: 1)
+  end
+  
+  def verificated
+    verificated = VerificatedUserCommand.new(user_id: params[:id])
+    Domain.run_command(verificated)
+    flash[:success] = "Der Nutzer mit der ID #{params[:id]} wurde erfolgreich verifiziert!"
     redirect_to user_path(id: 1)
   end
 

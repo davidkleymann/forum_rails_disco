@@ -1,6 +1,12 @@
 module Domain
   class UserProcessor
     include ActiveDomain::CommandProcessor
+    process VerificatedUserCommand do |command|
+      command.is_valid_do do
+        event ValidatesUserEvent.new command.to_hash
+      end
+    end
+
 
     process RegisterUserCommand do |command|
       command.id = ActiveDomain::UniqueCommandIdRepository.new_for command.class.name

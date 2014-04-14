@@ -1,5 +1,7 @@
 DiscoForum::Application.routes.draw do
 
+  resources :subscriptions, only: [:new, :create, :edit, :update, :destroy]
+
   resources :themas do
     resources :topics, shallow: true do
       resources :posts, only: [:new, :create]

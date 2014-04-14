@@ -10,6 +10,12 @@ class User < ActiveRecord::Base
 	def banned?
 	  ban
 	end
+  
+  def verificated?
+    verificated
+  end
+  
+  
   def authenticated?
     persisted?
   end
@@ -27,4 +33,10 @@ class User < ActiveRecord::Base
 	def self.guest
 		new
 	end
+  
+  def update_attributes
+    Hash.new([:id, :name, :vorname, :email, :benutzername, :passwort].map do |key|
+      [key, attributes[key]]
+    end)
+  end
 end
