@@ -46,13 +46,17 @@ class UsersController < ApplicationController
   
   def create
     user = RegisterUserCommand.new user_params.merge(typ: 0, ban: true)
-    if user.valid?
+    if user.valid? && !user.errors[:benutzername].empty?
       Domain.run_command(user)
       flash[:notice] = 'Sie haben sich erfolgreich registriert.'
       redirect_to action: :index
           UserMailer.registermail(User.all.where('benutzername = ?', user.benutzername).first).deliver
     else
-      flash[:error] ='Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
+      if !user.errors[:benutzername].empty?
+        flash[:error] ='Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
+      else
+        flash[:error] = 'Der Benutzername ist schon vergeben oder die Eingabe des Benutzernamens war fehlerhaft!'
+      end
       redirect_to action: :new
     end
   end
