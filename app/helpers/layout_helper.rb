@@ -1,5 +1,6 @@
 module LayoutHelper
   def usertest
+
     if session[:user].nil?
       if params[:merk].nil? && params[:merk] != users_path
         merke = request.original_url
@@ -17,7 +18,7 @@ module LayoutHelper
       user=User.find(session[:user])
       if user.present?
        
-        content_tag(:p, "Angemeldet als #{user.benutzername}")
+        "Angemeldet als #{user.benutzername}"
         
       end  
     end
@@ -35,7 +36,7 @@ module LayoutHelper
       email_address = User.find(session[:user]).email.downcase
       hash = Digest::MD5.hexdigest(email_address)
       image_src = "http://www.gravatar.com/avatar/#{hash}"
-      image_tag(image_src)
+      image_tag(image_src, width: '20', height: '20')
     end
   end
 end

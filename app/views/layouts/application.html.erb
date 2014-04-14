@@ -1,18 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
- <title>Disco-Forum</title>
- <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
- <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
- <%= csrf_meta_tags %>
-</head>
-<body>
-  <h1><%= link_to "Disco Forum", "/" %></h1>
- <div id="header">
-   <%= image_tag 'webbanner_home.png' %>
-   <%= render 'layouts/login' %>
- </div>
- <%= render 'layouts/flash' %>
- <%= yield %>
+  <head>
+    <title>Disco-Forum</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <%= link_to 'Disco Forum', root_url, class: 'navbar-brand' %>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <li><%= link_to 'Themen', themas_path %></li>
+          <li><%= link_to 'Admin Nachrichten', adminmessages_path %></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          
+          <li>
+            <p class="nav navbar-text"><%= username %></p>
+          </li>
+          <li><%= userpage %></li>
+          <li><p class="nav navbar-text"><%= gravatar %></p></li>
+          <% if session[:user].nil? %>
+          <li><%= link_to 'Registrieren', new_user_path %></li>
+          <% end %>
+          <li><%= usertest %></li>
+        </ul>
+      </div>
+    </nav>
+ 
+    <div class="container">
+      <%= render 'layouts/flash' %>
+      <%= yield %>
+    </div>
 </body>
 </html>

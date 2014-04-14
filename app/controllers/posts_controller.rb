@@ -39,7 +39,7 @@ class PostsController < ApplicationController
     post = DeletePostCommand.new({id: params[:id]})
     if id = Domain.run_command(post)
       session[:tmp_event_id] = id
-      flash[:notice] = 'Post wurde geloescht.  Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Post wurde geloescht.  Bitte Seite neu laden um Änderungen zu sehen.'
     else
       flash[:error] = 'Post konnte nicht geloescht werden.'
     end

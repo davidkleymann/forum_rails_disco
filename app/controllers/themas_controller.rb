@@ -27,7 +27,7 @@ class ThemasController < ApplicationController
     thema = CreateThemaCommand.new thema_params
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
-      flash[:notice] = 'Thema was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Thema was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to action: :index
     else
@@ -40,7 +40,7 @@ class ThemasController < ApplicationController
     thema = UpdateThemaCommand.new thema_params.merge(id: params[:id])
     valid = thema.valid?
     if valid and id = Domain.run_command(thema)
-      flash[:notice] = 'Thema was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Thema was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to action: :show, id: params[:id]
     else
@@ -53,7 +53,7 @@ class ThemasController < ApplicationController
     thema = DeleteThemaCommand.new(id: params[:id])
     if id = Domain.run_command(thema)
       session[:tmp_event_id] = id
-      flash[:notice] = 'Thema was successfully deleted. Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Thema was successfully deleted. Bitte Seite neu laden um Änderungen zu sehen.'
     else
       flash[:error] = 'Thema couldn\'t be deleted.'
     end

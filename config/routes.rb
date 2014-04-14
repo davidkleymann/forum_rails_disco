@@ -25,9 +25,9 @@ DiscoForum::Application.routes.draw do
 
   resources :roles, only: [:edit, :update]
 
-  get '/' => 'home#index'
-  get '/admins' => 'home#admins'
+  
+  get '/admins', to: 'home#admins'
 
-  get 'event_stream' => 'event_source#stream'
-
+  get 'event_stream', to: 'event_source#stream'
+  root to: 'home#index'
 end

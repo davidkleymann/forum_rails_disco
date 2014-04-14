@@ -1,5 +1,4 @@
-
 class UpdateAdminmessageCommand
   include ActiveEvent::Command
-  attributes :id, :message, :editor_id
+  attributes :id, :message, :user_id
 end

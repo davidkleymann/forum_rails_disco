@@ -22,7 +22,7 @@ class TopicsController < ApplicationController
     @topic = CreateTopicCommand.new(topic_params.merge(thema_id: params[:thema_id], user_id: session[:user]))
     valid = @topic.valid?
     if valid and id = Domain.run_command(@topic)
-      flash[:notice] = 'Topic was successfully created.'
+      flash[:success] = 'Topic was successfully created.'
       session[:tmp_event_id] = id
       redirect_to controller: :posts, action: :create #, id: params[:thema_id]
     else
@@ -41,7 +41,7 @@ class TopicsController < ApplicationController
     topic = UpdateTopicCommand.new(topic_params.merge(id: params[:id], user_id: session[:user]))
     valid = topic.valid?
     if valid and id = Domain.run_command(topic)
-      flash[:notice] = 'Topic was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Topic was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to action: :show, id: params[:id]
     else
@@ -54,7 +54,7 @@ class TopicsController < ApplicationController
     topic = DeleteTopicCommand.new({id: params[:id]})
     if id = Domain.run_command(topic)
       session[:tmp_event_id] = id
-      flash[:notice] = 'Topic was successfully deleted. Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Topic was successfully deleted. Bitte Seite neu laden um Änderungen zu sehen.'
     else
       flash[:error] = 'Topic couldn\'t be deleted.'
     end

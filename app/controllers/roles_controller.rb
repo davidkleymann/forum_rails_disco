@@ -11,7 +11,7 @@ class RolesController < ApplicationController
   	change = ChangeRoleCommand.new ({user_id: params[:id], typ: params[:typ]})
 		if change.valid?
 			Domain.run_command(change)
-			flash[:notice] = "Typ erfolgreich geändert"
+			flash[:success] = "Typ erfolgreich geändert"
 			redirect_to user_path(user_id: 1)
 		else
 			flash[:error] = "Fehler: bitte überprüfen sie ihre Eingaben"

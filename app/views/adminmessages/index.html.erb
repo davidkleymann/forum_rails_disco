@@ -2,7 +2,7 @@
 <%= javascript_tag render partial: 'eventstream/eventstream', formats: [:js], locals: {event_id: @event_id} %>
 <h1>Listing adminmessages</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Message</th>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Adminmessage', new_adminmessage_path %>
+<%= link_to 'Neue Nachricht an Admin senden', new_adminmessage_path, class: 'btn btn-danger' %>

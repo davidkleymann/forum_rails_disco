@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     user = UpdateUserCommand.new user_params.merge(id: params[:id])
     if user.valid?
       Domain.run_command(user)
-      flash[:notice] = 'Daten erfolgreich geaendert'
+      flash[:success] = 'Daten erfolgreich geaendert'
       redirect_to action: :userpage
     else
       flash[:error] ='Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
     user = DeleteUserCommand.new({id: params[:id]})
     if id = Domain.run_command(user)
       session[:tmp_event_id] = id
-      flash[:notice] = 'User was successfully deleted.'
+      flash[:success] = 'User was successfully deleted.'
     else
       flash[:error] = 'User couldn\'t be deleted.'
     end
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
     user = RegisterUserCommand.new user_params.merge(typ: 0, ban: true)
     if user.valid? && !user.errors[:benutzername].empty?
       Domain.run_command(user)
-      flash[:notice] = 'Sie haben sich erfolgreich registriert.'
+      flash[:success] = 'Sie haben sich erfolgreich registriert.'
       redirect_to action: :index
           UserMailer.registermail(User.all.where('benutzername = ?', user.benutzername).first).deliver
     else
@@ -91,21 +91,22 @@ class UsersController < ApplicationController
   
   def logout
     reset_session
-    flash[:notice] = 'Sie haben sich erfolgreich ausgeloggt!'
+    
+    flash[:success] = 'Sie haben sich erfolgreich ausgeloggt!'
     redirect_to users_path
   end
   
   def ban
     ban = BanUserCommand.new(user_id: params[:id])
     Domain.run_command(ban)
-    flash[:notice] = "Der Nutzer mit der id #{params[:id]} wurde gesperrt!"
+    flash[:success] = "Der Nutzer mit der id #{params[:id]} wurde gesperrt!"
     redirect_to user_path(id: 1)
   end
 
   def unban
     unban = UnbanUserCommand.new(user_id: params[:id])
     Domain.run_command(unban)
-    flash[:notice] = "Der Nutzer mit der id #{params[:id]} wurde entsperrt!"
+    flash[:success] = "Der Nutzer mit der id #{params[:id]} wurde entsperrt!"
     redirect_to user_path(id: 1)
   end
 

@@ -24,7 +24,7 @@ class AdminmessagesController < ApplicationController
     adminmessage = CreateAdminmessageCommand.new({message: params[:adminmessage][:message], user_id: session[:user]})
     valid = adminmessage.valid?
     if valid and id = Domain.run_command(adminmessage)
-      flash[:notice] = 'Adminmessage was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Adminmessage was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       session[:banned_rate] = false if session[:banned_rate]
       redirect_to adminmessages_path
@@ -35,10 +35,10 @@ class AdminmessagesController < ApplicationController
   end
 
   def update
-    adminmessage = UpdateAdminmessageCommand.new({id: params[:id], message: params[:adminmessage][:message], editor_id: session[:user]})
+    adminmessage = UpdateAdminmessageCommand.new({id: params[:id], message: params[:adminmessage][:message], user_id: session[:user]})
     valid = adminmessage.valid?
     if valid and id = Domain.run_command(adminmessage)
-      flash[:notice] = 'Adminmessage was successfully updated.  Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Adminmessage was successfully updated.  Bitte Seite neu laden um Änderungen zu sehen.'
       session[:tmp_event_id] = id
       redirect_to adminmessage_path(id: params[:id])
     else
@@ -51,7 +51,7 @@ class AdminmessagesController < ApplicationController
     adminmessage = DeleteAdminmessageCommand.new({id: params[:id]})
     if id = Domain.run_command(adminmessage)
       session[:tmp_event_id] = id
-      flash[:notice] = 'Adminmessage was successfully deleted.  Bitte Seite neu laden um Änderungen zu sehen.'
+      flash[:success] = 'Adminmessage was successfully deleted.  Bitte Seite neu laden um Änderungen zu sehen.'
     else
       flash[:error] = 'Adminmessage couldn\'t be deleted.'
     end
