@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   self.table_name = 'users'
-  has_many :lastposts
-  has_many :adminmessages
+  has_many :last_posts
+  has_many :admin_messages
   
   def typ
     super || 0

@@ -13,15 +13,12 @@
 
 ActiveRecord::Schema.define(version: 20140414164748) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "adminmessages", force: true do |t|
+  create_table "admin_messages", force: true do |t|
     t.text    "message"
     t.integer "user_id"
   end
 
-  create_table "lastposts", force: true do |t|
+  create_table "last_posts", force: true do |t|
     t.string   "title"
     t.text     "text"
     t.integer  "user_id"
@@ -30,7 +27,7 @@ ActiveRecord::Schema.define(version: 20140414164748) do
     t.datetime "updated_at"
   end
 
-  create_table "latesttopics", force: true do |t|
+  create_table "latest_topics", force: true do |t|
     t.string   "title"
     t.integer  "user_id"
     t.integer  "thema_id"
@@ -51,18 +48,18 @@ ActiveRecord::Schema.define(version: 20140414164748) do
 
   create_table "projections", force: true do |t|
     t.string  "class_name"
-    t.integer "last_id"
-    t.boolean "solid"
+    t.integer "last_id",    default: 0
+    t.boolean "solid",      default: true
   end
 
-  add_index "projections", ["class_name"], name: "index_projections_on_class_name", using: :btree
+  add_index "projections", ["class_name"], name: "index_projections_on_class_name"
 
   create_table "subscriptions", force: true do |t|
     t.integer "user_id"
     t.boolean "email"
   end
 
-  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id"
 
   create_table "themas", force: true do |t|
     t.string   "title"
@@ -91,6 +88,7 @@ ActiveRecord::Schema.define(version: 20140414164748) do
     t.boolean "verificated"
     t.boolean "ban"
     t.integer "rate"
+    t.string  "shash"
   end
 
 end

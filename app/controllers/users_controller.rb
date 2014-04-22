@@ -79,12 +79,12 @@ class UsersController < ApplicationController
   end
 
   def userpage
-    @lastposts = Lastpost.where("user_id=?", session[:user]).order(created_at: :desc)
+    @lastposts = LastPost.where("user_id=?", session[:user]).order(created_at: :desc)
     if current_user.admin?
-      @adminmessages = Adminmessage.all
+      @admin_messages = AdminMessage.all
       @admin = true
     else
-      @adminmessages = current_user.adminmessages
+      @admin_messages = current_user.admin_messages
     end
   end
   

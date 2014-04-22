@@ -1,0 +1,10 @@
+<%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'AdminMessageProjection'} %>
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <p><%= "#{@admin_message.user.vorname} #{@admin_message.user.name} schrieb:" %></p>
+    <div class="well"><%= @admin_message.message %></div>
+  </div>
+</div>
+
+<%= link_to 'Edit', edit_admin_message_path(@admin_message) %> |
+<%= link_to 'Back', admin_messages_path %>
