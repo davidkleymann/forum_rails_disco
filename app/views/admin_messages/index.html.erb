@@ -1,0 +1,30 @@
+<%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'AdminMessageProjection'} %>
+<h1>Listing admin messages</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Message</th>
+      <th>User</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_messages.each do |admin_message| %>
+      <tr>
+        <td><%= admin_message.message %></td>
+        <td><%= admin_message.user.benutzername %></td>
+        <td><%= link_to 'Show', admin_message %></td>
+        <td><%= link_to 'Edit', edit_admin_message_path(admin_message) %></td>
+        <td><%= link_to 'Destroy', admin_message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Neue Nachricht an Admin senden', new_admin_message_path, class: 'btn btn-danger' %>

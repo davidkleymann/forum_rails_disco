@@ -1,4 +1,4 @@
-<%= javascript_tag render partial: 'eventstream/eventstream', formats: [:js], locals: {event_id: @event_id} %>
+<%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'UserProjection'} %>
 <h1>Benutzerübersicht</h1><br>
 <table class="table">
 	<thead>

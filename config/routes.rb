@@ -10,7 +10,7 @@ DiscoForum::Application.routes.draw do
 
   resources :posts, only: [:edit, :update, :destroy]
 
-  resources :adminmessages
+  resources :admin_messages
 
   resources :users do
     member do
@@ -30,6 +30,6 @@ DiscoForum::Application.routes.draw do
   
   get '/admins', to: 'home#admins'
 
-  get 'event_stream', to: 'event_source#stream'
+  get 'event_source/:projection/:event' => 'event_source#projected'
   root to: 'home#index'
 end
