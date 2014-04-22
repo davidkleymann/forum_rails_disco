@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   self.table_name = 'users'
   has_many :lastposts
   has_many :adminmessages
+  has_many :subscriptions
   
   def typ
     super || 0

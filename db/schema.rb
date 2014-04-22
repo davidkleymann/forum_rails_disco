@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140414164748) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "adminmessages", force: true do |t|
     t.text    "message"
     t.integer "user_id"
@@ -55,14 +52,21 @@ ActiveRecord::Schema.define(version: 20140414164748) do
     t.boolean "solid"
   end
 
-  add_index "projections", ["class_name"], name: "index_projections_on_class_name", using: :btree
+  add_index "projections", ["class_name"], name: "index_projections_on_class_name"
 
   create_table "subscriptions", force: true do |t|
     t.integer "user_id"
     t.boolean "email"
   end
 
-  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id"
+
+  create_table "suscriptions", force: true do |t|
+    t.integer "user_id"
+    t.boolean "email"
+  end
+
+  add_index "suscriptions", ["user_id"], name: "index_suscriptions_on_user_id"
 
   create_table "themas", force: true do |t|
     t.string   "title"
@@ -88,7 +92,6 @@ ActiveRecord::Schema.define(version: 20140414164748) do
     t.string  "email"
     t.string  "benutzername"
     t.integer "typ"
-    t.boolean "verificated"
     t.boolean "ban"
     t.integer "rate"
   end

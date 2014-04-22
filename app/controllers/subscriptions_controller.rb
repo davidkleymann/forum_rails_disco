@@ -2,11 +2,12 @@ class SubscriptionsController < ApplicationController
   before_action :authenticate
 
   def new
-    @subscription = CreateSubscriptionCommand.new
+    @subscription = CreateSubscriptionCommand.new topic_id: params[:topic_id]
   end
 
   def edit
-    @subscription = UpdateSubscriptionCommand.new email: Subscription.find(params[:id]).email
+    subscription = Subscription.find(params[:id])
+    @subscription = UpdateSubscriptionCommand.new {email: subscription.email, topic_id: subscription.topic_id}
   end
 
   def create
@@ -40,7 +41,7 @@ class SubscriptionsController < ApplicationController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:email).merge(user_id: session[:user])
+    params.require(:subscription).permit(:email, :topic_id).merge(user_id: session[:user])
   end
 
 end

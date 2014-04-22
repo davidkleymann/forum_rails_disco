@@ -10,7 +10,7 @@ class SubscriptionProjection
   end
 
   def created_subscription_event(event)
-    Subscription.create! event.to_hash
+    Subscription.create! event.to_hash.merge(topic_name: Topic.find(event.topic_id).title)
   end
   
 end
