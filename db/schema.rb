@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140414164748) do
+ActiveRecord::Schema.define(version: 20140423144456) do
 
   create_table "admin_messages", force: true do |t|
     t.text    "message"
@@ -54,9 +54,24 @@ ActiveRecord::Schema.define(version: 20140414164748) do
 
   add_index "projections", ["class_name"], name: "index_projections_on_class_name"
 
+  create_table "subscribedposts", force: true do |t|
+    t.string   "title"
+    t.text     "text"
+    t.string   "benutzername"
+    t.string   "gravatar_id"
+    t.integer  "subscription_id"
+    t.boolean  "updated"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subscribedposts", ["subscription_id"], name: "index_subscribedposts_on_subscription_id"
+
   create_table "subscriptions", force: true do |t|
     t.integer "user_id"
     t.boolean "email"
+    t.integer "topic_id"
+    t.string  "topic_name"
   end
 
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id"
