@@ -53,7 +53,7 @@
             <%= user_gravatar(topic.gravatar_id) %>
           </td>
           <td><strong><%= link_to topic.title, topic_path(topic) %></strong></td>
-          <td><%= link_to 'Verfolgen', wnew_subscription_path(topic_id: topic.id) %><br>
+          <td><%= link_to 'Verfolgen', new_subscription_path(topic_id: topic.id) %><br>
           <%= link_to 'Bearbeiten', edit_topic_path(topic) %><br>
           <%= link_to 'Löschen', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>

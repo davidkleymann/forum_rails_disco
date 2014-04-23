@@ -24,7 +24,7 @@ class TopicsController < ApplicationController
     if valid and id = Domain.run_command(@topic)
       flash[:success] = 'Topic was successfully created.'
       session[:tmp_event_id] = id
-      redirect_to controller: :posts, action: :create #, id: params[:thema_id]
+      redirect_to thema_path(id: params[:thema_id])
     else
       flash[:error] = 'Topic couldn\'t be created.'
       @thema = Thema.find(params[:thema_id])

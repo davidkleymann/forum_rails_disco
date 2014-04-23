@@ -22,24 +22,11 @@
 
 <%= link_to 'Nutzerdetails bearbeiten', edit_user_path(current_user) %>
 
-<h2>Letzte Aktivitäten der von Ihnen verfolgten Diskussionen</h2>
-<table>
-  <colgroup span="2"></colgroup>
-  <% i = true
-  @subscriptions.each do |subscription|
-    if i
-      i = false %>
-      <tr>
-    <% else
-      i = true
-    end %>
-    <td>
-      <%= link_to subscription.topic_name, topic_path(id: subscription.topic_id) %>
+<h2>Letzte Aktivitäten der von Ihnen verfolgten Diskussionen</h2><br>
+  <% @subscriptions.each do |subscription| %>
+    <div class="Subscription">
+      <h3><%= link_to subscription.topic_name, topic_path(id: subscription.topic_id) %></h3>
       <table style="width:100%">
-        <colgroup>
-          <col width="3*">
-          <col width="5*">
-        </colgroup>
         <thead>
           <tr>
             <th>Nutzer</th>
@@ -52,19 +39,17 @@
               <td><%= post.benutzername %><br>
                 <%= user_gravatar(post.gravatar_id) %></td>
               <td>
-                <h3><%= "(update) " if post.update %><%= post.title %><br></h3><br>
+                <h4><%= "(update) " if post.updated %><%= post.title %><br></h4><br>
                 <%= post.text %>
               </td>
             </tr>
           <% end %>
         </tbody>
-      </table>
+      </table><br><hr>
       <%= link_to "Einstellungen...", edit_subscription_path(id: subscription.id) %>
       <%= link_to 'Verfolgen beenden', subscription, method: :delete %>
-    </td>
-    <%= "</tr>" if i %>
+    </div>
   <% end %>
-</table>
 
 <% if @admin %>
 <div class="admin">

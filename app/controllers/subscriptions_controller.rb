@@ -7,13 +7,13 @@ class SubscriptionsController < ApplicationController
 
   def edit
     subscription = Subscription.find(params[:id])
-    @subscription = UpdateSubscriptionCommand.new {email: subscription.email, topic_id: subscription.topic_id}
+    @subscription = UpdateSubscriptionCommand.new email: subscription.email, topic_id: subscription.topic_id
   end
 
   def create
     @subscription = CreateSubscriptionCommand.new subscription_params
     if @subscription.valid? && (session[:tmp_event_id] = Domain.run_command(@subscription))
-      redirect_to userpage_path, notice: 'Topic wurde abonniert.'
+      redirect_to userpage_users_path, notice: 'Topic wurde abonniert.'
     else
       render action: 'new'
     end
@@ -22,7 +22,7 @@ class SubscriptionsController < ApplicationController
   def update
     @subscription = UpdateSubscriptionCommand.new subscription_params.merge(id: params[:id])
     if @subscription.valid? && (session[:tmp_event_id] = Domain.run_command(@subscription))
-      redirect_to userpage_path, notice: 'Die Einstellungen wurden gespeichert.'
+      redirect_to userpage_users_path, notice: 'Die Einstellungen wurden gespeichert.'
     else
       render action: 'edit'
     end
@@ -32,9 +32,9 @@ class SubscriptionsController < ApplicationController
     delete_subscription = DeleteSubscriptionCommand.new(id: params[:id])
     session[:tmp_event_id] = event_id = Domain.run_command(delete_subscription)
     if event_id
-      redirect_to userpage_path, notice: 'Das Abonnement wurde entfernt.'
+      redirect_to userpage_users_path, notice: 'Das Abonnement wurde entfernt.'
     else
-      redirect_to userpage_path, alert: 'Das Abonnerment konnte nicht gelöscht werdenn!'
+      redirect_to userpage_users_path, alert: 'Das Abonnerment konnte nicht gelöscht werdenn!'
     end
   end
 
