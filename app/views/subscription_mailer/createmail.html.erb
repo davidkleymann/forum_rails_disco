@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+	</head>
+	<body>
+		<h1>Ein neuer Post wurde varfasst!</h1>
+		<p>Am <%= @subscribedpost.created_at.strftime(%-d.%-m um %R Uhr) %> schrieb <%= @user.benutzername %> in der Diskussion <%= @topic_name %>:</p>
+		<h2><%= @subscribedpost.title %></h2>
+		<p><%= @subscribedpost.text %></p>
+		<hr>
+		<p>Um sich diesen Post im Browser anschauen zu können, klicken sie bitte <%= link_to "Auf diesen Link", topic_path(id: @user.topic_id) %><br>
+			Wenn sie keine Emails mehr für diese Diskussion erhalten möchten <%= link_to "melden Sie sich an", users_path %> und ändern die Einstellungen auf Ihrer Userpage</p>
+		<p>Disco-Forum - Das neu verteilte Forum-System!</p>
+	</body>
+</html>
+

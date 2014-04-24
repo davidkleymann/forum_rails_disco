@@ -10,5 +10,4 @@ def banmail(user)
 	
 end
 
-
 end

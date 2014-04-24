@@ -15,4 +15,24 @@ class TopicProjection
      gravatar = Digest::MD5.hexdigest(user.email.downcase)
     Topic.create! event.values.merge(id: event.id, benutzername: user.benutzername, gravatar_id: gravatar)
   end
+
+  def created_post_event(event)
+    update_count(event)
+  end
+
+  def updated_post_event(event)
+    update_count(event)
+  end
+
+  def deleted_post_event(event)
+    update_count(event)
+  end
+
+  private
+
+  def update_count(event)
+    topic = Topic.find(event.topic_id)
+    topic.update! count: topic.count + 1
+  end
+
 end

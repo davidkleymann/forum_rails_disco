@@ -9,31 +9,34 @@
   <%= @thema.description %>
 </p>
 <%= link_to 'Edit', edit_thema_path(@thema) if current_user.admin? %>
-<p>
-  <h2>Unterthemen</h2><br/>
-	<table class="table">
-  <thead>
-    <tr>
-      <th>Titel</th>
-      <th>Beschreibung</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @themas.each do |thema| %>
+<% if !@themas.empty? %>
+  <p>
+    <h2>Unterthemen</h2><br/>
+  	<table class="table">
+    <thead>
       <tr>
-        <td><%= link_to thema.title, thema %></td>
-        <td><%= thema.description %></td>
-        <td><%= link_to 'Bearbeiten', edit_thema_path(thema) %></td>
-        <td><%= link_to 'Löschen', thema, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Titel</th>
+        <th>Beschreibung</th>
+        <th></th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-  </table>
-  <%= link_to 'Neues Thema', new_thema_path(belong: @thema.id) if current_user.admin? %>
-</p>
-
+    </thead>
+    <tbody>
+      <% @themas.each do |thema| %>
+        <tr>
+          <td><%= link_to thema.title, thema %></td>
+          <td><%= thema.description %></td>
+          <td><%= link_to 'Bearbeiten', edit_thema_path(thema) %></td>
+          <td><%= link_to 'Löschen', thema, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    </table>
+    <%= link_to 'Neues Thema', new_thema_path(belong: @thema.id) if current_user.admin? %>
+  </p>
+<% else %>
+  <%= link_to 'Neues Thema', new_thema_path(belong: @thema.id) if current_user.admin? %><br>
+<% end %>
 <p>
   <h2>Zugehörige Diskussionen</h2>
   <table class="table">
