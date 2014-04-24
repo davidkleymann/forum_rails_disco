@@ -7,10 +7,11 @@ module UserVerificatedValidations
   
   included do
 
-    #validates :verificated
+    validate :verificated
+  
   end  
   def verificated
-    errors.add(:base, 'Validcfcj') if params[:userunlock]==URI.encode(User.find(user_id).shash)
+    errors.add(:base, 'err') if params[:userunlock]==URI.encode(User.find(user_id).shash)
   end
         
 end 

@@ -1,4 +1,4 @@
-class subscription_mailer < ActionMailer::Base
+class SubscriptionMssailer < ActionMailer::Base
 	default from: "discoforum@develop.hicknhack.com"
 
 	def createmail(subscribedpost,user_id,topic_name)

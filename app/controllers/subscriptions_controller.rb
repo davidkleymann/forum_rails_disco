@@ -7,7 +7,7 @@ class SubscriptionsController < ApplicationController
 
   def edit
     subscription = Subscription.find(params[:id])
-    @subscription = UpdateSubscriptionCommand.new email: subscription.email, topic_id: subscription.topic_id
+    @subscription = UpdateSubscriptionCommand.new subscription.attributes.slice('id', 'email', 'topic_id')
   end
 
   def create

@@ -4,6 +4,7 @@ module Domain
     include ActiveEvent::Validations
 
     validation_target :'RegisterUserCommand'
+    validation_target :'UpdateUserCommand'
 
     included do
       validates :benutzername, {

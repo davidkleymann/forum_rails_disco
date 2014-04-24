@@ -16,16 +16,19 @@ DiscoForum::Application.routes.draw do
     member do
       put 'ban'
       put 'unban'
+      get 'verificated'
     end
     collection do
       get 'userpage'
       post 'logout'
       post 'login'
       get 'banned'
+     
     end
   end
 
   resources :roles, only: [:edit, :update]
+
 
   
   get '/admins', to: 'home#admins'

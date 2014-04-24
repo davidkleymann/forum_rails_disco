@@ -8,7 +8,7 @@ class Post < ActiveRecord::Base
     where(user_id: user_id)
   end
   
-  def self.posted_since(time)
-    where(arel_table[:created_at].gt 1.minute.ago)
+  def self.posted_since(time = 1.minute.ago)
+    where(arel_table[:created_at].gt time)
   end
 end

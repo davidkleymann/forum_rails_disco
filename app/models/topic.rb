@@ -6,4 +6,6 @@ class Topic < ActiveRecord::Base
   
   belongs_to :thema
   belongs_to :user
+  
+  
 end

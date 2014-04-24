@@ -1,5 +1,10 @@
 <h1>Registrieren</h1>
 <p>Für unsere im Testbetrieb stehenden Dienste müssen Sie sich registrieren</p>
+<ul class="messages">
+  <%- @user.errors.full_messages.each do |msg| %>
+    <li class="error"><%= msg %></li>
+  <%- end %>
+</ul>
 <%= form_for(@user) do |f| %>
   <%= f.label :name %><br>
   <%= f.text_field :name %><br>

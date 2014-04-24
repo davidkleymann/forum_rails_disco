@@ -35,9 +35,9 @@ class User < ActiveRecord::Base
 		new
 	end
   
-  def update_attributes
-    Hash.new([:id, :name, :vorname, :email, :benutzername, :passwort].map do |key|
-      [key, attributes[key]]
-    end)
+  def updatable_attributes
+    Hash[[:id, :name, :vorname, :email, :benutzername, :passwort].map do |key|
+      [key, attributes[key.to_s]]
+    end]
   end
 end
