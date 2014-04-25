@@ -1,20 +1,47 @@
-<h1>Registrieren</h1>
-<p>Für unsere im Testbetrieb stehenden Dienste müssen Sie sich registrieren</p>
-<ul class="messages">
-  <%- @user.errors.full_messages.each do |msg| %>
-    <li class="error"><%= msg %></li>
-  <%- end %>
-</ul>
-<%= form_for(@user) do |f| %>
-  <%= f.label :name %><br>
-  <%= f.text_field :name %><br>
-  <%= f.label :vorname %><br>
-  <%= f.text_field :vorname %><br>
-  <%= f.label :email %><br>
-  <%= f.text_field :email %><br>
-  <%= f.label :benutzerame %><br>
-  <%= f.text_field :benutzername %><br>
-  <%= f.label :passwort %><br>
-  <%= f.password_field :passwort%><br>
-  <%= f.submit%><br>
-<% end %>
+<div class="col-sm-6 col-xs-offset-3">
+<h1>Registieren</h1>
+<div class="well">
+
+  <%= form_for(@user, class: "form-horizontal", role:"form") do |f| %>
+
+    <div class="form-group">
+      <%= f.label :name, class: 'col-sm-3 control-label' %>
+      <div class="col-sm-9">
+        <%= f.text_field :name, placeholder: 'Name', class: 'form-control' %>
+      </div>
+    </div>
+
+     <div class="form-group">
+      <%= f.label :vorname, class: 'col-sm-3 control-label' %>
+      <div class="col-sm-9">
+        <%= f.text_field :vorname, placeholder: 'Vorname', class: 'form-control'  %>
+      </div>
+    </div>
+
+     <div class="form-group">
+      <%= f.label :benutzername, class: 'col-sm-3 control-label' %>
+      <div class="col-sm-9">
+        <%= f.text_field :benutzername, placeholder: 'Benutzername', class: 'form-control'  %>
+      </div>
+    </div>
+
+     <div class="form-group">
+      <%= f.label :email, class: 'col-sm-3 control-label' %>
+      <div class="col-sm-9">
+        <%= f.email_field :email, placeholder: 'E-Mail Adresse', class: 'form-control'  %>
+      </div>
+    </div>
+
+     <div class="form-group">
+      <%= f.label :passwort, class: 'col-sm-3 control-label' %>
+      <div class="col-sm-9">
+        <%= f.password_field :passwort, placeholder: 'Passwort', class: 'form-control'  %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit 'Registrieren', class: 'btn btn-danger' %>
+    </div>
+  <% end %>
+</div>
+</div>
