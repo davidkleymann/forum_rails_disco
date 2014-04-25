@@ -6,10 +6,11 @@ class PostsController < ApplicationController
 
   def new
     @topic = Topic.find(params[:topic_id])
-    @post = Post.new(topic_id: params[:topic_id])
+    @post = CreatePostCommand.new(topic_id: params[:topic_id])
   end
 
   def edit
+    @post = UpdatePostCommand.new(Post.find(params[:id]).updatable_attributes)
   end
 
   def create

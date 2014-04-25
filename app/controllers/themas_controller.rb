@@ -10,12 +10,12 @@ class ThemasController < ApplicationController
   end
 
   def show
-    @themas = Thema.where("belong = ?", @thema.id)
+    @themas = Thema.where(belong: @thema.id)
     @topics = @thema.topics
   end
 
   def new
-    @thema = Thema.new(belong: params[:belong])
+    @thema = CreateThemaCommand.new(belong: params[:belong])
     @themas = Thema.all
   end
 

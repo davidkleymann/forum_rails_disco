@@ -11,4 +11,8 @@ class Post < ActiveRecord::Base
   def self.posted_since(time = 1.minute.ago)
     where(arel_table[:created_at].gt time)
   end
+
+  def updatable_attributes
+    attributes.slice(*%w(id title text user_id topic_id))
+  end
 end

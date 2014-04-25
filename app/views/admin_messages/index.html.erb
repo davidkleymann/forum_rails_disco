@@ -15,11 +15,14 @@
   <tbody>
     <% @admin_messages.each do |admin_message| %>
       <tr>
-        <td><%= admin_message.message %></td>
+        <td><%= link_to admin_message.message, admin_message %></td>
         <td><%= admin_message.user.benutzername %></td>
-        <td><%= link_to 'Show', admin_message %></td>
-        <td><%= link_to 'Edit', edit_admin_message_path(admin_message) %></td>
-        <td><%= link_to 'Destroy', admin_message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <span class="pull-right">
+            <%= link_to 'Bearbeiten', edit_admin_message_path(admin_message), class: 'btn btn-warning btn-xs' %>
+            <%= link_to 'Löschen', admin_message, method: :delete, data: { confirm: 'Bist du dir sicher, dass du diese Nachricht entfernen möchtest?' }, class: 'btn btn-danger btn-xs' %>
+          </span>
+        </td>
       </tr>
     <% end %>
   </tbody>
