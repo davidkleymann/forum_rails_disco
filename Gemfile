@@ -29,6 +29,9 @@ gem 'turbolinks'
 # Bootstrap (sass) for styling
 gem 'bootstrap-sass', '~> 3.1.1'
 
+# For simple form generation
+gem 'simple_form'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
