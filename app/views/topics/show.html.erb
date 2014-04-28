@@ -1,50 +1,47 @@
 <%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'TopicProjection'} %>
 
-<p>
-  <h1><%= @topic.title %></h1>
+<div class="jumbotron">
+  <h1>
+    <%= @topic.title %>
+    <%= link_to 'zum Thema', thema_path(id: @topic.thema_id), class: 'btn btn-default btn-sm' %>
+  </h1>
+
+  <p>
+    <strong>Ersteller:</strong>
+    <%= @topic.benutzername %>
+  </p>
+
+  <p><%= link_to 'Verfolgen', new_subscription_path(topic_id: @topic.id), class: 'btn btn-danger' %></p>
+
+
+</div>
+
+<h2>Beiträge</h2>
+
+<ul class="list-unstyled">
+  <% @topic.posts.each do |post| %>
+  <li class="post">
+    <div class="user">
+      <%= gravatar(post.user_id, 40, 40) %><br/>
+      <%= post.benutzername %>
+    </div>
+    <div class="content">
+      <div class="title"><%= post.title %></div>
+      <div class="body"><%= post.text %></div>
+      <div class="footer">Am <%= l post.created_at, format: :short %> von <%= post.benutzername %></div>
+    </div>
+    <div class="clearfix"></div>
+    
+  </li>
+  <% end %>
+</ul>
+
+
+<p> 
+  
+  <%= link_to 'Beitrag hinzufügen', new_topic_post_path(topic_id: @topic.id), class: 'btn btn-primary' %>
+  <span class="pull-right">
+    <%= link_to 'Topic bearbeiten', edit_topic_path(@topic), class: 'btn btn-warning' %>
+  </span>
+  
 </p>
-
-<p>
-  <strong>Ersteller:</strong>
-  <%= @topic.benutzername %>
-</p>
-
-<p><%= link_to 'Verfolgen', new_subscription_path(topic_id: @topic.id) %></p>
-
-<h2>Posts</h2>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Post</th>
-      <th>Time</th>
-      <th>Aktionen</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @topic.posts.each do |post| %>
-      <tr>
-        <td>Erstellt von:<br>
-          <strong><%= post.benutzername %></strong><br>
-          <%= user_gravatar(post.gravatar_id) %>
-        </td>
-        <td><strong><%= post.title %></strong><br>
-          <%= post.text %>
-        </td>
-        <td><%= l post.created_at, format: :short %></td>
-        <td><%= link_to 'Edit', edit_post_path(post, topic_id: post.topic_id) %><br>
-            <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Post', new_topic_post_path(topic_id: @topic.id) %>
-
-
-<%= link_to 'Topic bearbeiten', edit_topic_path(@topic) %> |
-<%= link_to 'Zurück zum Thema', thema_path(id: @topic.thema_id) %>

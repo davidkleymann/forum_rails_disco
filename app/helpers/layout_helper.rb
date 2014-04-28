@@ -24,11 +24,11 @@ module LayoutHelper
     link_to 'Userpage', userpage_users_path
   end 
 
-  def gravatar(user_id)
+  def gravatar(user_id, width=20, height=20)
     require 'digest/md5'
     email_address = User.find(user_id).email.downcase
     hash = Digest::MD5.hexdigest(email_address)
     image_src = "http://www.gravatar.com/avatar/#{hash}"
-    image_tag(image_src, width: '20', height: '20')
+    image_tag(image_src, width: width, height: height)
   end
 end

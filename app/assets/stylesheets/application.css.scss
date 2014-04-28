@@ -35,3 +35,36 @@
   right: 100px;
   top: 20px;
 }
+
+.post {
+  padding:10px 20px 5px 10px;
+
+  .user {
+    width:50px;
+    float:left;
+    text-align: right;
+    margin:5px 20px 5px 0;
+    display: block;
+  }
+
+  .content {
+    display:block;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .body {
+    font-size:1.1em;
+  }
+
+  .footer {
+    margin-top:10px;
+    font-size:0.9em;
+    vertical-align: bottom;
+  }
+
+  border-bottom: 1px solid #ddd;
+}

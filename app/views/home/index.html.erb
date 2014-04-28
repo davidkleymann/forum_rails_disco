@@ -3,19 +3,25 @@
 <table class="table table-striped">
   <thead>
      <tr>
-      <th>Title</th>
-      <th>User</th>
+      <th>Titel</th>
+      <th>Erstellt durch</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <% @Latesttopics.each do |topic| %>
       <tr>
-        <td><%= link_to topic.title, topic_path(topic) %></td>
+        <td><strong><%= link_to topic.title, topic_path(topic) %></strong></td>
         <% unless User.where(id: topic.user_id).empty? %>
           <td><%= gravatar(topic.user_id) %> <%= topic.user.benutzername %></td>
         <% else %>
           <td>Gelösche Person</td>
         <% end %>
+        <td>
+          <span class="pull-right">
+            <%= link_to 'Bearbeiten', edit_topic_path(topic), class: 'btn btn-warning btn-xs' %>
+          </span>
+        </td>
       </tr>
     <% end %>
   </tbody>
