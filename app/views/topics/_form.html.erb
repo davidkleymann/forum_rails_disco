@@ -1,21 +1,12 @@
-<%= form_for(shallow_args(@thema, @topic)) do |f| %>
-  <% if @topic.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+<div class="well">
+  <%= simple_form_for(shallow_args(@thema, @topic)) do |f| %>
 
-      <ul>
-      <% @topic.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
+    <%= f.input :title, label: 'Titel', placeholder: 'Titel' %>
+    <span class="pull-right">
+      <%= link_to 'Abbrechen', :back || thema_path(:thema_id), class: 'btn btn-default' %>
+      <%= f.submit 'Speichern', class: 'btn btn-danger' %>
+    </span>
+    <div class="clearfix" />
+
   <% end %>
-
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

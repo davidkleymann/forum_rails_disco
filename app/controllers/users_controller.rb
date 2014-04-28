@@ -4,7 +4,8 @@ class UsersController < ApplicationController
   before_action :require_admin, only: [:show, :delete, :ban]
   before_action :validate_user, only: [:edit, :update]
 
-  def index
+  def index  
+    @user = User.new
   end
 
   def show
@@ -57,9 +58,9 @@ class UsersController < ApplicationController
 #Sonstige Methoden
 
   def login
-    inlog = LogInCommand.new(benutzername: params[:benutzername], passwort: params[:passwort])
+    inlog = LogInCommand.new(benutzername: params[:user][:benutzername], passwort: params[:user][:passwort])
     if inlog.valid? && Domain.run_command(inlog)
-      @id = User.where(benutzername: params[:benutzername]).first.id
+      @id = User.where(benutzername: params[:user][:benutzername]).first.id
       session[:user] = @id
       if params[:merk].nil? || params[:merk] == users_path
         redirect_to userpage_user_path(id: @id)

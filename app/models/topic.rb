@@ -7,5 +7,7 @@ class Topic < ActiveRecord::Base
   belongs_to :thema
   belongs_to :user
   
-  
+  def updatable_attributes
+    attributes.slice(*%w(id title user_id thema_id))
+  end
 end

@@ -2,7 +2,7 @@
 <h1>Themenübersicht</h1>
 
 
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Titel</th>
@@ -16,7 +16,7 @@
       <tr>
         <td><%= link_to thema.title, thema %></td>
         <td><%= thema.description %></td>
-        <td><%= link_to 'Bearbeiten', edit_thema_path(thema) %></td>
+        <td><%= link_to 'Bearbeiten', edit_thema_path(thema), class: 'btn btn-warning btn-xs' %></td>
       </tr>
     <% end %>
   </tbody>

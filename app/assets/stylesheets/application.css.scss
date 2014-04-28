@@ -21,8 +21,13 @@
 #error_explanation div {
 	border: 1px solid black;
 }
-.error {
-	border-color: red;
+
+.alert-error {
+  @extend .alert-danger;
+}
+
+.alert-notice {
+  @extend .alert-info;
 }
 
 .login {

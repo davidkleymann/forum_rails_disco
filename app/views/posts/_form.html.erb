@@ -1,16 +1,16 @@
-<%= form_for(shallow_args(@topic, @post)) do |f| %>
+<div class="well">
 
-  <%= f.hidden_field :topic_id %>
+  <%= simple_form_for([@topic, @post]) do |f| %>
+    <%= f.hidden_field :topic_id %>
 
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :text %><br>
-    <%= f.text_area :text %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+    <%= f.input :title, label: 'Titel', placeholder: 'Titel' %>
+    <%= f.input :text, as: :text, label: 'Inhalt', placeholder: 'Inhalt' %>
+    
+    <span class="pull-right">
+      <%= link_to 'Abbrechen', :back || topic_path(:topic_id), class: 'btn btn-default' %>
+      <%= f.submit 'Absenden', class: 'btn btn-danger' %>
+    </span>
+    <div class="clearfix" />
+
+  <% end %>
+</div>

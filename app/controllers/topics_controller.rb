@@ -33,8 +33,8 @@ class TopicsController < ApplicationController
   end
 
   def edit
-    attributes = Topic.find(params[:id]).attributes
-    @topic = UpdateTopicCommand.new(attributes.merge(topic_params, id: params[:id], user_id: session[:user]))
+    #attributes = Topic.find(params[:id]).attributes
+    @topic = UpdateTopicCommand.new(Topic.find(params[:id]).updatable_attributes)
   end
   
   def update

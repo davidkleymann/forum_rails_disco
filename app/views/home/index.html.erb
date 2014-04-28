@@ -1,20 +1,22 @@
-<h1>Listing admin messages</h1>
+<h1>Topics</h1>
 
- <table class="table">
-   <thead>
+<table class="table table-striped">
+  <thead>
      <tr>
-       <td><b>Title</b></td>
-         <td><b>User</b></td>
-       <td></td>
-     </tr>
-   </thead>
-  <% @Latesttopics.each do |topic| %>
-    <tbody>
+      <th>Title</th>
+      <th>User</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @Latesttopics.each do |topic| %>
       <tr>
-        <td><%= topic.title %></td>
-        <td><%= User.find(topic.user_id).benutzername %></td>
-        <td><%= link_to 'Show', topic_path(topic) %></td> 
+        <td><%= link_to topic.title, topic_path(topic) %></td>
+        <% unless User.where(id: topic.user_id).empty? %>
+          <td><%= gravatar(topic.user_id) %> <%= topic.user.benutzername %></td>
+        <% else %>
+          <td>Gelösche Person</td>
+        <% end %>
       </tr>
-    </tbody>
-  <% end %>
+    <% end %>
+  </tbody>
 </table>

@@ -1,13 +1,16 @@
-<h1>Login</h1>
+<div class="col-sm-6 col-xs-offset-3">
+  <h1>Anmelden</h1>
+  <div class="well">
 
-<%= form_tag( login_users_path , method: "post") do  %>
-  <%= label_tag :benutzername %><br>
-  <%= text_field_tag :benutzername %><br>
-  <br>
-  <%= label_tag :passwort %><br>
-  <%= password_field_tag :passwort%><br>
-  <br>
-<%= hidden_field_tag( :merk, params[:merk]) %>
-  <%= submit_tag "Log in!" %>
-<% end %><br>
-<%= link_to 'Registrieren', new_user_path %>
+    <%= simple_form_for(@user, url: login_users_path, method: :post) do |f| %>
+
+      <%= f.input :benutzername, label: 'Benutzername', placeholder: 'Benutzername' %>
+      <%= f.input :passwort, label: 'Passwort', placeholder: 'Passwort', as: :password %>
+      <%= hidden_field_tag( :merk, params[:merk]) %>
+      <%= f.submit 'Anmelden', class: 'btn btn-danger pull-right' %>
+      <div class="clearfix" />
+    <% end %>
+  </div>
+</div>
+
+<%= debug @user %>

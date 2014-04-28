@@ -8,6 +8,8 @@ DiscoForum::Application.routes.draw do
     end
   end
 
+  get '/topics', to: 'topics#index'
+
   resources :posts, only: [:edit, :update, :destroy]
 
   resources :admin_messages
