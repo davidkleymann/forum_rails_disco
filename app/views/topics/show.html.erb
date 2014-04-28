@@ -1,9 +1,10 @@
 <%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'TopicProjection'} %>
 
+<p class="hint"><%= link_to 'Zurück zum Thema', thema_path(id: @topic.thema_id), class: 'btn btn-default' %></p>
+
 <div class="jumbotron">
   <h1>
     <%= @topic.title %>
-    <%= link_to 'zum Thema', thema_path(id: @topic.thema_id), class: 'btn btn-default btn-sm' %>
   </h1>
 
   <p>
@@ -11,37 +12,29 @@
     <%= @topic.benutzername %>
   </p>
 
-  <p><%= link_to 'Verfolgen', new_subscription_path(topic_id: @topic.id), class: 'btn btn-danger' %></p>
+  <p><%= link_to 'Verfolgen', new_subscription_path(topic_id: @topic.id), class: 'btn btn-primary' %></p>
 
 
 </div>
 
 <h2>Beiträge</h2>
 
-<ul class="list-unstyled">
-  <% @topic.posts.each do |post| %>
-  <li class="post">
-    <div class="user">
-      <%= gravatar(post.user_id, 40, 40) %><br/>
-      <%= post.benutzername %>
-    </div>
-    <div class="content">
-      <div class="title"><%= post.title %></div>
-      <div class="body"><%= post.text %></div>
-      <div class="footer">Am <%= l post.created_at, format: :short %> von <%= post.benutzername %></div>
-    </div>
-    <div class="clearfix"></div>
-    
-  </li>
-  <% end %>
-</ul>
+<% if @topic.posts.empty? %>
+  <p class="hint">Es wurden bisher noch keine Beiträge verfasst.</p>
+<% else %>
+  <ul class="list-unstyled">
+    <% @topic.posts.each do |post| %>
+    <%= render 'posts/single_post', post: post %>
+    <% end %>
+  </ul>
+<% end %>
 
 
 <p> 
   
-  <%= link_to 'Beitrag hinzufügen', new_topic_post_path(topic_id: @topic.id), class: 'btn btn-primary' %>
+  <%= link_to 'Beitrag hinzufügen', new_topic_post_path(topic_id: @topic.id), class: 'btn btn-primary btn-sm' %>
   <span class="pull-right">
-    <%= link_to 'Topic bearbeiten', edit_topic_path(@topic), class: 'btn btn-warning' %>
+    <%= link_to 'Topic bearbeiten', edit_topic_path(@topic), class: 'btn btn-warning btn-sm' %>
   </span>
   
 </p>

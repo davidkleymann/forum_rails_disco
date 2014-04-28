@@ -1,23 +1,10 @@
-<%= form_for(@subscription) do |f| %>
-  <% if @subscription.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+<div class="well">
+  <%= simple_form_for(@subscription) do |f| %>
 
-      <ul>
-      <% @subscription.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
+    <%= f.input :email, as: :boolean, boolean_style: :inline, label: 'Neues per Email abonnieren' %>
+    <%= f.hidden_field :topic_id %>
+
+    <%= f.button :submit, class: 'btn btn-danger' %>
+    <%= link_to 'Abbrechen', userpage_users_path, class: 'btn btn-default' %>
   <% end %>
-
-  <div class="field">
-    <p><%= f.check_box :email %> Über Neues in dieser Diskussion per E-Mail informieren</p>
-  </div>
-
-  <%= f.hidden_field :topic_id %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

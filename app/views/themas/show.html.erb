@@ -1,73 +1,93 @@
 <%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'ThemaProjection'} %>
 <p id="notice"><%= notice %></p>
 
-<p>
-  <h1><%= @thema.title %></h1>
-</p>
+<div class="jumbotron">
+  <h1>
+    <%= @thema.title %>
+    <%= link_to 'Bearbeiten', edit_thema_path(@thema), class: 'btn btn-warning btn-sm' if current_user.admin? %>
+  </h1>
 
-<p>
-  <%= @thema.description %>
-</p>
-<%= link_to 'Edit', edit_thema_path(@thema) if current_user.admin? %>
-<% if !@themas.empty? %>
-  <p>
-    <h2>Unterthemen</h2><br/>
-  	<table class="table">
-    <thead>
+  <p><%= @thema.description %></p>
+
+</div>
+
+
+<article id="unterthemen">
+<h2>
+  Unterthemen
+  <%= link_to 'Unterthema hinzufügen', new_thema_path(belong: @thema.id), class: 'btn btn-link' if current_user.admin? %>
+</h2>
+
+<% unless @themas.empty? %>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Titel</th>
+      <th>Beschreibung</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @themas.each do |thema| %>
       <tr>
-        <th>Titel</th>
-        <th>Beschreibung</th>
-        <th></th>
-        <th></th>
+        <td><%= link_to thema.title, thema %></td>
+        <td><%= thema.description %></td>
+        <td>
+          <span class="pull-right">
+          <%= link_to 'Bearbeiten', edit_thema_path(thema), class: 'btn btn-warning btn-xs' %>
+          <%= link_to 'Löschen', thema, method: :delete, data: { confirm: 'Willst du das Unterthema wirklich löschen?' }, class: 'btn btn-danger btn-xs' %></td>
+          </span>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      <% @themas.each do |thema| %>
-        <tr>
-          <td><%= link_to thema.title, thema %></td>
-          <td><%= thema.description %></td>
-          <td><%= link_to 'Bearbeiten', edit_thema_path(thema) %></td>
-          <td><%= link_to 'Löschen', thema, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-    </tbody>
-    </table>
-    <%= link_to 'Neues Thema', new_thema_path(belong: @thema.id) if current_user.admin? %>
-  </p>
-<% else %>
-  <%= link_to 'Neues Thema', new_thema_path(belong: @thema.id) if current_user.admin? %><br>
+    <% end %>
+  </tbody>
+  </table>
 <% end %>
-<p>
-  <h2>Zugehörige Diskussionen</h2>
-  <table class="table">
+</article>
+
+<article id="topics">
+  <h2>
+    Zugehörige Diskussionen
+    <%= link_to 'Diskussion starten', new_thema_topic_path(thema_id: @thema.id), class: 'btn btn-link' %>
+  </h2>
+
+  <table class="table table-striped">
     <thead>
       <tr>
-        <th>Benutzer</th>
+        <th></th>
         <th>Diskussion</th>
-        <th>Aktionen</th>
+        <th>Benutzer</th>
+        <th></th>
       </tr>
     </thead>
-  
+
     <tbody>
       <% @topics.each do |topic| %>
         <tr>
-          <td> Erstellt von:<br>
-            <strong><%= topic.benutzername %></strong><br>
-            <%= user_gravatar(topic.gravatar_id) %>
-          </td>
+          <td><%= link_to 'Verfolgen', new_subscription_path(topic_id: topic.id), class: 'btn btn-primary btn-xs' %></td>
           <td><strong><%= link_to topic.title, topic_path(topic) %></strong></td>
-          <td><%= link_to 'Verfolgen', new_subscription_path(topic_id: topic.id) %><br>
-          <%= link_to 'Bearbeiten', edit_topic_path(topic) %><br>
-          <%= link_to 'Löschen', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          
+          <% unless User.where(id: topic.user_id).empty? %>
+            <td><%= gravatar(topic.user_id) %> <%= topic.user.benutzername %></td>
+          <% else %>
+            <td>Gelösche Person</td>
+          <% end %>
+          
+          <td>
+            <span class="pull-right">
+              <%= link_to 'Bearbeiten', edit_topic_path(topic), class: 'btn btn-warning btn-xs' %>
+              <%= link_to 'Löschen', topic, method: :delete, data: { confirm: 'Willst du die Diskussion wirklich löschen?' }, class: 'btn btn-danger btn-xs' %>
+            </span>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= link_to 'Neue Diskussion', new_thema_topic_path(thema_id: @thema.id) %>
-</p>
-<hr>
+
+</article>
+
 <% if @thema.belong.nil? %>
-  <%=link_to 'Zurück zur Übersicht', themas_path %>
+  <%=link_to 'Zurück zur Übersicht', themas_path, class: 'btn btn-default' %>
 <% else %>
-  <%= link_to 'Zurück', thema_path(id: @thema.belong) %>
+  <%= link_to 'Zurück', thema_path(id: @thema.belong), class: 'btn btn-default' %>
 <% end %>

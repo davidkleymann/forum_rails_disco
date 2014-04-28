@@ -22,7 +22,7 @@
   </tbody>
 </table>
 
-<br>
 
-<%= link_to 'Neues Thema', new_thema_path(belong_id: 0) if current_user.admin? %>
-<%= link_to 'Zurück zur Startseite', '/' %>
+<%= link_to 'Zurück zur Startseite', root_url, class: 'btn btn-default btn-sm' %>
+<%= link_to 'Neues Thema', new_thema_path(belong_id: 0), class: 'btn btn-primary btn-sm' if current_user.admin? %>
+

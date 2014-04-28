@@ -1,13 +1,20 @@
-<h1>Willkommen <%= @current_user.benutzername %></h1>
 
-<h2>Ihre letzten Posts</h2>
 
-<table class="table">
+<h1>
+  <%= gravatar(@current_user.id, 100, 100) %> 
+  <%= @current_user.benutzername %>
+</h1>
+<%= link_to 'Nutzerdetails bearbeiten', edit_user_path(current_user) %>
+
+
+<h2>Aktuelle Beiträge</h2>
+
+<table class="table table-striped">
   <thead>
   <tr>
-    <th>Titel</th>
-    <th>Text</th>
-    <th>Zeit</th>
+    <th width="20%">Titel</th>
+    <th width="60%">Inhalt</th>
+    <th width="20%">Erstellt</th>
   </tr>
   </thead>
   <tbody>
@@ -15,53 +22,59 @@
    <tr>
      <td><%=post.title %></td>
      <td><%=post.text %></td>
-     <td><%=post.created_at %></td>
+     <td><%= l post.created_at, format: :short %></td>
   <% end %>
   </tbody>
 </table>
 
-<%= link_to 'Nutzerdetails bearbeiten', edit_user_path(current_user) %>
 
-<h2>Letzte Aktivitäten der von Ihnen verfolgten Diskussionen</h2><br>
-  <% @subscriptions.each do |subscription| %>
-    <div class="Subscription">
-      <h3><%= link_to subscription.topic_name, topic_path(id: subscription.topic_id) %></h3>
-      <table style="width:100%">
-        <thead>
-          <tr>
-            <th>Nutzer</th>
-            <th>Post</th>
-          </tr>
-        </thead>
-        <tbody>
-          <%subscription.subscribedposts.each do |post| %>
-            <tr>
-              <td><%= post.benutzername %><br>
-                <%= user_gravatar(post.gravatar_id) %></td>
-              <td>
-                <h4><%= "(update) " if post.updated %><%= post.title %><br></h4><br>
-                <%= post.text %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table><br><hr>
-      <%= link_to "Einstellungen...", edit_subscription_path(id: subscription.id) %>
-      <%= link_to 'Verfolgen beenden', subscription, method: :delete %>
-    </div>
-  <% end %>
+
+<h2>Letzte Aktivitäten der von Ihnen verfolgten Diskussionen</h2>
+<% @subscriptions.each do |subscription| %>
+    <h3>
+      <%= link_to subscription.topic_name, topic_path(id: subscription.topic_id) %>
+      <%= link_to "Einstellungen...", edit_subscription_path(id: subscription.id), class: 'btn btn-default btn-xs' %>
+      <%= link_to 'Verfolgen beenden', subscription, method: :delete, class: 'btn btn-danger btn-xs' %>
+    </h3>
+
+    <% if subscription.subscribedposts.empty? %>
+      <p class="hint">Es wurden bisher noch keine Beiträge verfasst.</p>
+    <% else %>
+      <ul class="list-unstyled">
+        <% subscription.subscribedposts.each do |post| %>
+        <li class="post">
+          <div class="user">
+            <%= gravatar(post.subscription.user_id, 40, 40) %><br/>
+            <%= post.benutzername %>
+          </div>
+          <div class="content">
+            <div class="title"><%= post.title %></div>
+            <div class="body"><%= post.text %></div>
+            <div class="footer">Am <%= l post.created_at, format: :short %> von <%= post.benutzername %></div>
+          </div>
+          <div class="clearfix"></div>
+        </li>
+        <% end %>
+      </ul>
+    <% end %>
+<% end %>
 
 <% if @admin %>
-<div class="admin">
- <h2>Adminbereich</h2>
- <%= link_to 'Userübersicht', user_path(id: 1) %>
- <%= link_to 'Topicübersicht', thema_topics_path(thema_id: 1) %>
- <h3>Aktuelle Nutzeranfragen</h3><br>
- <table class="table">
+ <h2>
+  Adminbereich
+  <%= link_to 'Userübersicht', user_path(id: 1), class: 'btn btn-default btn-xs' %>
+  <%= link_to 'Topicübersicht', thema_topics_path(thema_id: 1), class: 'btn btn-default btn-xs' %>
+ </h2>
+ 
+ 
+ <h4>Aktuelle Nutzeranfragen</h4>
+
+ <table class="table table-striped">
    <thead>
    <tr>
-     <th>Message</th>
+     
      <th>Nutzer</th>
+     <th width="90%">Message</th>
    </tr>
    </thead>
    <tbody>
@@ -73,5 +86,5 @@
    <% end %>
    </tbody>
  </table>
-</div>
+
 <% end %>

@@ -14,7 +14,7 @@ class AdminMessagesController < ApplicationController
   end
 
   def new
-    @admin_message = CreateAdminMessage.new
+    @admin_message = CreateAdminMessageCommand.new
   end
 
   def edit

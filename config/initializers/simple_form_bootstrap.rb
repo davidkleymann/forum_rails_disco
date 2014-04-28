@@ -13,7 +13,7 @@ SimpleForm.setup do |config|
 
   config.wrappers :prepend, tag: 'div', class: "form-group", error_class: 'error' do |b|
     b.use :html5
-    b.use :placeholde
+    b.use :placeholder
     b.use :label
     b.wrapper tag: 'div', class: 'col-sm-8' do |input|
       input.wrapper tag: 'div', class: 'input-prepend' do |prepend|
