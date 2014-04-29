@@ -1,6 +1,14 @@
 <div class="well">
   <%= simple_form_for(@thema) do |f| %>
-
+    <% if @thema.errors.any? %>
+      <div class="alert alert-error">
+        <ul class="list-unstyled">
+          <% @thema.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
     <%= f.input :title, label: 'Titel', placeholder: 'Titel' %>
     <%= f.input :description, label: 'Beschreibung', as: :text %>
     

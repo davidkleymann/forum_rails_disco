@@ -3,7 +3,15 @@
   <div class="well">
 
     <%= simple_form_for(@user, url: login_users_path, method: :post) do |f| %>
-
+      <% if @user.errors.any? %>
+        <div class="alert alert-error">
+          <ul class="list-unstyled">
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
       <%= f.input :benutzername, label: 'Benutzername', placeholder: 'Benutzername' %>
       <%= f.input :passwort, label: 'Passwort', placeholder: 'Passwort', as: :password %>
       <%= hidden_field_tag( :merk, params[:merk]) %>

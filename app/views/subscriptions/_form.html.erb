@@ -1,16 +1,25 @@
 <div class="well">
   <%= simple_form_for(@subscription) do |f| %>
-
-    <div class="checkbox">
-      <%= f.label :email do %>
-        <%= f.check_box :email %>
-        Neues per Email abonnieren
-      <% end %>
+  <% if @subscription.errors.any? %>
+    <div class="alert alert-error">
+      <ul class="list-unstyled">
+        <% @subscription.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
 
-    <%= f.hidden_field :topic_id %>
-    <br />
-    <%= f.button :submit, class: 'btn btn-danger' %>
-    <%= link_to 'Abbrechen', userpage_users_path, class: 'btn btn-default' %>
+  <div class="checkbox">
+    <%= f.label :email do %>
+      <%= f.check_box :email %>
+      Neues per Email abonnieren
+    <% end %>
+  </div>
+
+  <%= f.hidden_field :topic_id %>
+  <br />
+  <%= f.button :submit, class: 'btn btn-danger' %>
+  <%= link_to 'Abbrechen', userpage_users_path, class: 'btn btn-default' %>
   <% end %>
 </div>
