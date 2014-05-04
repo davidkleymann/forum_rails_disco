@@ -32,7 +32,7 @@ class TopicsController < ApplicationController
   
   def update
     @topic = UpdateTopicCommand.new topic_params.merge(id: id_param, user_id: current_user.id)
-    if store_event_id Domain.run_command(topic)
+    if store_event_id Domain.run_command(@topic)
       redirect_to @topic, notice: 'Diskussion wurde geändert.'
     else
       render 'edit'
