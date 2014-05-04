@@ -1,65 +1,51 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:edit]
-  before_action :post_params, only: [:update, :create]
+  include EventSource
   before_action :authenticate, only: [:create, :new, :edit, :update, :destroy]
-
 
   def new
     @topic = Topic.find(params[:topic_id])
-    @post = CreatePostCommand.new(topic_id: params[:topic_id])
+    @post = CreatePostCommand.new(topic_id: @topic.id)
   end
 
   def edit
-    @post = UpdatePostCommand.new(Post.find(params[:id]).updatable_attributes)
+    @post = UpdatePostCommand.new(Post.find(id_param).updatable_attributes)
   end
 
   def create
-    post = CreatePostCommand.new(post_params.merge(user_id: session[:user]))
-    valid = post.valid?
-    if valid && id = Domain.run_command(post)
-      session[:tmp_event_id] = id
-      redirect_to topic_path(id: post_params[:topic_id]), notice: 'Post wurde erstellt. Bitte Seite neu laden um Änderungen zu sehen.'
+    @post = CreatePostCommand.new(post_params.merge(user_id: session[:user]))
+    if store_event_id Domain.run_command(@post)
+      redirect_to topic_path(id: @post.topic_id), notice: 'Post wurde erstellt.'
     else
-      redirect_to({action: :new}, alert: 'Post konnte nicht erstellt werden.') 
+      render 'new'
     end
   end
 
   def update
-    post = UpdatePostCommand.new(post_params.merge(id: params[:id], user_id: session[:user]))
-    valid = post.valid?
-    if valid && id = Domain.run_command(post)
-      session[:tmp_event_id] = id
-      redirect_to topic_path(id: post.topic_id), notice: 'Post wurde geupdated. Bitte Seite neu laden um Änderungen zu sehen.'
+    @post = UpdatePostCommand.new(post_params.merge(id: id_param, user_id: session[:user]))
+    if store_event_id Domain.run_command(@post)
+      redirect_to topic_path(id: @post.topic_id), notice: 'Post wurde geändert.'
     else
-      redirect_to({action: :edit, id: params[:id]}, alert: 'Post konnte nicht geupdated werden.')
+      render 'edit'
     end
   end
 
   def destroy
-    temp = Post.find(params[:id]).topic_id
-    post = DeletePostCommand.new({id: params[:id]})
-    if id = Domain.run_command(post)
-      session[:tmp_event_id] = id
-      flash[:success] = 'Post wurde geloescht.  Bitte Seite neu laden um Änderungen zu sehen.'
+    topic_id = Post.find(id_param).topic_id
+    post = DeletePostCommand.new(id: id_param)
+    if store_event_id Domain.run_command(post)
+      redirect_to topic_path(id: topic_id), notice: 'Post wurde geloescht.'
     else
-      flash[:error] = 'Post konnte nicht geloescht werden.'
+      redirect_to topic_path(id: topic_id), alert: 'Post konnte nicht geloescht werden!'
     end
-    redirect_to topic_path(id: temp)
   end
 
   private
-  def set_post
-    @post = Post.find(params[:id])
-  end
-
-  def set_event_id
-    @event_id = session[:tmp_event_id]
-    session[:tmp_event_id] = nil
-  end
 
   def post_params
     params.require(:post).permit(:title, :text, :topic_id)
   end
 
-
+  def id_param
+    params.require(:id).to_i
+  end
 end

@@ -1,6 +1,6 @@
 class TopicsController < ApplicationController
-  before_action :set_topic, only: [:show, :edit]
-  before_action :set_event_id, only: [:index, :show]
+  include EventSource
+  before_action :set_thema, only: [:new, :create]
   before_action :authenticate, only: [:new, :create, :edit, :update, :destroy]
   before_action :require_unbanned
   before_action :validate_user, only: [:edit, :update, :destroy]
@@ -10,77 +10,62 @@ class TopicsController < ApplicationController
   end
 
   def show
-    @topic = Topic.find(params[:id])
+    @topic = Topic.find(id_param)
   end
 
   def new
-    @thema = Thema.find(params[:thema_id])
     @topic = CreateTopicCommand.new
   end
 
   def create
-    @topic = CreateTopicCommand.new(topic_params.merge(thema_id: params[:thema_id], user_id: session[:user]))
-    valid = @topic.valid?
-    if valid and id = Domain.run_command(@topic)
-      flash[:success] = 'Topic was successfully created.'
-      session[:tmp_event_id] = id
-      redirect_to thema_path(id: params[:thema_id])
+    @topic = CreateTopicCommand.new(topic_params.merge(thema_id: @thema.id, user_id: current_user.id))
+    if store_event_id Domain.run_command(@topic)
+      redirect_to @topic, notice: 'Diskussion wurde erfolreich erstellt.'
     else
-      flash[:error] = 'Topic couldn\'t be created.'
-      @thema = Thema.find(params[:thema_id])
-      render action: :new
+      render 'new'
     end
   end
 
   def edit
-    #attributes = Topic.find(params[:id]).attributes
-    @topic = UpdateTopicCommand.new(Topic.find(params[:id]).updatable_attributes)
+    @topic = UpdateTopicCommand.new Topic.find(id_param).updatable_attributes
   end
   
   def update
-    topic = UpdateTopicCommand.new(topic_params.merge(id: params[:id], user_id: session[:user]))
-    valid = topic.valid?
-    if valid and id = Domain.run_command(topic)
-      flash[:success] = 'Topic was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
-      session[:tmp_event_id] = id
-      redirect_to action: :show, id: params[:id]
+    @topic = UpdateTopicCommand.new topic_params.merge(id: id_param, user_id: current_user.id)
+    if store_event_id Domain.run_command(topic)
+      redirect_to @topic, notice: 'Diskussion wurde geändert.'
     else
-      flash[:error] = 'Topic couldn\'t be updated.'
-      redirect_to action: :edit, id: params[:id]
+      render 'edit'
     end
   end
 
   def destroy
-    topic = DeleteTopicCommand.new({id: params[:id]})
-    if id = Domain.run_command(topic)
-      session[:tmp_event_id] = id
-      flash[:success] = 'Topic was successfully deleted. Bitte Seite neu laden um Änderungen zu sehen.'
+    delete_topic = DeleteTopicCommand.new id: id_param
+    if store_event_id Domain.run_command(delete_topic)
+      redirect_to themas_path, notice: 'Diskussion wurde gelöscht.'
     else
-      flash[:error] = 'Topic couldn\'t be deleted.'
+      redirect_to themas_path, alert: 'Diskussion konnte nicht gelöscht werden.'
     end
-    redirect_to themas_path
   end
 
   private
+
   def topic_params
     params.require(:topic).permit(:title)
   end
-  
-  def set_topic
-    @topic = Topic.find(params[:id])
+
+  def id_param
+    params.require(:id).to_i
   end
 
-  def set_event_id
-    @event_id = session[:tmp_event_id]
-    session[:tmp_event_id] = nil
+  def set_thema
+    @thema = Thema.find(params[:thema_id])
   end
 
   def validate_user
-    unless Topic.find(params[:id]).user_id == params[:id] || current_user.admin?
+    unless Topic.find(id_param).user_id == id_param || current_user.admin?
       flash[:error] = 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!'
       redirect_to themas_path(id: params[:thema_id])
     end
   end
-
 end
-

@@ -1,5 +1,10 @@
 class ChangeRoleCommand
   include ActiveModel::Model
 	include ActiveEvent::Command
-	attributes :user_id, :typ
+
+  form_name 'Role'
+  attributes :user_id, :typ
+
+  def persisted?; true end
+  alias_method :id, :user_id
 end

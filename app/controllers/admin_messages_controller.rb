@@ -1,16 +1,16 @@
 
 class AdminMessagesController < ApplicationController
-  before_action :set_admin_message, only: [:show, :edit]
-  before_action :set_event_id, only: [:index, :show]
+  include EventSource
+
   before_action :authenticate, except: [:index, :show]
   before_action :require_unbanned_message
 
   def index
     @admin_messages = AdminMessage.all
-  
   end
 
   def show
+    @admin_message = AdminMessage.find(id_param)
   end
 
   def new
@@ -18,54 +18,45 @@ class AdminMessagesController < ApplicationController
   end
 
   def edit
+    @admin_message = UpdateAdminMessageCommand.new AdminMessage.find(id_param).updatable_attributes
   end
 
   def create
-    admin_message = CreateAdminMessageCommand.new({message: params[:admin_message][:message], user_id: session[:user]})
-    valid = admin_message.valid?
-    if valid and id = Domain.run_command(admin_message)
-      flash[:success] = 'Adminmessage was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
-      session[:tmp_event_id] = id
+    @admin_message = CreateAdminMessageCommand.new(admin_message_params.merge!(user_id: current_user.id))
+    if store_event_id Domain.run_command(@admin_message)
       session[:banned_rate] = false if session[:banned_rate]
-      redirect_to admin_messages_path
+      redirect_to admin_messages_path, notice: 'Admin Nachricht erfolgreich angelegt.'
     else
-      flash[:error] = 'Adminmessage couldn\'t be created. Please LOG IN and try again.'
-      redirect_to new_admin_message_path
+      render 'new'
     end
   end
 
   def update
-    admin_message = UpdateAdminMessageCommand.new({id: params[:id], message: params[:admin_message][:message], user_id: session[:user]})
-    valid = admin_message.valid?
-    if valid and id = Domain.run_command(admin_message)
-      flash[:success] = 'Adminmessage was successfully updated.  Bitte Seite neu laden um Änderungen zu sehen.'
-      session[:tmp_event_id] = id
-      redirect_to admin_message_path(id: params[:id])
+    @admin_message = UpdateAdminMessageCommand.new(admin_message_params.merge!(id: id_param, user_id: current_user.id))
+    if store_event_id Domain.run_command(admin_message)
+      redirect_to @admin_message, notice: 'Admin Nachricht erfolgreich geändert.'
     else
-      flash[:error] = 'Adminmessage couldn\'t be updated.'
-      redirect_to edit_admin_message_path(id: params[:id])
+      render 'edit'
     end
   end
 
   def destroy
-    admin_message = DeleteAdminMessageCommand.new({id: params[:id]})
-    if id = Domain.run_command(admin_message)
-      session[:tmp_event_id] = id
-      flash[:success] = 'Adminmessage was successfully deleted.  Bitte Seite neu laden um Änderungen zu sehen.'
+    admin_message = DeleteAdminMessageCommand.new(id: id_param)
+    if store_event_id Domain.run_command(admin_message)
+      redirect_to admin_messages_path, notice: 'Admin Nachricht erfolgeich gelöscht.'
     else
-      flash[:error] = 'Adminmessage couldn\'t be deleted.'
+      redirect_to admin_messages_path, alert: 'Admin Nachricht konnte nicht gelöscht werden!'
     end
-    redirect_to admin_messages_path
   end
 
   private
-  def set_admin_message
-    @admin_message = AdminMessage.find(params[:id])
+
+  def admin_message_params
+    params.require(:admin_message).permit(:message)
   end
 
-  def set_event_id
-    @event_id = session[:tmp_event_id]
-    session[:tmp_event_id] = nil
+  def id_param
+    params.require(:id).to_i
   end
 
   def require_unbanned_message
@@ -73,7 +64,6 @@ class AdminMessagesController < ApplicationController
       redirect_to banned_users_path unless session[:banned_rate]
     end
   end
-
 end
 
 

@@ -1,77 +1,59 @@
 
 class ThemasController < ApplicationController
-  before_action :set_thema, only: [:show, :edit]
-  before_action :set_event_id, only: [:index, :show]
+  include EventSource
   before_action :authenticate, except: [:index, :show]
   before_action :require_admin, except: [:index, :show]
 
   def index
-    @themas = Thema.where(belong: nil) # .order(:lastact)
+    @themas = Thema.hauptindex
   end
 
   def show
-    @themas = Thema.where(belong: @thema.id)
-    @topics = @thema.topics
+    @thema = Thema.find(id_param)
   end
 
   def new
     @thema = CreateThemaCommand.new(belong: params[:belong])
-    @themas = Thema.all
   end
 
   def edit
-    @themas = Thema.all
+    @thema = UpdateThemaCommand.new Thema.find(id_param).updatable_attributes
   end
 
   def create
-    thema = CreateThemaCommand.new thema_params
-    valid = thema.valid?
-    if valid and id = Domain.run_command(thema)
-      flash[:success] = 'Thema was successfully created. Bitte Seite neu laden um Änderungen zu sehen.'
-      session[:tmp_event_id] = id
-      redirect_to action: :index
+    @thema = CreateThemaCommand.new thema_params
+    if store_event_id Domain.run_command(@thema)
+      redirect_to @thema, notice: 'Thema wurde erstellt.'
     else
-      flash[:error] = 'Thema couldn\'t be created.'
-      redirect_to action: :new
+      render 'new'
     end
   end
 
   def update
-    thema = UpdateThemaCommand.new thema_params.merge(id: params[:id])
-    valid = thema.valid?
-    if valid and id = Domain.run_command(thema)
-      flash[:success] = 'Thema was successfully updated. Bitte Seite neu laden um Änderungen zu sehen.'
-      session[:tmp_event_id] = id
-      redirect_to action: :show, id: params[:id]
+    @thema = UpdateThemaCommand.new thema_params.merge(id: id_param)
+    if store_event_id Domain.run_command(@thema)
+      redirect_to @thema, notice: 'Thema wurde aktualisiert.'
     else
-      flash[:error] = 'Thema couldn\'t be updated.'
-      redirect_to action: :edit, id: params[:id]
+      render 'edit'
     end
   end
 
   def destroy
-    thema = DeleteThemaCommand.new(id: params[:id])
-    if id = Domain.run_command(thema)
-      session[:tmp_event_id] = id
-      flash[:success] = 'Thema was successfully deleted. Bitte Seite neu laden um Änderungen zu sehen.'
+    delete_thema = DeleteThemaCommand.new id: id_param
+    if store_event_id Domain.run_command(delete_thema)
+      redirect_to({action: :index}, notice: 'Thema wurde gelöscht.')
     else
-      flash[:error] = 'Thema couldn\'t be deleted.'
+      redirect_to thema_url(id: id_param), alert: 'Thema konnte nicht gelöscht werden!'
     end
-    redirect_to action: :index
   end
 
   private
-  def set_thema
-    @thema = Thema.find(params[:id])
-  end
-
-  def set_event_id
-    @event_id = session[:tmp_event_id]
-    session[:tmp_event_id] = nil
-  end
 
   def thema_params
     params.require(:thema).permit(:title,:description,:belong)
-  end    
-end
+  end
 
+  def id_param
+    params.require(:id).to_i
+  end
+end

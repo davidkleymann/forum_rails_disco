@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 #gem 'devise'
 
 gem 'rails', '~>4.0.0'
-gem 'rails-disco', '~>0.5.0.rc4'
+gem 'rails-disco', '~>0.5.0.rc5'
 gem 'rails-i18n', '~>4.0.0'
 
 # Webserver

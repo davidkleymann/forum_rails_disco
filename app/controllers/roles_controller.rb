@@ -1,22 +1,29 @@
 class RolesController < ApplicationController
+  include EventSource
   before_action :authenticate
-  before_action :require_admin
+  before_action :require_superior
+  before_action :fetch_user
   
   def edit
-  	redirect_to userpage_users_path unless @current_user.superior?(1)
+    @role = ChangeRoleCommand.new(user_id: @user.id, typ: @user.typ)
   end
 
   def update
-  	redirect_to userpage_users_path unless @current_user.superior?(1)
-  	change = ChangeRoleCommand.new ({user_id: params[:id], typ: params[:typ]})
-		if change.valid?
-			Domain.run_command(change)
-			flash[:success] = "Typ erfolgreich geändert"
-			redirect_to user_path(user_id: 1)
-		else
-			flash[:error] = "Fehler: bitte überprüfen sie ihre Eingaben"
-			redirect_to userpage_users_path
+  	@role = ChangeRoleCommand.new(role_params.merge(user_id: @user.id))
+		if store_event_id Domain.run_command(@role)
+			redirect_to @user, notice: "Typ erfolgreich geändert"
+    else
+      render 'edit'
 		end
 	end
 
+  private
+
+  def role_params
+    params.require(:role).permit(:typ)
+  end
+
+  def fetch_user
+    @user = User.find params[:id]
+  end
 end

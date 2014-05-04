@@ -1,11 +1,10 @@
-
+<%= event_source('UserProjection') %>
 
 <h1>
   <%= gravatar(@current_user.id, 100, 100) %> 
   <%= @current_user.benutzername %>
 </h1>
 <%= link_to 'Nutzerdetails bearbeiten', edit_user_path(current_user) %>
-
 
 <h2>Aktuelle Beiträge</h2>
 
@@ -18,7 +17,7 @@
   </tr>
   </thead>
   <tbody>
-  <% @lastposts.each do |post| %>
+  <% LastPost.for_user(current_user).each do |post| %>
    <tr>
      <td><%=post.title %></td>
      <td><%=post.text %></td>
@@ -29,8 +28,8 @@
 
 
 
-<h2>Letzte Aktivitäten der von Ihnen verfolgten Diskussionen</h2>
-<% @subscriptions.each do |subscription| %>
+<h2>Aktivitäten in verfolgten Diskussionen</h2>
+<% current_user.subscriptions.each do |subscription| %>
     <h3>
       <%= link_to subscription.topic_name, topic_path(id: subscription.topic_id) %>
       <%= link_to "Einstellungen...", edit_subscription_path(id: subscription.id), class: 'btn btn-default btn-xs' %>
@@ -61,7 +60,7 @@
     <% end %>
 <% end %>
 
-<% if @admin %>
+<% if current_user.admin? %>
  <h2>
   Adminbereich
   <%= link_to 'Userübersicht', user_path(id: 1), class: 'btn btn-default btn-xs' %>
@@ -80,7 +79,7 @@
    </tr>
    </thead>
    <tbody>
-   <% @admin_messages.each do |amessage| %>
+   <% AdminMessage.for_user(current_user).each do |amessage| %>
     <tr>
       <td><%= amessage.message %></td>
       <td><%= amessage.user.benutzername %></td>
