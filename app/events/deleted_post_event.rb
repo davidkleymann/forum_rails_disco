@@ -1,7 +1,7 @@
 
 class DeletedPostEvent
   include ActiveEvent::EventType
-  attributes :id 
+  attributes :id, :topic_id
 
   def values
     attributes_except :id

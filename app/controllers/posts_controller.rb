@@ -37,7 +37,7 @@ class PostsController < ApplicationController
 
   def destroy
     temp = Post.find(params[:id]).topic_id
-    post = DeletePostCommand.new({id: params[:id]})
+    post = DeletePostCommand.new({id: params[:id],topic_id: temp})
     if id = Domain.run_command(post)
       session[:tmp_event_id] = id
       flash[:success] = 'Post wurde geloescht.  Bitte Seite neu laden um Änderungen zu sehen.'
