@@ -57,6 +57,7 @@
         <th></th>
         <th>Diskussion</th>
         <th>Benutzer</th>
+        <th>Posts</th>
         <th></th>
       </tr>
     </thead>
@@ -72,6 +73,8 @@
           <% else %>
             <td>Gelösche Person</td>
           <% end %>
+
+          <td><%= topic.count %></td>
           
           <td>
             <span class="pull-right">

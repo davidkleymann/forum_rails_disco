@@ -17,25 +17,13 @@ class TopicProjection
   end
 
   def created_post_event(event)
-    update_count(event)
-  end
-
-  def updated_post_event(event)
-    update_count(event)
+    topic = Topic.find(event.topic_id)
+    topic.update! count: topic.count + 1
   end
 
   def deleted_post_event(event)
-    update_count(event)
-  end
-
-  private
-
-  def update_count(event)
-    # TODO: needs to be fixed!
     topic = Topic.find(event.topic_id)
-    time = Time.now - 1.day
-    count24 = Post.where(topic_id: event.topic_id).posted_since(time).count
-    topic.update! count: topic.count + 1, count24: count24
+    topic.update! count: topic.count + -1
   end
 
 end
