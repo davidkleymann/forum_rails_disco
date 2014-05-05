@@ -1,24 +1,20 @@
 <div class="well">
-  <%= form_for(@admin_message, role: 'form') do |f| %>
-    <% if @admin_message.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@admin_message.errors.count, "error") %> prohibited this admin_message from being saved:</h2>
-        <ul>
-          <% @admin_message.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
+  <%= simple_form_for(@admin_message) do |f| %>
+      <% if @admin_message.errors.any? %>
+          <div class="alert alert-error">
+            <ul class="list-unstyled">
+              <% @admin_message.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+
+      <%= f.input :message, label: 'Nachricht', placeholder: 'Nachricht' %>
+
+      <div class="form-group">
+        <%= f.submit 'Speichern', class: 'btn btn-danger' %>
+        <%= link_to 'Abbrechen', admin_messages_path, class: 'btn btn-default' %>
       </div>
-    <% end %>
-
-    <div class="form-group">
-      <%= f.label :message %>
-      <%= f.text_area :message, class: 'form-control' %>
-    </div>
-
-    <div class="form-group">
-      <%= f.submit 'Speichern', class: 'btn btn-danger' %>
-      <%= link_to 'Abbrechen', admin_messages_path, class: 'btn btn-default' %>
-    </div>
   <% end %>
 </div>

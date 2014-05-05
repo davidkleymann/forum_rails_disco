@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
-
+  include EventSource
   before_action :authenticate, only: [:userpage, :edit, :update, :show, :delete]
   before_action :require_admin, only: [:show, :delete, :ban]
   before_action :validate_user, only: [:edit, :update]
 
-  def index  
-    @user = User.new
+  def index
+    @user = LogInCommand.new
   end
 
   def show
@@ -17,53 +17,44 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = UpdateUserCommand.new User.find(params[:id]).updatable_attributes
+    @user = UpdateUserCommand.new User.find(id_param).updatable_attributes
+  end
+
+  def create
+    @user = RegisterUserCommand.new user_params.merge(typ: 0)
+    if store_event_id Domain.run_command(@user)
+      redirect_to({action: :index}, notice: 'Sie haben sich erfolgreich registriert.')
+    else
+      render 'new'
+    end
   end
 
   def update
-    user = UpdateUserCommand.new user_params.merge(id: params[:id])
-    if user.valid?
-      Domain.run_command(user)
-      flash[:success] = 'Daten erfolgreich geaendert'
-      redirect_to action: :userpage
+    @user = UpdateUserCommand.new user_params.merge(id: id_param)
+    if store_event_id Domain.run_command(@user)
+      redirect_to({action: :userpage}, notice: 'Daten erfolgreich geaendert')
     else
-      flash[:error] ='Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
-      render action: :edit
-    end 
+      render 'edit'
+    end
   end
 
   def delete
-    user = DeleteUserCommand.new(id: params[:id])
-    if id = Domain.run_command(user)
-      session[:tmp_event_id] = id
-      flash[:success] = 'User was successfully deleted.'
+    delete_user = DeleteUserCommand.new id: id_param
+    if store_event_id Domain.run_command(delete_user)
+      redirect_to({action: :index}, notice: 'Account erfolgreich gelöscht.')
     else
-      flash[:error] = 'User couldn\'t be deleted.'
-    end
-    redirect_to action: :index
-  end
-  
-  def create
-    @user = RegisterUserCommand.new user_params.merge(typ: 0)
-    if @user.valid? && Domain.run_command(@user)
-      flash[:success] = 'Sie haben sich erfolgreich registriert.'
-      redirect_to action: :index
-      
-    else
-      flash[:error] = 'Fehler: Bitte ueberpruefen Sie ihre Eingaben!'
-      render action: :new
+      redirect_to({action: :index}, alert: 'Account konnte nicht gelöscht werden.')
     end
   end
-  
-#Sonstige Methoden
+
+  #Sonstige Methoden
 
   def login
-    inlog = LogInCommand.new(benutzername: params[:user][:benutzername], passwort: params[:user][:passwort])
-    if inlog.valid? && Domain.run_command(inlog)
-      @id = User.where(benutzername: params[:user][:benutzername]).first.id
-      session[:user] = @id
+    login = LogInCommand.new login_params
+    if store_event_id Domain.run_command(login)
+      session[:user] = User.where(benutzername: login.benutzername).first.id
       if params[:merk].nil? || params[:merk] == users_path
-        redirect_to userpage_user_path(id: @id)
+        redirect_to userpage_user_path(id: session[:user])
       else
         redirect_to params[:merk]
       end
@@ -74,14 +65,6 @@ class UsersController < ApplicationController
   end
 
   def userpage
-    @lastposts = LastPost.where("user_id=?", session[:user]).order(created_at: :desc)
-    @subscriptions = current_user.subscriptions
-    if current_user.admin?
-      @admin_messages = AdminMessage.all
-      @admin = true
-    else
-      @admin_messages = current_user.admin_messages
-    end
   end
   
   def logout
@@ -92,24 +75,21 @@ class UsersController < ApplicationController
   end
   
   def ban
-    ban = BanUserCommand.new(user_id: params[:id])
-    Domain.run_command(ban)
-    flash[:success] = "Der Nutzer mit der id #{params[:id]} wurde gesperrt!"
-    redirect_to user_path(id: 1)
+    ban = BanUserCommand.new(user_id: id_param)
+    store_event_id Domain.run_command(ban)
+    redirect_to user_path(id: 1), notice: "Der Nutzer mit der id #{id_param} wurde gesperrt!"
   end
 
   def unban
-    unban = UnbanUserCommand.new(user_id: params[:id])
-    Domain.run_command(unban)
-    flash[:success] = "Der Nutzer mit der id #{params[:id]} wurde entsperrt!"
-    redirect_to user_path(id: 1)
+    unban = UnbanUserCommand.new(user_id: id_param)
+    store_event_id Domain.run_command(unban)
+    redirect_to user_path(id: 1), notice: "Der Nutzer mit der id #{id_param} wurde entsperrt!"
   end
   
   def verificated
-    verificated = VerificatedUserCommand.new(user_id: params[:id])
-    Domain.run_command(verificated)
-    flash[:success] = "Der Nutzer mit der ID #{params[:id]} wurde erfolgreich verifiziert!"
-    redirect_to users_path
+    verificated = VerificatedUserCommand.new(user_id: id_param)
+    store_event_id Domain.run_command(verificated)
+    redirect_to users_path, notice: "Der Nutzer mit der ID #{id_param} wurde erfolgreich verifiziert!"
   end
 
 private
@@ -118,16 +98,20 @@ private
   end
 
   def validate_user
-    puts "Userdata: #{params[:id]}"
-    puts "Cu: #{current_user.id}"
-    if current_user.id.to_s != params[:id]  && !current_user.admin? # && !(params[:userunlock] == URI.encode(Digest::MD5.hexdigest(@user.benutzername+Date.today.to_s+Time.now.strftime("%I").to_s)))
-      redirect_to action: :index
-      flash[:error] = 'Sie haben nicht die benoetigten Rechte, um diese Aktion durchzufuehren!' 
+    if current_user.id != id_param && !current_user.admin? # && !(params[:userunlock] == URI.encode(Digest::MD5.hexdigest(@user.benutzername+Date.today.to_s+Time.now.strftime("%I").to_s)))
+      redirect_to({action: :index}, notice: 'Sie haben nicht die benötigten Rechte, um diese Aktion durchzuführen!')
     end 
   end
   
   def user_params
     params.require(:user).permit(:vorname, :name, :email, :benutzername, :passwort)
   end
-  
+
+  def login_params
+    params.require(:user).permit(:benutzername, :passwort)
+  end
+
+  def id_param
+    params.require(:id).to_i
+  end
 end

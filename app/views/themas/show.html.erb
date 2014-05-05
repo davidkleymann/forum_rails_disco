@@ -1,4 +1,4 @@
-<%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'ThemaProjection'} %>
+<%= event_source('ThemaProjection') %>
 <p id="notice"><%= notice %></p>
 
 <div class="jumbotron">
@@ -18,7 +18,7 @@
   <%= link_to 'Unterthema hinzufügen', new_thema_path(belong: @thema.id), class: 'btn btn-link' if current_user.admin? %>
 </h2>
 
-<% unless @themas.empty? %>
+<% unless @thema.unterthemen.empty? %>
   <table class="table table-striped">
   <thead>
     <tr>
@@ -28,7 +28,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @themas.each do |thema| %>
+    <% @thema.unterthemen.each do |thema| %>
       <tr>
         <td><%= link_to thema.title, thema %></td>
         <td><%= thema.description %></td>
@@ -57,12 +57,13 @@
         <th></th>
         <th>Diskussion</th>
         <th>Benutzer</th>
+        <th>Posts</th>
         <th></th>
       </tr>
     </thead>
 
     <tbody>
-      <% @topics.each do |topic| %>
+      <% @thema.topics.each do |topic| %>
         <tr>
           <td><%= link_to 'Verfolgen', new_subscription_path(topic_id: topic.id), class: 'btn btn-primary btn-xs' %></td>
           <td><strong><%= link_to topic.title, topic_path(topic) %></strong></td>
@@ -72,6 +73,8 @@
           <% else %>
             <td>Gelösche Person</td>
           <% end %>
+
+          <td><%= topic.count %></td>
           
           <td>
             <span class="pull-right">

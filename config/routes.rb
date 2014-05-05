@@ -35,6 +35,6 @@ DiscoForum::Application.routes.draw do
   
   get '/admins', to: 'home#admins'
 
-  get 'event_source/:projection/:event' => 'event_source#projected'
+  get 'event_source/:projection/:event' => 'event_source#projected', as: 'event_source'
   root to: 'home#index'
 end

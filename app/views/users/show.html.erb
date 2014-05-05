@@ -1,4 +1,4 @@
-<%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'UserProjection'} %>
+<%= event_source('UserProjection') %>
 <h1>Benutzerübersicht</h1><br>
 <table class="table table-striped">
 	<thead>
@@ -11,7 +11,7 @@
       <th></th>
       <th></th>
       <th>Rolle</th>
-      <% if @current_user.superior?(1) %>
+      <% if @current_user.superior? %>
       	<th></th>
       <% end %>
 		</tr>
@@ -40,7 +40,7 @@
         	<% else %>
         		<td>Typ unbekannt</td>
         	<% end %>
-        <% if @current_user.superior?(1) %>
+        <% if @current_user.superior? %>
         	<td><%= link_to "Typ ändern", edit_role_path(id: user.id) %></td>
         <% end %>
 			</tr>

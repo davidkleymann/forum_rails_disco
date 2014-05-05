@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @Latesttopics.each do |topic| %>
+    <% @latest_topics.each do |topic| %>
       <tr>
         <td><strong><%= link_to topic.title, topic_path(topic) %></strong></td>
         <% unless User.where(id: topic.user_id).empty? %>
