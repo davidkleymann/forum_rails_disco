@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 #gem 'devise'
 
 gem 'rails', '~>4.0.0'
-gem 'rails-disco', '~>0.5.0.rc5'
+gem 'rails-disco', '~>0.5.0'
 gem 'rails-i18n', '~>4.0.0'
 
 # Webserver
@@ -28,9 +28,6 @@ gem 'turbolinks'
 
 # Bootstrap (sass) for styling
 gem 'bootstrap-sass', '~> 3.1.1'
-
-# For simple form generation
-gem 'simple_form'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
