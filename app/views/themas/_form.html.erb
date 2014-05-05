@@ -12,7 +12,7 @@
     <%= f.input :title, label: 'Titel', placeholder: 'Titel' %>
     <%= f.input :description, label: 'Beschreibung', as: :text %>
     
-    <%= f.input :belong, collection: @themas, label_method: :title, value_method: :id, label: "Thema", include_blank: 'Wurzel' %>
+    <%= f.input :belong, collection: Thema.all, label_method: :title, value_method: :id, label: "Thema", include_blank: 'Wurzel' %>
 
 
     <span class="pull-right">

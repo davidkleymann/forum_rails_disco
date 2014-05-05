@@ -20,7 +20,13 @@ class ApplicationController < ActionController::Base
   
   def require_admin
     unless current_user.admin?
-      redirect_to({action: :index}, alert: 'Sie haben nicht die benoetigten Rechte um diese Aktion durchzufuehren!')
+      redirect_to({action: :index}, alert: 'Sie haben nicht die benötigten Rechte um diese Aktion durchzuführen!')
+    end
+  end
+
+  def require_superior
+    unless current_user.superior?
+      redirect_to userpage_users_path, alert: 'Sie haben nicht die benötigten Rechte um diese Aktion durchzuführen!'
     end
   end
 end

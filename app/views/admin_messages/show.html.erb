@@ -1,4 +1,4 @@
-<%= javascript_tag render partial: 'application/eventstream/eventstream', formats: [:js], locals: {event_id: @event_id, projection: 'AdminMessageProjection'} %>
+<%= event_source('AdminMessageProjection') %>
 <div class="row">
   <div class="col-xs-12">
     <p><%= "#{@admin_message.user.vorname} #{@admin_message.user.name} schrieb:" %></p>

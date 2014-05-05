@@ -1,4 +1,5 @@
 class SubscriptionsController < ApplicationController
+  include EventSource
   before_action :authenticate
 
   def new
@@ -6,32 +7,30 @@ class SubscriptionsController < ApplicationController
   end
 
   def edit
-    subscription = Subscription.find(params[:id])
-    @subscription = UpdateSubscriptionCommand.new subscription.attributes.slice('id', 'email', 'topic_id')
+    @subscription = UpdateSubscriptionCommand.new Subscription.find(id_param).updatable_attributes
   end
 
   def create
     @subscription = CreateSubscriptionCommand.new subscription_params
-    if @subscription.valid? && (session[:tmp_event_id] = Domain.run_command(@subscription))
+    if store_event_id Domain.run_command(@subscription)
       redirect_to userpage_users_path, notice: 'Topic wurde abonniert.'
     else
-      render action: 'new'
+      render 'new'
     end
   end
 
   def update
-    @subscription = UpdateSubscriptionCommand.new subscription_params.merge(id: params[:id])
-    if @subscription.valid? && (session[:tmp_event_id] = Domain.run_command(@subscription))
+    @subscription = UpdateSubscriptionCommand.new subscription_params.merge(id: id_param)
+    if store_event_id Domain.run_command(@subscription)
       redirect_to userpage_users_path, notice: 'Die Einstellungen wurden gespeichert.'
     else
-      render action: 'edit'
+      render 'edit'
     end
   end
 
   def destroy
-    delete_subscription = DeleteSubscriptionCommand.new(id: params[:id])
-    session[:tmp_event_id] = event_id = Domain.run_command(delete_subscription)
-    if event_id
+    delete_subscription = DeleteSubscriptionCommand.new(id: id_param)
+    if store_event_id Domain.run_command(delete_subscription)
       redirect_to userpage_users_path, notice: 'Das Abonnement wurde entfernt.'
     else
       redirect_to userpage_users_path, alert: 'Das Abonnerment konnte nicht gelöscht werdenn!'
@@ -44,4 +43,7 @@ class SubscriptionsController < ApplicationController
     params.require(:subscription).permit(:email, :topic_id).merge(user_id: session[:user])
   end
 
+  def id_param
+    params.require(:id).to_i
+  end
 end

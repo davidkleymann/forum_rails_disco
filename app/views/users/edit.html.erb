@@ -1,21 +1,31 @@
-
 <div class="col-sm-6 col-xs-offset-3">
   <h1>Nutzerdetails bearbeiten</h1>
+
   <div class="well">
     <%= simple_form_for(@user) do |f| %>
-      <%= f.input :name, label: 'Name', placeholder: 'Name' %>
-      <%= f.input :vorname, label: 'Vorname', placeholder: 'Vorname' %>
-      <%= f.input :email, label: 'Email', placeholder: 'Email' %>
-      <%= f.input :benutzername, label: 'Benutzername', placeholder: 'Benutzername' %>
-      <%= f.input :passwort, as: :password, label: 'Passwort', placeholder: 'Passwort' %>
-      
+        <% if @user.errors.any? %>
+            <div class="alert alert-error">
+              <ul class="list-unstyled">
+                <% @user.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
 
-      <%= link_to 'Zurück zur Nutzerseite', userpage_users_path, class: 'btn btn-default' %>
-      <span class="pull-right">
-        
-        <%= f.button :submit, class: 'btn btn-danger' %>
-      </span>
-      <div class="clearfix" />
+        <%= f.input :name, label: 'Name', placeholder: 'Name' %>
+        <%= f.input :vorname, label: 'Vorname', placeholder: 'Vorname' %>
+        <%= f.input :email, label: 'Email', placeholder: 'Email' %>
+        <%= f.input :benutzername, label: 'Benutzername', placeholder: 'Benutzername' %>
+        <%= f.input :passwort, as: :password, label: 'Passwort', placeholder: 'Passwort' %>
+
+
+        <%= link_to 'Zurück zur Nutzerseite', userpage_users_path, class: 'btn btn-default' %>
+        <span class="pull-right">
+            <%= f.button :submit, class: 'btn btn-danger' %>
+        </span>
+
+        <div class="clearfix"/>
     <% end %>
   </div>
 </div>

@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
     typ > 0 && !banned?
 	end
 
-  def superior?(typ2)
-    typ > typ2 && !banned?
+  def superior?
+    typ > 1 && !banned?
 	end
 
 	def self.guest
@@ -36,8 +36,6 @@ class User < ActiveRecord::Base
 	end
   
   def updatable_attributes
-    Hash[[:id, :name, :vorname, :email, :benutzername, :passwort].map do |key|
-      [key, attributes[key.to_s]]
-    end]
+    attributes.slice(*%w(id name vorname email benutzername passwort))
   end
 end

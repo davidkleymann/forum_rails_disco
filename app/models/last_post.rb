@@ -5,4 +5,8 @@ class LastPost < ActiveRecord::Base
   has_many :posts
   
   belongs_to :thema
+
+  def self.for_user(user)
+    where(user_id: user.id).order(created_at: :desc)
+  end
 end

@@ -22,7 +22,7 @@
 	border: 1px solid black;
 }
 
-.alert-error {
+.alert-error, .alert-alert {
   @extend .alert-danger;
 }
 
