@@ -12,6 +12,6 @@ class AdminMessage < ActiveRecord::Base
   end
 
   def updatable_attributes
-    { message: message }
+    { message: message, id: id }
   end
 end
