@@ -1,5 +1,5 @@
 
 class DeletePostCommand
   include ActiveEvent::Command
-  attributes :id 
+  attributes :id, :topic_id
 end

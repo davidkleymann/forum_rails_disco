@@ -31,7 +31,7 @@ class PostsController < ApplicationController
 
   def destroy
     topic_id = Post.find(id_param).topic_id
-    delete_post = DeletePostCommand.new(id: id_param)
+    delete_post = DeletePostCommand.new(id: id_param, topic_id: topic_id)
     if store_event_id Domain.run_command(delete_post)
       redirect_to topic_path(id: topic_id), notice: 'Post wurde geloescht.'
     else
