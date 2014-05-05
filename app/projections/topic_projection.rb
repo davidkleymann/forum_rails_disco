@@ -32,13 +32,10 @@ class TopicProjection
 
   def update_count(event)
     # TODO: needs to be fixed!
-    # if ... workaround for letting the projections run
-    if event.topic_id
-      topic = Topic.find(event.topic_id)
-      time = Time.now - 1.day
-      count24 = Post.where(topic_id: event.topic_id).posted_since(time).count
-      topic.update! count: topic.count + 1, count24: count24
-    end
+    topic = Topic.find(event.topic_id)
+    time = Time.now - 1.day
+    count24 = Post.where(topic_id: event.topic_id).posted_since(time).count
+    topic.update! count: topic.count + 1, count24: count24
   end
 
 end
