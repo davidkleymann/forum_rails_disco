@@ -21,9 +21,11 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = RegisterUserCommand.new user_params.merge(typ: 0)
+    @user = RegisterUserCommand.new user_params.merge(typ: 0, shash: SecureRandom.hex(10))
     if store_event_id Domain.run_command(@user)
+      UserMailer.registermail(@user).deliver
       redirect_to({action: :index}, notice: 'Sie haben sich erfolgreich registriert.')
+    
     else
       render 'new'
     end

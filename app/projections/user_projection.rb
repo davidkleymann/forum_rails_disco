@@ -2,7 +2,7 @@ class UserProjection
   include ActiveProjection::ProjectionType
   
   def register_user_event(event)
-    values = event.values.merge(id:event.id, verificated: false, ban: false, shash: SecureRandom.hex(10))
+    values = event.values.merge(id:event.id, verificated: false, ban: false)
 	 	values.delete(:passwort)
 	 	User.create! values	
   end
