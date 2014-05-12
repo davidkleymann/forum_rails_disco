@@ -1,0 +1,46 @@
+3.5. Besondere Algorithmen
+
+Hinweis: Die Zeilenangaben können sich geändert haben und dienen nur als Orientierungshilfe!
+
+<h3>3.5.1. Die Passwort-Verifikation</h3>
+
+Wenn ein Benutzer sich anmeldet, muss überprüft werden, ob das Passwort korrekt ist. Dazu muss er seine Logindaten zunächst in ein Formular eingeben (app/views/users/index.html.erb, ab Zeile 6):
+    <%= simple_form_for(@user, url: login_users_path, method: :post) do |f| %>
+	  .....................................
+      <%= f.input :benutzername, label: 'Benutzername', placeholder: 'Benutzername' %>
+      <%= f.input :passwort, label: 'Passwort', placeholder: 'Passwort', as: :password %>
+      .....................................
+      <%= f.submit 'Anmelden', class: 'btn btn-danger pull-right' %>
+      <div class="clearfix" />
+    <% end %>
+Der Parameter "url" des simple_form_for sorgt dafür, dass die Anfrage an die "login"-Methode des Users-Controller geleitet wird. Dort passiert nun folgendes (app/controllers/users_controller.rb, ab Zeile 54:
+  def login
+    login = LogInCommand.new login_params
+    if store_event_id Domain.run_command(login)
+      session[:user] = User.where(benutzername: login.benutzername).first.id
+	..........................................
+    end
+  end
+Der Controller instanziiert einen Command mit den Logindaten. Danach übergibt er ihn mit Domain.run_command(login) der Domain, welche ihn mit dem user_processor verarbeitet (domain/command_processors/domain/user_processor.rb, ab Zeile 16):
+    process LogInCommand do |command|
+      id = command.is_valid_do { event LogInEvent.new command.to_hash }
+    end
+Die Domain erstellt einen Event, wenn der Command gültig ist. Um dies zu überprüfen, nutzt sie eine Validierung (domain/validations/domain/log_in_validations):
+module Domain
+  module LogInValidations
+    extend ActiveSupport::Concern
+    include ActiveEvent::Validations
+
+    validation_target :'LogInCommand'
+
+    included do
+      validate :login_correct
+    end
+
+    def login_correct
+      user = User.find_by(benutzername: benutzername)
+      errors.add(:base, 'Login nicht korrekt') unless user && user.authenticate(passwort)
+    end
+  end
+end
+Die Validation überprüft den LogInCommand und wendet die Methode login_correct an. Erst hier wird das Passwort überprüft. Schlägt die Überprüfung fehl, liefert die Domain an den Controller nil zurück und hängt dem Command einen Error an. Der Controller reagiert darauf, in dem er die Anfrage zurück zur Loginseite weiterleitet. Wenn das Passwort richtig ist, wird ein LogInEvent erzeugt und im Eventstore abgelegt. Dieser Event wird bisher von keiner Projection verwendet, allerdings könnte man ihn später dazu verwenden um dem Nutzer mitzuteilen, wann er sich das letzte Mal eingeloggt hat.
