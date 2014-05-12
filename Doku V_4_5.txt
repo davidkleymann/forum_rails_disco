@@ -1,0 +1,5 @@
+4.5. Mögliche Erweiterungen
+
+Das Feld für Erweiterungen ist groß und unsere Kann-Ziele haben wir allesamt nicht erreicht. Zunächst wäre ein verbessertes Rechtesystem wichtig, um Administratoren zu generieren. Eine Möglichkeit, auf Adminmessages zu antworten oder sie als erledigt zu kennzeichnen, würde die Kommunikation zwischen Moderatoren und Nutzern verbessern. Eine weitere Sinvolle Erweiterung wären mehr Möglichkeiten für die Posts, wie zum Beispeiel Smileys, oder Signaturen. Oft gibt es auch Diskussionen, die "einschlafen" Hier könnte man Diskussionen schließen, sodass sie nur noch gelesen werden können. Dies könnte der Nutzer, der die Diskussion begonnnen hat, ein Admin oder der Sever nach einer bestimmten Zeit erledigen.
+Eine weitere sinvolle Erweiterung wäre Ajax, da es relativ einfach in Rails zu realisieren ist. Dadurch könnten Diskussionen Chatcharakter bekommen.
+Zur Verbesserung der Sicherheit könnte SSL zum Einsatz kommen. Zudem wären sicherlich Hinweise für ein sicheres Passwort sowie die Möglichkeit, bei einem vergessen Passwort ein neues anzufordern.
