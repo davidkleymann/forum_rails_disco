@@ -87,11 +87,21 @@ class UsersController < ApplicationController
     store_event_id Domain.run_command(unban)
     redirect_to user_path(id: 1), notice: "Der Nutzer mit der id #{id_param} wurde entsperrt!"
   end
+
+  def banned
+    if current_user.rate == 0
+      @permitted = false
+    else
+      @permitted = true
+      @admin_message = CreateAdminMessageCommand.new
+    end
+  end
   
   def verificated
-    verificated = VerificatedUserCommand.new(user_id: id_param)
+    user = User.find_by shash: params[:userunlock]
+    verificated = VerificatedUserCommand.new(user_id: user.id)
     store_event_id Domain.run_command(verificated)
-    redirect_to users_path, notice: "Der Nutzer mit der ID #{id_param} wurde erfolgreich verifiziert!"
+    redirect_to users_path, notice: "Der Nutzer mit der ID #{user.id} wurde erfolgreich verifiziert!"
   end
 
 private
@@ -111,9 +121,5 @@ private
 
   def login_params
     params.require(:user).permit(:benutzername, :passwort)
-  end
-
-  def id_param
-    params.require(:id).to_i
   end
 end

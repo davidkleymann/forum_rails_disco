@@ -24,7 +24,6 @@ class AdminMessagesController < ApplicationController
   def create
     @admin_message = CreateAdminMessageCommand.new(admin_message_params.merge!(user_id: current_user.id))
     if store_event_id Domain.run_command(@admin_message)
-      session[:banned_rate] = false if session[:banned_rate]
       redirect_to admin_messages_path, notice: 'Admin Nachricht erfolgreich angelegt.'
     else
       render 'new'
@@ -61,7 +60,7 @@ class AdminMessagesController < ApplicationController
 
   def require_unbanned_message
     if current_user.banned?
-      redirect_to banned_users_path unless session[:banned_rate]
+      redirect_to banned_users_path unless current_user.rate == 1
     end
   end
 end

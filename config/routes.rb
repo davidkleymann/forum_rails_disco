@@ -18,14 +18,13 @@ DiscoForum::Application.routes.draw do
     member do
       put 'ban'
       put 'unban'
-      get 'verificated'
     end
     collection do
+      get 'verificated'
       get 'userpage'
       post 'logout'
       post 'login'
       get 'banned'
-     
     end
   end
 
