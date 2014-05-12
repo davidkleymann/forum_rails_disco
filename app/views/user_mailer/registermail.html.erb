@@ -6,6 +6,6 @@
 Danke dass sie sich bei unserem Forum registriert haben. Bitte überprüfen sie nochmal ihre Daten:
 Benutzername : <%= @user.benutzername %>
 ....
-Hier ist Validierungslink: <%= link_to "Hier klicken!" verificated_users_path(:userunlock => URI.encode(@user.shash)) %> 
+Hier ist Validierungslink: <%= link_to "Hier klicken!", verificated_users_url(userunlock: @user.shash, host: @host) %>
 </body>
 </html>
