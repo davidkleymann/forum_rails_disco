@@ -98,10 +98,10 @@ class UsersController < ApplicationController
   end
   
   def verificated
-    user = User.find_by shash: params[:userunlock]
+    user = User.where(shash: params[:userunlock]).take
     verificated = VerificatedUserCommand.new(user_id: user.id)
     store_event_id Domain.run_command(verificated)
-    redirect_to users_path, notice: "Der Nutzer mit der ID #{user.id} wurde erfolgreich verifiziert!"
+    redirect_to users_path, notice: "Sie wurden erfolgreich verifiziert!"
   end
 
 private
