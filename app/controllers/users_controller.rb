@@ -89,6 +89,7 @@ class UsersController < ApplicationController
   end
 
   def banned
+
     if current_user.rate == 0
       @permitted = false
     else
@@ -108,6 +109,10 @@ private
   def regmail
 
   end
+
+  def id_param
+      params.require(:id).to_i
+   end
 
   def validate_user
     if current_user.id != id_param && !current_user.admin? # && !(params[:userunlock] == URI.encode(Digest::MD5.hexdigest(@user.benutzername+Date.today.to_s+Time.now.strftime("%I").to_s)))

@@ -62,7 +62,7 @@ class AdminMessagesController < ApplicationController
     if current_user.banned?
       redirect_to banned_users_path unless current_user.rate == 1
     end
-  end
+  end 
 end
 
 

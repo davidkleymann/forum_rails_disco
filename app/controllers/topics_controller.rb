@@ -20,7 +20,7 @@ class TopicsController < ApplicationController
   def create
     @topic = CreateTopicCommand.new(topic_params.merge(thema_id: @thema.id, user_id: current_user.id))
     if store_event_id Domain.run_command(@topic)
-      redirect_to @topic, notice: 'Diskussion wurde erfolreich erstellt.'
+      redirect_to  @topic, notice: 'Diskussion wurde erfolreich erstellt.' 
     else
       render 'new'
     end
