@@ -14,7 +14,7 @@ module PostValidations
   
   def antispam
     limit = DiscoForum::Application.config.limits_for_posts_in_two_minutes
-    if Post.from_user(user_id).posted_since(1.minute.ago).count > limit
+    if Post.from_user(user_id).posted_since(2.minute.ago).count > limit
       errors.add(:base, 'Bitte warte kurz, bis du einen weiteren Post schreibst.')
     end
   end
