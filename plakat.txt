@@ -1,0 +1,3 @@
+Enstanden ist ein Forum mit allen wichtigen Funktionalitäten und einigen Ergänzungen.Wenn man als Nutzer angemeldet ist, kann man an Diskussionen teilnehmen, eigene Diskusionen starten. Durch das Nutzer-System kann mann aber auch zum Beispiel ein Profilbild einstellen oder Diskussionen verfolgen und Neuigkeite per E-Mail zusenden lassen. Das Forum beinhaltet auch viele wichtigen Administratorfunktionen wie Nutzer sperren oder Diskussionen schießen.
+
+Als größeres "Testprojekt" für Rails Disco ist das Forum ist ein Beispiel dafür, dass sich mit Rails Disco dynamische, mächtige und komplexe Anwendungen erstellen lassen.

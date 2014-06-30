@@ -26,7 +26,7 @@ DiscoForum::Application.configure do
   port:                 587,
   domain:               'gmail.com',
   user_name:            'tempdavedev',
-  password:             'temp2909',
+  password:             '********',
   authentication:       'plain',
   enable_starttls_auto: true  }
 
